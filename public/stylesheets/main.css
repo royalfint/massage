@@ -81,9 +81,18 @@ body {
     flex-wrap: wrap;
 }
 
-.productInfo {
+.productInfo, .product {
     position: relative;
     color: #000;
+}
+
+.product .price {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    background: rgba(255,255,255, 0.7);
 }
 
 .productInfo:hover .productOverlay{
@@ -186,4 +195,26 @@ form.login button {
 
 form.login p {
     margin: 0 0 1rem 0;
+}
+
+/**** product page **/
+.showroom {
+    display: flex;
+    align-items: flex-start;
+}
+
+.showroom .main {
+    width: 40rem;
+}
+
+.showdesc {
+    padding: 0 2rem;
+    width: 30rem;
+    box-sizing: border-box;
+}
+
+.centered {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }

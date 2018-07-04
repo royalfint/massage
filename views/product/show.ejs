@@ -1,6 +1,19 @@
 <% include ../partials/header %>
 
-<div class="container">
+<div class="centered">
+    <div class="showroom">
+        <img class="main" src="<%= product.image %>">
+        <div class="showdesc">
+            <h1><%= product.name %></h1>
+            <p>Цена: <%= product.price %>тг</p>
+            <p>Продавец: <%= product.author.username %></p>
+            <p>Адрес: г.Алматы, Гоголя 55</p>
+            <p>Описание: <%= product.description %></p>
+        </div>
+    </div>
+</div>
+
+<!--div class="container">
     <div class="row">
         <div class="col-md-3">
             <p class="lead">Bazarlar</p>
@@ -49,6 +62,6 @@
             </div>
         </div>
     </div>
-</div>
+</div-->
 
 <% include ../partials/footer %>
