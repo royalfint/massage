@@ -3,8 +3,26 @@
 <div class="wrapper">
     <form class="login" action="/register" method="POST">
         <p>Регистрация</p>
-        <input class="form-control" type="text" name="username" placeholder="Логин">
-        <input class="form-control" type="password" name="password" placeholder="Пароль">
+        <input type="text" name="username" placeholder="Логин">
+        <input type="password" name="password" placeholder="Пароль">
+        <input type="text" name="phone" placeholder="Телефон">
+        <input type="text" name="address" placeholder="Адрес">
+        <input type="text" name="website" placeholder="Веб-сайт">
+        <input type="text" name="desc" placeholder="Описание">
+        <select name="country">
+            <% countries.forEach(function(country) { %>
+                <% if(country.name != "Kazakhstan") { %>
+                    <option disabled><%= country.name %></option>
+                <% } else { %>
+                    <option><%= country.name %></option>
+                <% } %>
+            <% }); %>
+        </select>
+        <select name="city">
+            <% cities.forEach(function(city) { %>
+                <option><%= city.name %></option>
+            <% }); %>
+        </select>
         <button class="btn btn-lg btn-primary btn-block">Создать Аккаунт</button> 
         <a href="/products">Назад</a>
     </form>

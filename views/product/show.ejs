@@ -2,15 +2,55 @@
 
 <div class="centered">
     <div class="showroom">
-        <img class="main" src="<%= product.image %>">
+        <!--div class="main" style="background: url() center/cover no-repeat;"></div-->
+        <div style="position: relative; display: flex; flex-direction: column;">
+            <a class="next" onclick="next()">
+                <img src="../svg/right.svg">
+            </a>
+            <a class="prev" onclick="prev()">
+                <img src="../svg/left.svg">
+            </a>
+            <div id="myslider" class="main" data-simple-slider>
+                <% product.image.forEach(function(img) { %>
+                    <img src="<%= img %>"/>
+                <% }); %>
+            </div>
+            
+            <div class="small-slides">
+                <% var index = 0; %>
+                <% product.image.forEach(function(img) { %>
+                    <div>
+                        <img src="<%= img %>" onclick="setSlide(<%= index %>);">
+                    </div>
+                <% index++; }); %>
+            </div>
+        </div>
         <div class="showdesc">
             <h1><%= product.name %></h1>
-            <p>Цена: <%= product.price %>тг</p>
-            <p>Продавец: <%= product.author.username %></p>
-            <p>Адрес: г.Алматы, Гоголя 55</p>
+            <p>Цена: <%= product.price %>₸</p>
+            <p>Категория: Штаны</p>
+            <p>Продавец: <a href="/seller/<%= product.author.username %>"><%= product.author.username %></a></p>
+            <p>Адрес: <%= product.author.id.city %>, <%= product.author.id.address %></p>
             <p>Описание: <%= product.description %></p>
+            <div class="call">
+                <a href="callto:<%= product.author.id.phone %>"><%= product.author.id.phone %></a>
+                <a href="#"><img src="../svg/whatsapp.svg"></a>
+                <a href="#"><img src="../svg/telegram.svg"></a>
+            </div>
+            <p>Поделиться:</p>
+            <div class="share">
+                <a href=""><img src="../svg/facebook.svg"></a>
+                <a href=""><img src="../svg/vk.svg"></a>
+                <a href=""><img src="../svg/email.svg"></a>
+                <a href=""><img src="../svg/twitter.svg"></a>
+            </div>
         </div>
     </div>
+</div>
+
+
+<div class="centered">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2905.5536588635623!2d76.9530575448262!3d43.260775448851646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836e8fc43fdcc5%3A0x988fde1ad20bcdc0!2z0YPQu9C40YbQsCDQk9C-0LPQvtC70Y8gNTUsINCQ0LvQvNCw0YLRiw!5e0!3m2!1sru!2skz!4v1530714852045" frameborder="0" style="border:0" allowfullscreen></iframe>
 </div>
 
 <!--div class="container">
@@ -64,4 +104,47 @@
     </div>
 </div-->
 
+<script src="https://rawgit.com/ruyadorno/simple-slider/master/dist/simpleslider.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+ <script>
+   var slider = simpleslider.getSlider({
+     paused: true
+   });
+    var isNext = true;
+    var sliderElem = document.getElementById('myslider');
+    
+    var manager = new Hammer.Manager(sliderElem);
+    var Swipe = new Hammer.Swipe();
+
+    manager.add(Swipe);
+
+    manager.on('swipeleft', function() {
+      if (isNext) {
+        slider.reverse();
+        isNext = false;
+      }
+      slider.next();
+    });
+
+    manager.on('swiperight', function() {
+      if (!isNext) {
+        slider.reverse();
+        isNext = true;
+      }
+      slider.next();
+    });
+    
+    function setSlide(index){
+      slider.change(index);
+    }
+    
+    function next(){
+      slider.next();
+      console.log("done");
+    }
+    
+    function prev() {
+      slider.prev();
+    }
+  </script>
 <% include ../partials/footer %>

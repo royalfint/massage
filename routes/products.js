@@ -3,7 +3,7 @@ var express     = require("express"),
 var router = express.Router();
 var middleware = require("../middleware/index.js");
 
-//================================APP ROUTES=========================//
+//==========================APP ROUTES=========================//
 
 //Index Route
 router.get("/", function(req, res) {
@@ -20,17 +20,19 @@ router.get("/", function(req, res) {
 router.post("/", middleware.isLoggedIn, function(req, res) {
     var name = req.body.name;
     var image = req.body.image;
+    var image2 = req.body.image2;
     var price = req.body.price;
     var desc = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newProduct = {name: name, image: image, description: desc, author: author, price: price};
+    var images = [image, image2];
+    var newProduct = {name: name, image: images, description: desc, author: author, price: price};
     Product.create(newProduct, function(err, newlyCreated){
         if(err){
             console.log(err);
-        }else{
+        } else {
             res.redirect("/products");
         }
     });
@@ -44,11 +46,10 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 
 //PRODUCT SHOWPAGE MOREEE
 router.get("/:id",function(req, res){
-    Product.findById(req.params.id).populate("comments").exec(function(err, foundProduct){
+    Product.findById(req.params.id).populate("author.id").exec(function(err, foundProduct){
         if(err){
             console.log(err);
         }else{
-            console.log(foundProduct);
             res.render("product/show", {product: foundProduct});
         }
     });

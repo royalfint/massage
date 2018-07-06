@@ -1,17 +1,15 @@
-<% include ../partials/header %>
+<% include ./partials/header %>
 
-<!--div class="container">
-    <header class="jumbotron">
-        <div class="container">
-            <h1>Welcome to Bazarlar!</h1>
-            <p>View our hand-picked products from all over the world</p>
-            <a class="btn btn-primary btn-large" href="/products/new">Add New Product</a>
-        </div>
-    </header>
-    
-    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+<div class="author">
+    <img src="https://ecs7.tokopedia.net/img/cache/215-square/shops-1/2015/3/10/352686/352686_e288c276-c6fe-11e4-8f34-dca82523fab8.jpg">
+    <div>
+        <h1><%= author.username %></h1>
+        <p><%= author.country %>, <%= author.city %>, <%= author.address %></p>
+        <p><%= author.desc %></p>
+        <p><%= author.phone %></p>
+        <p><a href="https://<%= author.website %>" target="_blank"><%= author.website %></a></p>
     </div>
-</div-->
+</div>
 
 <div class="productsGrid">
     <% products.forEach(function(product) { %>
@@ -27,6 +25,4 @@
     <% }); %>
 </div>
 
-
-
-<% include ../partials/footer %>
+<% include ./partials/footer %>
