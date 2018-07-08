@@ -1,18 +1,20 @@
-var express     = require("express"),
-    app         = express(),
-    bodyParser  = require("body-parser"),
-    mongoose    = require("mongoose"),
-    passport    = require("passport"),
+var express        = require("express"),
+    app            = express(),
+    bodyParser     = require("body-parser"),
+    mongoose       = require("mongoose"),
+    passport       = require("passport"),
+    multer         = require('multer'),
     methodOverride = require("method-override"),
-    LocalStrategy = require("passport-local"),
-    flash       = require("connect-flash"),
-    User        = require("./models/user");
+    LocalStrategy  = require("passport-local"),
+    flash          = require("connect-flash"),
+    User           = require("./models/user");
     
-var commentRoutes       = require("./routes/comments"),
-    productRoutes       = require("./routes/products"),
-    indexRoutes         = require("./routes/index");
+var commentRoutes  = require("./routes/comments"),
+    productRoutes  = require("./routes/products"),
+    indexRoutes    = require("./routes/index");
 
 mongoose.connect("mongodb://bazarmanager:YtEpyftimVjq1Gfhjkm@ds125241.mlab.com:25241/bazarlardb");
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -24,7 +26,8 @@ app.use(flash());
 app.use(require("express-session")({
     secret: "Once again Rusty wins cutest dog!",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { secure: false }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

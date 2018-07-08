@@ -9,13 +9,28 @@ body {
 /*** admin sidebar ****/
 
 .toolbar {
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 55px;
     width: 12rem;
     padding: 1rem 0;
-    height: calc(100vh - 55px);
+    height: calc(100% - 55px);
     background: #845164;
+    box-sizing: border-box;
+}
+
+.adminh {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    background: #ada6a6;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #fff;
 }
 
 .toolbar a {
@@ -40,10 +55,13 @@ body {
 }
 
 .adminarea {
-    background: rgba(0,0,0, 0.1);
-    width: calc(100vw - 14rem);
+    position: relative;
+    background: #eff0f2;
+    width: calc(100% - 14rem);
     min-height: 100px;
     margin: 1rem 1rem 1rem 13rem;
+    box-sizing: border-box;
+    padding: 4.5rem 1rem 1rem 1rem;
 }
 
 /**** nav ****/
@@ -166,12 +184,22 @@ body {
 
 /*** login **/
 
+.butt {
+    background: #845168;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #fff;
+    border: 0;
+    font-size: 0.9rem;
+    margin: 0  0 0.2rem 1.2rem;
+    cursor: pointer;
+}
+
 .wrapper {
     width: 100%;
-    height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin-top: 2rem;
     box-sizing: border-box;
 }
 
@@ -179,14 +207,24 @@ form.login {
     display: flex;
     flex-direction: column;
     padding: 2rem;
+    width: 28rem;
+    box-sizing: border-box;
     background: #eff0f2;
 }
 
-form.login input, form select {
+form.login.new {
+    padding: 0;
+    max-width: 30rem;
+}
+
+form.login input, form select, textarea {
     border: 0;
     padding: 0.5rem 1rem;
     border-radius: 0;
+    margin-bottom: 0.5rem;
+    border: 1px solid gray;
     font-size: 1rem;
+    font-family: 'Open Sans';
 }
 
 form.login button {
@@ -194,6 +232,7 @@ form.login button {
     font-size: 1rem;
     background: #845168;
     margin-bottom: 1rem;
+    font-family: 'Open Sans';
     border: 0;
     color: #fff;
     outline: none;
@@ -311,4 +350,64 @@ form.login p {
 
 .author h1 {
     margin: 0;
+}
+
+/*** flash ***/
+.flash {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+.alert {
+    margin: 0 0 1rem 0;
+    box-sizing: border-box;
+    padding: 1rem;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.alert-danger {
+    color: #a94442;
+    background: #f2dede;
+    border: 1px solid #ebccd1;
+}
+
+.alert-success {
+    color: #3c763d;
+    background: #dff0d8;
+    border: 1px solid #d6e9c6;
+}
+
+/***** photos upload ****/
+.upload {
+    display: flex;
+    margin: 0.3rem 0 1rem 0;
+}
+
+.upload > div {
+    height: 4rem;
+    width: 4rem;
+    background: #fff;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0.2rem;
+}
+
+.upload > div.chosen {
+    background-color: #dbdbdb;
+}
+
+.upload .new { cursor: pointer; }
+.upload .new img{ height: 2rem; }
+
+input[type="file"], .added, .chosen .add{
+    display: none;
+}
+
+.chosen .added {
+    display: block;
 }

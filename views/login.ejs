@@ -3,6 +3,17 @@
 <div class="wrapper">
     <form class="login" action="/login" method="POST">
         <p>Авторизация</p>
+        <div class="flash">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } if(success && success.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+            <% } %>
+        </div>
         <input class="form-control" type="text" name="username" placeholder="Логин">
         <input class="form-control" type="password" name="password" placeholder="Пароль">
         <button class="btn btn-lg btn-primary btn-block">Войти</button> 

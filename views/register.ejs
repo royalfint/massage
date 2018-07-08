@@ -3,12 +3,24 @@
 <div class="wrapper">
     <form class="login" action="/register" method="POST">
         <p>Регистрация</p>
-        <input type="text" name="username" placeholder="Логин">
-        <input type="password" name="password" placeholder="Пароль">
-        <input type="text" name="phone" placeholder="Телефон">
-        <input type="text" name="address" placeholder="Адрес">
-        <input type="text" name="website" placeholder="Веб-сайт">
-        <input type="text" name="desc" placeholder="Описание">
+        <div class="flash">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } if(success && success.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+            <% } %>
+        </div>
+        <input type="text" name="username" placeholder="Логин*" value="<%= rf.username %>">
+        <input type="password" name="password" placeholder="Пароль*" value="<%= rf.password %>">
+        <input type="text" name="phone" placeholder="Телефон*" value="<%= rf.phone %>">
+        <input type="text" name="title" placeholder="Название точки*" value="<%= rf.title %>">
+        <input type="text" name="address" placeholder="Адрес*" value="<%= rf.address %>">
+        <input type="text" name="website" placeholder="Веб-сайт" value="<%= rf.website %>">
+        <input type="text" name="desc" placeholder="Описание*" value="<%= rf.desc %>">
         <select name="country">
             <% countries.forEach(function(country) { %>
                 <% if(country.name != "Kazakhstan") { %>

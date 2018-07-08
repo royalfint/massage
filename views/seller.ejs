@@ -3,11 +3,16 @@
 <div class="author">
     <img src="https://ecs7.tokopedia.net/img/cache/215-square/shops-1/2015/3/10/352686/352686_e288c276-c6fe-11e4-8f34-dca82523fab8.jpg">
     <div>
-        <h1><%= author.username %></h1>
+        <h1><%= author.title %></h1>
         <p><%= author.country %>, <%= author.city %>, <%= author.address %></p>
         <p><%= author.desc %></p>
-        <p><%= author.phone %></p>
         <p><a href="https://<%= author.website %>" target="_blank"><%= author.website %></a></p>
+        <div class="call">
+            <a href="callto:<%= author.phone %>"><%= author.phone %></a>
+            <a href="#"><img src="../svg/whatsapp.svg"></a>
+            <a href="#"><img src="../svg/telegram.svg"></a>
+            <a target="_blank" href="https://www.google.com/maps/place/<%= author.city %>,<%= author.address %>" class="butt">Показать на карте</a>
+        </div>
     </div>
 </div>
 
@@ -15,7 +20,7 @@
     <% products.forEach(function(product) { %>
         <a class="product" href="/products/<%= product._id %>">
             <div class="productInfo">
-                <div class="productImg" style="background: url(<%= product.image[0] %>) center/cover no-repeat;"></div>
+                <div class="productImg" style="background: url(../<%= product.image[0] %>) center/cover no-repeat;"></div>
                 <div class="productOverlay">
                     <p><%= product.name %></p>
                 </div>

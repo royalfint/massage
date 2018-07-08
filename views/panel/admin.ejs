@@ -6,6 +6,21 @@
     <a href="/logout"><img src="svg/logout.svg">Выйти</a>
 </div>
 
-<div class="adminarea"></div>
+<div class="adminarea">
+    <p class="adminh">Мои Товары</p>
+    <div class="productsGrid">
+        <% products.forEach(function(product) { %>
+            <a class="product" href="/products/<%= product._id %>">
+                <div class="productInfo">
+                    <div class="productImg" style="background: url(<%= product.image[0] %>) center/cover no-repeat;"></div>
+                    <div class="productOverlay">
+                        <p><%= product.name %></p>
+                    </div>
+                </div>
+                <p class="price"><%= product.price %>₸</p>
+            </a>
+        <% }); %>
+    </div>
+</div>
 
 <% include ../partials/footer %>

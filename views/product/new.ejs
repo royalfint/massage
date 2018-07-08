@@ -1,33 +1,129 @@
 <% include ../partials/header %>
 
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center;">Create a new product</h1>
-        <div class="col-md-6 col-sm-8 col-xs-10 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">
-            <form action="/products" method="POST">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="name" placeholder="name">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="image" placeholder="image url">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="image2" placeholder="image url 2">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="description" placeholder="description">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="number" name="price" placeholder="price per night" min="0.01" step="0.01">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit</button> 
-                </div>
-            </form>
-            <a href="/products">Back</a>
-        </div>
-    </div>
+<div class="toolbar">
+    <a href="/admin"><img src="../svg/package.svg">Мои Товары</a>
+    <a href="/products/new"><img src="../svg/add-item.svg">Новый Товар</a>
+    <a href="/logout"><img src="../svg/logout.svg">Выйти</a>
 </div>
 
+<div class="adminarea">
+    <p class="adminh">Мои Товары</p>
+    <!--form action="/products" method="POST">
+        <input type="file" name="avatar">
+        <button>sd;jfsdlfj</button>
+    </form-->
+    
+    <form class="login new" id="addprod" enctype="multipart/form-data" action="/products" method="POST">
+        
+        <div class="flash">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } if(success && success.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+            <% } %>
+        </div>
+    
+        <input type="text" name="name" placeholder="Имя Товара" value="<%= fc.name %>">
+        <select name="cat">
+            <option>Категория товара</option>
+            <option>Одежда</option>
+        </select>
+        <select name="subcat">
+            <option>Подкатегория товара</option>
+            <option>Верхняя Одежда</option>
+        </select>
+        <div class="upload">
+            <div>
+                <label for="firstfile" class="new">
+                    <img class="add" src="../svg/plus.svg">
+                    <img class="added" src="../svg/added.svg">
+                </label>
+                <input class="filetype" id="firstfile" type="file" name="firstfile" />
+            </div>
+            <div>
+                <label for="secondfile" class="new">
+                    <img class="add" src="../svg/plus.svg">
+                    <img class="added" src="../svg/added.svg">
+                </label>
+                <input class="filetype" id="secondfile" type="file" name="secondfile" />
+            </div>
+            <div>
+                <label for="thirdfile" class="new">
+                    <img class="add" src="../svg/plus.svg">
+                    <img class="added" src="../svg/added.svg">
+                </label>
+                <input class="filetype" id="thirdfile" type="file" name="thirdfile" />
+            </div>
+            <div>
+                <label for="fourthfile" class="new">
+                    <img class="add" src="../svg/plus.svg">
+                    <img class="added" src="../svg/added.svg">
+                </label>
+                <input class="filetype" id="fourthfile" type="file" name="fourthfile" />
+            </div>
+            <div>
+                <label for="fifthfile" class="new">
+                    <img class="add" src="../svg/plus.svg">
+                    <img class="added" src="../svg/added.svg">
+                </label>
+                <input class="filetype" id="fifthfile" type="file" name="fifthfile" />
+            </div>
+            <div>
+                <label for="sixthfile" class="new">
+                    <img class="add" src="../svg/plus.svg">
+                    <img class="added" src="../svg/added.svg">
+                </label>
+                <input class="filetype" id="sixthfile" type="file" name="sixthfile" />
+            </div>
+            <div>
+                <label for="seventhfile" class="new">
+                    <img class="add" src="../svg/plus.svg">
+                    <img class="added" src="../svg/added.svg">
+                </label>
+                <input class="filetype" id="seventhfile" type="file" name="seventhfile" />
+            </div>
+        </div>
+        <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание"><%= fc.desc %></textarea>
+        <input class="form-control" type="number" name="price" placeholder="Цена товара" min="0.01" step="0.01" value="<%= fc.price %>">
+        <button class="btn btn-lg btn-primary btn-block">Добавить товар</button>
+        <a href="/products">Назад</a>
+    </form>
+</div>
+
+<script>
+    function upload(){
+        el = document.getElementById("imgupload");
+        if (el.onclick) {
+           el.onclick();
+        } else if (el.click) {
+           el.click();
+        }
+    };
+    
+    /*document.querySelector("#addprod").addEventListener("submit", function(e){
+        e.preventDefault();
+        console.log()
+    });*/
+    
+    /*document.getElementById('firstfile').onchange = function () {
+      if(this.files) {
+          this.parentNode.classList.add("chosen");
+      }
+    };
+    */
+    var slides = document.getElementsByClassName("filetype");
+    for(var i = 0; i < slides.length; i++)
+    {
+        slides.item(i).onchange = function () {
+            if(this.files) {
+                this.parentNode.classList.add("chosen");
+            }
+        }
+    }
+</script>
 
 <% include ../partials/footer %>

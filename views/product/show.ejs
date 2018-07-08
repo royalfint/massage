@@ -12,7 +12,7 @@
             </a>
             <div id="myslider" class="main" data-simple-slider>
                 <% product.image.forEach(function(img) { %>
-                    <img src="<%= img %>"/>
+                    <img src="../<%= img %>"/>
                 <% }); %>
             </div>
             
@@ -20,7 +20,7 @@
                 <% var index = 0; %>
                 <% product.image.forEach(function(img) { %>
                     <div>
-                        <img src="<%= img %>" onclick="setSlide(<%= index %>);">
+                        <img src="../<%= img %>" onclick="setSlide(<%= index %>);">
                     </div>
                 <% index++; }); %>
             </div>
@@ -50,7 +50,7 @@
 
 
 <div class="centered">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2905.5536588635623!2d76.9530575448262!3d43.260775448851646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836e8fc43fdcc5%3A0x988fde1ad20bcdc0!2z0YPQu9C40YbQsCDQk9C-0LPQvtC70Y8gNTUsINCQ0LvQvNCw0YLRiw!5e0!3m2!1sru!2skz!4v1530714852045" frameborder="0" style="border:0" allowfullscreen></iframe>
+    <iframe src="https://maps.google.com/maps?q=<%= mapq %>&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0" allowfullscreen></iframe>
 </div>
 
 <!--div class="container">
