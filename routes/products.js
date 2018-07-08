@@ -120,7 +120,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     
         console.log(images);
         
-        var newProduct = {name: post.name, image: images, description: post.desc, author: post.author, price: post.price};
+        var newProduct = {name: post.name, image: images, desc: post.desc, author: post.author, price: post.price};
         Product.create(newProduct, function(err, newlyCreated){
             if(err){
                 console.log(err);
@@ -138,9 +138,13 @@ router.get("/:id",function(req, res){
         if(err){
             console.log(err);
         }else{
-            var mapq = foundProduct.author.id.city + ", " + foundProduct.author.id.address;
-            mapq.replace(" ","%20");
-            res.render("product/show", {product: foundProduct, mapq: mapq});
+            if(foundProduct) {
+                var mapq = foundProduct.author.id.city + ", " + foundProduct.author.id.address;
+                mapq.replace(" ","%20");
+                res.render("product/show", {product: foundProduct, mapq: mapq});
+            } else {
+                res.send("404.");
+            }
         }
     });
 });
@@ -175,7 +179,7 @@ router.delete("/:id", middleware.checkProductOwnership, function(req, res){
             req.flash("error", err.message);
             res.redirect("/products");
         }else{
-            req.flash("success", "You just destroyed a product!");
+            req.flash("success", "Вы только что удалили товар!");
             res.redirect("/products");
         }
     });

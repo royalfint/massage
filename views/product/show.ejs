@@ -26,7 +26,16 @@
             </div>
         </div>
         <div class="showdesc">
-            <h1><%= product.name %></h1>
+            <div class="delrow">
+                <h1><%= product.name %></h1>
+                <% if(currentUser && product.author.id.equals(currentUser._id)) { %>
+                    
+                    <form class="inlineform" action="/products/<%= product._id %>?_method=DELETE" method="POST">
+                        <button><img src="../svg/delete.svg"></button>
+                    </form>
+                    <a href="/products/<%= product._id %>/edit"><img src="../svg/edit.svg"></a>
+                <% } %>
+            </div>
             <p>Цена: <%= product.price %>₸</p>
             <p>Категория: Штаны</p>
             <p>Продавец: <a href="/seller/<%= product.author.username %>"><%= product.author.username %></a></p>

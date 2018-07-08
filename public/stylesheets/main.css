@@ -203,6 +203,23 @@ body {
     box-sizing: border-box;
 }
 
+.delrow {
+    display: flex;
+    align-items: center;
+}
+
+.delrow img {
+    height: 1.5rem;
+}
+
+.delrow button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    margin: 0 1rem;
+    padding: 0;
+}
+
 form.login {
     display: flex;
     flex-direction: column;
