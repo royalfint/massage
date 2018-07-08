@@ -1,2 +1,16 @@
+  <script>
+    var opened = false;
+      function menu(th){
+            if(!opened){
+                th.classList.add("is-active");
+                document.getElementById("tool").classList.add("is-active");
+                opened = true;
+            } else {
+                th.classList.remove("is-active");
+                document.getElementById("tool").classList.remove("is-active");
+                opened = false;
+            }
+      }
+  </script>
   </body>
 </html>

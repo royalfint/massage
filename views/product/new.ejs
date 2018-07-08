@@ -1,6 +1,6 @@
 <% include ../partials/header %>
 
-<div class="toolbar">
+<div class="toolbar" id="tool">
     <a href="/admin"><img src="../svg/package.svg">Мои Товары</a>
     <a href="/products/new"><img src="../svg/add-item.svg">Новый Товар</a>
     <a href="/logout"><img src="../svg/logout.svg">Выйти</a>
@@ -8,11 +8,6 @@
 
 <div class="adminarea">
     <p class="adminh">Мои Товары</p>
-    <!--form action="/products" method="POST">
-        <input type="file" name="avatar">
-        <button>sd;jfsdlfj</button>
-    </form-->
-    
     <form class="login new" id="addprod" enctype="multipart/form-data" action="/products" method="POST">
         
         <div class="flash">
@@ -28,11 +23,13 @@
         </div>
     
         <input type="text" name="name" placeholder="Имя Товара" value="<%= fc.name %>">
-        <select name="cat">
+        <select name="cat" onchange="category(this)">
             <option>Категория товара</option>
-            <option>Одежда</option>
+            <% cats.forEach(function(cat) { %>
+                <option><%= cat.name %></option>
+            <% }); %>
         </select>
-        <select name="subcat">
+        <select id="subcat" name="subcat">
             <option>Подкатегория товара</option>
             <option>Верхняя Одежда</option>
         </select>
@@ -103,6 +100,19 @@
                 this.parentNode.classList.add("chosen");
             }
         }
+    }
+    
+    function category(th) {
+        var cats = <%- JSON.stringify(cats) %>;
+        var newhtml = "";
+        cats.forEach(function(cat) {
+           if(th.value == cat.name) {
+               cat.sub.forEach(function(subcats){
+                  newhtml += "<option>" + subcats + "</option>"; 
+               });
+           } 
+        });
+        var subcat = document.getElementById("subcat").innerHTML = newhtml;
     }
 </script>
 

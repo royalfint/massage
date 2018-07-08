@@ -1,6 +1,6 @@
 <% include ../partials/header %>
 
-<div class="toolbar">
+<div class="toolbar" id="tool">
     <a href="/admin"><img src="../../../svg/package.svg">Мои Товары</a>
     <a href="/products/new"><img src="../../../svg/add-item.svg">Новый Товар</a>
     <a href="/logout"><img src="../../../svg/logout.svg">Выйти</a>
@@ -22,12 +22,18 @@
             <% } %>
         </div>
     
-        <input type="text" name="product[name]" placeholder="Имя Товара" value="<%= product.name %>">
-        <select name="product[cat]">
+        <input type="text" name="name" placeholder="Имя Товара" value="<%= product.name %>">
+        <input type="hidden" name="id" value="<%= product._id %>">
+        <select name="cat" onchange="category(this.value)">
             <option>Категория товара</option>
-            <option>Одежда</option>
+            <% cats.forEach(function(cat) { %>
+            <% if(cat.name == product.cat) { %>
+                <option selected><%= cat.name %></option>
+            <% } else { %>
+                <option><%= cat.name %></option>
+            <% }}); %>
         </select>
-        <select name="product[subcat]">
+        <select id="subcat" name="subcat">
             <option>Подкатегория товара</option>
             <option>Верхняя Одежда</option>
         </select>
@@ -37,54 +43,54 @@
                     <img class="add" src="../../svg/plus.svg">
                     <img class="added" src="../../svg/added.svg">
                 </label>
-                <input class="filetype" id="firstfile" type="file" name="product[firstfile]" />
+                <input class="filetype" id="firstfile" type="file" name="firstfile" />
             </div>
             <div>
                 <label for="secondfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                     <img class="added" src="../../svg/added.svg">
                 </label>
-                <input class="filetype" id="secondfile" type="file" name="product[secondfile]" />
+                <input class="filetype" id="secondfile" type="file" name="secondfile" />
             </div>
             <div>
                 <label for="thirdfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                     <img class="added" src="../../svg/added.svg">
                 </label>
-                <input class="filetype" id="thirdfile" type="file" name="product[thirdfile]" />
+                <input class="filetype" id="thirdfile" type="file" name="thirdfile" />
             </div>
             <div>
                 <label for="fourthfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                     <img class="added" src="../../svg/added.svg">
                 </label>
-                <input class="filetype" id="fourthfile" type="file" name="product[fourthfile]" />
+                <input class="filetype" id="fourthfile" type="file" name="fourthfile" />
             </div>
             <div>
                 <label for="fifthfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                     <img class="added" src="../../svg/added.svg">
                 </label>
-                <input class="filetype" id="fifthfile" type="file" name="product[fifthfile]" />
+                <input class="filetype" id="fifthfile" type="file" name="fifthfile" />
             </div>
             <div>
                 <label for="sixthfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                     <img class="added" src="../../svg/added.svg">
                 </label>
-                <input class="filetype" id="sixthfile" type="file" name="product[sixthfile]" />
+                <input class="filetype" id="sixthfile" type="file" name="sixthfile" />
             </div>
             <div>
                 <label for="seventhfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                     <img class="added" src="../../svg/added.svg">
                 </label>
-                <input class="filetype" id="seventhfile" type="file" name="product[seventhfile]" />
+                <input class="filetype" id="seventhfile" type="file" name="seventhfile" />
             </div>
         </div>
-        <textarea class="form-control" rows="4" type="text" name="product[desc]" placeholder="Описание"><%= product.desc %></textarea>
-        <input class="form-control" type="number" name="product[price]" placeholder="Цена товара" min="0.01" step="0.01" value="<%= product.price %>">
-        <button class="btn btn-lg btn-primary btn-block">Добавить товар</button>
+        <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание"><%= product.desc %></textarea>
+        <input class="form-control" type="number" name="price" placeholder="Цена товара" min="0.01" step="0.01" value="<%= product.price %>">
+        <button class="btn btn-lg btn-primary btn-block">Обновить товар</button>
         <a href="/products">Назад</a>
     </form>
 </div>
@@ -99,6 +105,28 @@
             }
         }
     }
+    
+    function category(th) {
+        var cats = <%- JSON.stringify(cats) %>;
+        var newhtml = "";
+        var cur_subcat = "<%= product.subcat %>";
+        cats.forEach(function(cat) {
+           if(th == cat.name) {
+               cat.sub.forEach(function(subcat){
+                   if(cur_subcat == subcat){
+                        newhtml += "<option selected>" + subcat + "</option>"; 
+                   } else {
+                        newhtml += "<option>" + subcat + "</option>"; 
+                   }
+               });
+           } 
+        });
+        var subcat = document.getElementById("subcat").innerHTML = newhtml;
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(() => { category("<%= product.cat %>") }, 300);
+    });
 </script>
 
 <% include ../partials/footer %>

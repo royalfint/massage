@@ -1,9 +1,15 @@
 <% include ../partials/header %>
 
+<div class="minibar" id="tool">
+    <a href="/admin"><img src="../../../svg/package.svg">Мои Товары</a>
+    <a href="/products/new"><img src="../../../svg/add-item.svg">Новый Товар</a>
+    <a href="/logout"><img src="../../../svg/logout.svg">Выйти</a>
+</div>
+
 <div class="centered">
     <div class="showroom">
         <!--div class="main" style="background: url() center/cover no-repeat;"></div-->
-        <div style="position: relative; display: flex; flex-direction: column;">
+        <div class="slid">
             <a class="next" onclick="next()">
                 <img src="../svg/right.svg">
             </a>
@@ -37,10 +43,10 @@
                 <% } %>
             </div>
             <p>Цена: <%= product.price %>₸</p>
-            <p>Категория: Штаны</p>
+            <p>Категория: <%= product.cat %>, <%= product.subcat %></p>
             <p>Продавец: <a href="/seller/<%= product.author.username %>"><%= product.author.username %></a></p>
             <p>Адрес: <%= product.author.id.city %>, <%= product.author.id.address %></p>
-            <p>Описание: <%= product.description %></p>
+            <p>Описание: <%= product.desc %></p>
             <div class="call">
                 <a href="callto:<%= product.author.id.phone %>"><%= product.author.id.phone %></a>
                 <a href="#"><img src="../svg/whatsapp.svg"></a>
