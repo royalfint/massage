@@ -131,6 +131,7 @@ body {
     position: absolute;
     bottom: 0;
     right: 0;
+    color: #000;
     padding: 0.5rem 1rem;
     margin: 0;
     background: rgba(255,255,255, 0.85);
@@ -368,6 +369,53 @@ form.login p {
 
 .next img, .prev img {
     height: 2.5rem;
+}
+
+/*** search **/
+
+.search {
+    position: fixed;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+}
+
+.search img{
+    height: 1.5rem;
+    padding: 0.2rem;
+}
+
+.search button {
+    position: absolute;
+    bottom: 0.05rem;
+    background: transparent;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    right: 2.3rem;
+}
+
+.search .gear {
+    position: absolute;
+    bottom: 0.25rem;
+    right: 0.4rem;
+    height: 1.6rem;
+    cursor: pointer;
+}
+
+.search input {
+    width: 20rem;
+    border: 0;
+    padding: 0.5rem 2.8rem 0.5rem 1rem;
+    border-radius: 0;
+    border: 1px solid gray;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    font-size: 1rem;
+    font-family: 'Open Sans';
 }
 
 /*** share /*****/

@@ -67,8 +67,8 @@ router.post("/register", function(req, res){
         return res.redirect("/register");
     }
     
-    if(!post.title || post.title.length < 8){
-        req.flash("error", "Название торговой точки должно быть не короче 8 символов!");
+    if(!post.title || post.title.length < 1){
+        req.flash("error", "Введите название точки!");
         return res.redirect("/register");
     }
     

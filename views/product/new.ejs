@@ -23,15 +23,16 @@
         </div>
     
         <input type="text" name="name" placeholder="Имя Товара" value="<%= fc.name %>">
-        <select name="cat" onchange="category(this)">
+        <select name="cat" onchange="category(this.value)">
             <option>Категория товара</option>
             <% cats.forEach(function(cat) { %>
+            <% if(cat.name == fc.cat) { %>
+                <option selected><%= cat.name %></option>
+            <% } else { %>
                 <option><%= cat.name %></option>
-            <% }); %>
+            <% }}); %>
         </select>
         <select id="subcat" name="subcat">
-            <option>Подкатегория товара</option>
-            <option>Верхняя Одежда</option>
         </select>
         <div class="upload">
             <div>
@@ -105,15 +106,24 @@
     function category(th) {
         var cats = <%- JSON.stringify(cats) %>;
         var newhtml = "";
+        var cur_subcat = "<%= fc.subcat %>";
         cats.forEach(function(cat) {
-           if(th.value == cat.name) {
-               cat.sub.forEach(function(subcats){
-                  newhtml += "<option>" + subcats + "</option>"; 
+           if(th == cat.name) {
+               cat.sub.forEach(function(subcat){
+                   if(cur_subcat == subcat){
+                        newhtml += "<option selected>" + subcat + "</option>"; 
+                   } else {
+                        newhtml += "<option>" + subcat + "</option>"; 
+                   }
                });
            } 
         });
         var subcat = document.getElementById("subcat").innerHTML = newhtml;
     }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(() => { category("<%= fc.cat %>") }, 300);
+    });
 </script>
 
 <% include ../partials/footer %>
