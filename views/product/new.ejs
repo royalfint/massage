@@ -108,18 +108,20 @@
         var cats = <%- JSON.stringify(cats) %>;
         var newhtml = "";
         var cur_subcat = "<%= fc.subcat %>";
-        cats.forEach(function(cat) {
-           if(th == cat.name) {
-               cat.sub.forEach(function(subcat){
-                   if(cur_subcat == subcat){
-                        newhtml += "<option selected>" + subcat + "</option>"; 
-                   } else {
-                        newhtml += "<option>" + subcat + "</option>"; 
-                   }
-               });
-           } 
-        });
-        var subcat = document.getElementById("subcat").innerHTML = newhtml;
+        if(th != "Категории товара"){
+            cats.forEach(function(cat) {
+               if(th == cat.name) {
+                   cat.sub.forEach(function(subcat){
+                       if(cur_subcat == subcat){
+                            newhtml += "<option selected>" + subcat + "</option>"; 
+                       } else {
+                            newhtml += "<option>" + subcat + "</option>"; 
+                       }
+                   });
+               } 
+            });
+            var subcat = document.getElementById("subcat").innerHTML = newhtml;
+        }
     }
     
     document.addEventListener("DOMContentLoaded", function() {
