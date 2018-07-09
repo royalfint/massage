@@ -9,7 +9,7 @@
         <p><a href="https://<%= author.website %>" target="_blank"><%= author.website %></a></p>
         <div class="call">
             <a href="callto:<%= author.phone %>"><%= author.phone %></a>
-            <a target="_blank" href="https://api.whatsapp.com/send?phone=<%= product.author.id.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
+            <a target="_blank" href="https://api.whatsapp.com/send?phone=<%= author.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
             <a target="_blank" href="https://www.google.com/maps/place/<%= author.city %>,<%= author.address %>" class="butt">Показать на карте</a>
         </div>
     </div>
