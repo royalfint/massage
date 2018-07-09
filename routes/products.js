@@ -41,7 +41,7 @@ router.get("/", function(req, res) {
     });
 });
 
-router.post("/", function(req, res) {
+router.post("/search", function(req, res) {
     Product.find({ "name": { "$regex": req.body.query, "$options": "i" }}, function(err, allProducts){
         if(err){
             console.log(err);
