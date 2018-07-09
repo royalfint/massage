@@ -145,4 +145,14 @@ router.get("/seller/:username", function(req, res) {
     });
 });
 
+router.post("/search", function(req, res) {
+    Product.find({ "name": { "$regex": req.body.query, "$options": "i" }}, function(err, allProducts){
+        if(err){
+            console.log(err);
+        }else{
+            res.render("product/index", {products: allProducts});
+        }
+    });
+});
+
 module.exports = router;

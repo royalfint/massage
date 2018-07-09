@@ -107,8 +107,9 @@
     function category(th) {
         var cats = <%- JSON.stringify(cats) %>;
         var newhtml = "";
+        var cur_cat = "<%= fc.cat %>";
         var cur_subcat = "<%= fc.subcat %>";
-        if(th != "Категория товара"){
+        if(cur_cat != ""){
             cats.forEach(function(cat) {
                if(th == cat.name) {
                    cat.sub.forEach(function(subcat){
