@@ -48,7 +48,7 @@
             <p>Описание: <%= product.desc %></p>
             <div class="call">
                 <a href="callto:<%= product.author.id.phone %>"><%= product.author.id.phone %></a>
-                <a href="https://api.whatsapp.com/send?phone=<%= product.author.id.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
+                <a target="_blank" href="https://api.whatsapp.com/send?phone=<%= product.author.id.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
             </div>
             <p>Поделиться:</p>
             <div class="share">

@@ -146,10 +146,16 @@ router.get("/seller/:username", function(req, res) {
 });
 
 router.post("/search", function(req, res) {
-    Product.find({ "name": { "$regex": req.body.query, "$options": "i" }}, function(err, allProducts){
+    var query = {};
+    var qinput = req.body.query.trim();
+    
+    if(qinput && qinput.length > 0)
+        query = { "name": { "$regex": qinput, "$options": "i" }};
+    
+    Product.find(query, function(err, allProducts){
         if(err){
             console.log(err);
-        }else{
+        } else {
             res.render("product/index", {products: allProducts});
         }
     });

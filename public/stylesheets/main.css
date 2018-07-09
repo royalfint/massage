@@ -249,7 +249,7 @@ form.login {
     flex-direction: column;
     padding: 2rem;
     width: 28rem;
-    font-family: 'Open Sans';
+    font-family: 'Montserrat';
     box-sizing: border-box;
     background: #eff0f2;
 }
@@ -266,7 +266,7 @@ form.login input, form select, textarea {
     margin-bottom: 0.5rem;
     border: 1px solid gray;
     font-size: 1rem;
-    font-family: 'Open Sans';
+    font-family: 'Montserrat';
 }
 
 form.login button {
@@ -274,7 +274,7 @@ form.login button {
     font-size: 1rem;
     background: #845168;
     margin-bottom: 1rem;
-    font-family: 'Open Sans';
+    font-family: 'Montserrat';
     border: 0;
     color: #fff;
     outline: none;
@@ -415,7 +415,7 @@ form.login p {
     outline: none;
     margin: 0;
     font-size: 1rem;
-    font-family: 'Open Sans';
+    font-family: 'Montserrat';
 }
 
 /*** share /*****/
