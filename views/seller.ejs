@@ -1,5 +1,16 @@
 <% include ./partials/header %>
 
+<div class="minibar" id="tool">
+    <% if (!currentUser) { %>
+        <a href="/login"><img src="../../../svg/signin.svg">Войти</a>
+        <a href="/register"><img src="../../../svg/add-user.svg">Регистрация</a>
+    <% } else { %>
+        <a href="/admin"><img src="../../../svg/package.svg">Мои Товары</a>
+        <a href="/products/new"><img src="../../../svg/add-item.svg">Новый Товар</a>
+        <a href="/logout"><img src="../../../svg/logout.svg">Выйти</a>
+    <% } %>
+</div>
+
 <div class="author">
     <img src="https://ecs7.tokopedia.net/img/cache/215-square/shops-1/2015/3/10/352686/352686_e288c276-c6fe-11e4-8f34-dca82523fab8.jpg">
     <div>
