@@ -8,8 +8,7 @@
 
 <div class="adminarea">
     <p class="adminh">Мои Товары</p>
-    <form class="login new" id="addprod" enctype="multipart/form-data" action="/products" method="POST">
-        
+    <form class="login new">
         <div class="flash">
             <% if(error && error.length > 0) { %>
                 <div class="alert alert-danger" role="alert">
@@ -21,7 +20,108 @@
             </div>
             <% } %>
         </div>
+    </form>
+    <div class="upload">
+        <div>
+            <% if(fc.photos[0]) { %>
+                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } else { %>
+                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } %>
+                <img src="../../svg/close.svg" class="close" data-name="firstfile">
+                <label for="firstfile" class="new">
+                    <img class="add" src="../../svg/plus.svg">
+                </label>
+                <img src="<%= fc.photos[0] || " " %>" class="dataImg">
+                <input id="firstfile" data-name="firstfile" class="filetype" type="file" name="fileToUpload">
+                <input type="hidden" name="folder" value="Gh3rt">
+            </form>
+        </div>
+        <div>
+            <% if(fc.photos[1]) { %>
+                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } else { %>
+                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } %>
+                <img src="../../svg/close.svg" class="close" data-name="secondfile">
+                <label for="secondfile" class="new">
+                    <img class="add" src="../../svg/plus.svg">
+                </label>
+                <img src="<%= fc.photos[1] || " " %>"  class="dataImg">
+                <input id="secondfile" data-name="secondfile" class="filetype" type="file" name="fileToUpload">
+                <input type="hidden" name="folder" value="Gh3rt">
+            </form>
+        </div>
+        <div>
+            <% if(fc.photos[2]) { %>
+                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } else { %>
+                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } %>
+                <img src="../../svg/close.svg" class="close" data-name="thirdfile">
+                <label for="thirdfile" class="new">
+                    <img class="add" src="../../svg/plus.svg">
+                </label>
+                <img src="<%= fc.photos[2] || " " %>" class="dataImg">
+                <input id="thirdfile" data-name="thirdfile" class="filetype" type="file" name="fileToUpload">
+                <input type="hidden" name="folder" value="Gh3rt">
+            </form>
+        </div>
+        <div>
+            <% if(fc.photos[3]) { %>
+                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } else { %>
+                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } %>
+                <img src="../../svg/close.svg" class="close" data-name="fourthfile">
+                <label for="fourthfile" class="new">
+                    <img class="add" src="../../svg/plus.svg">
+                </label>
+                <img src="<%= fc.photos[3] || " " %>" class="dataImg">
+                <input id="fourthfile" data-name="fourthfile" class="filetype" type="file" name="fileToUpload">
+                <input type="hidden" name="folder" value="Gh3rt">
+            </form>
+        </div>
+        <div>
+            <% if(fc.photos[4]) { %>
+                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } else { %>
+                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } %>
+                <img src="../../svg/close.svg" class="close" data-name="fifthfile">
+                <label for="fifthfile" class="new">
+                    <img class="add" src="../../svg/plus.svg">
+                </label>
+                <img src="<%= fc.photos[4] || " " %>" class="dataImg">
+                <input id="fifthfile" data-name="fifthfile" class="filetype" type="file" name="fileToUpload">
+                <input type="hidden" name="folder" value="Gh3rt">
+            </form>
+        </div>
+        <div>
+            <% if(fc.photos[5]) { %>
+                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } else { %>
+                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <% } %>
+                <img src="../../svg/close.svg" class="close" data-name="sixthfile">
+                <label for="sixthfile" class="new">
+                    <img class="add" src="../../svg/plus.svg">
+                </label>
+                <img src="<%= fc.photos[5] || " " %>" class="dataImg">
+                <input id="sixthfile" data-name="sixthfile" class="filetype" type="file" name="fileToUpload">
+                <input type="hidden" name="folder" value="Gh3rt">
+            </form>
+        </div>
+    </div>
     
+    <form class="login new" id="addprod" action="/products" method="POST">
+        <input type="hidden" name="firstfile" value="<%= fc.photos[0] %>">
+        <input type="hidden" name="secondfile" value="<%= fc.photos[1] %>">
+        <input type="hidden" name="thirdfile" value="<%= fc.photos[2] %>">
+        <input type="hidden" name="fouthfile" value="<%= fc.photos[3] %>">
+        <input type="hidden" name="fifthfile" value="<%= fc.photos[4] %>">
+        <input type="hidden" name="sixthfile" value="<%= fc.photos[5] %>">
+        
         <input type="text" name="name" placeholder="Имя Товара" value="<%= fc.name %>">
         <select name="cat" onchange="category(this.value)">
             <option>Категория товара</option>
@@ -35,98 +135,69 @@
         <select id="subcat" name="subcat">
             <option>Подкатегория товара</option>
         </select>
-        <div class="upload">
-            <div>
-                <label for="firstfile" class="new">
-                    <img class="add" src="../svg/plus.svg">
-                    <img class="added" src="../svg/added.svg">
-                </label>
-                <input class="filetype" id="firstfile" type="file" name="firstfile" />
-            </div>
-            <div>
-                <label for="secondfile" class="new">
-                    <img class="add" src="../svg/plus.svg">
-                    <img class="added" src="../svg/added.svg">
-                </label>
-                <input class="filetype" id="secondfile" type="file" name="secondfile" />
-            </div>
-            <div>
-                <label for="thirdfile" class="new">
-                    <img class="add" src="../svg/plus.svg">
-                    <img class="added" src="../svg/added.svg">
-                </label>
-                <input class="filetype" id="thirdfile" type="file" name="thirdfile" />
-            </div>
-            <div>
-                <label for="fourthfile" class="new">
-                    <img class="add" src="../svg/plus.svg">
-                    <img class="added" src="../svg/added.svg">
-                </label>
-                <input class="filetype" id="fourthfile" type="file" name="fourthfile" />
-            </div>
-            <div>
-                <label for="fifthfile" class="new">
-                    <img class="add" src="../svg/plus.svg">
-                    <img class="added" src="../svg/added.svg">
-                </label>
-                <input class="filetype" id="fifthfile" type="file" name="fifthfile" />
-            </div>
-            <div>
-                <label for="sixthfile" class="new">
-                    <img class="add" src="../svg/plus.svg">
-                    <img class="added" src="../svg/added.svg">
-                </label>
-                <input class="filetype" id="sixthfile" type="file" name="sixthfile" />
-            </div>
-            <div>
-                <label for="seventhfile" class="new">
-                    <img class="add" src="../svg/plus.svg">
-                    <img class="added" src="../svg/added.svg">
-                </label>
-                <input class="filetype" id="seventhfile" type="file" name="seventhfile" />
-            </div>
-        </div>
         <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание"><%= fc.desc %></textarea>
         <input class="form-control" type="number" name="price" placeholder="Цена товара" min="0.01" step="0.01" value="<%= fc.price %>">
         <button class="btn btn-lg btn-primary btn-block">Добавить товар</button>
-        <a href="/products">Назад</a>
+        <a href="/products/clear">Отмена</a>
     </form>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script>
-    var slides = document.getElementsByClassName("filetype");
-    for(var i = 0; i < slides.length; i++)
-    {
-        slides.item(i).onchange = function () {
-            if(this.files) {
-                this.parentNode.classList.add("chosen");
-            }
-        }
-    }
-    
     function category(th) {
         var cats = <%- JSON.stringify(cats) %>;
-        var newhtml = "";
+        var newhtml = "<option>Подкатегория товара</option>";
         var cur_cat = "<%= fc.cat %>";
         var cur_subcat = "<%= fc.subcat %>";
-        if(cur_cat != ""){
-            cats.forEach(function(cat) {
-               if(th == cat.name) {
-                   cat.sub.forEach(function(subcat){
-                       if(cur_subcat == subcat){
-                            newhtml += "<option selected>" + subcat + "</option>"; 
-                       } else {
-                            newhtml += "<option>" + subcat + "</option>"; 
-                       }
-                   });
-               } 
-            });
-            var subcat = document.getElementById("subcat").innerHTML = newhtml;
-        }
+        
+        cats.forEach(function(cat) {
+            if(th == cat.name) {
+                cat.sub.forEach(function(subcat){
+                    if(cur_subcat == subcat){
+                        newhtml += "<option selected>" + subcat + "</option>"; 
+                    } else {
+                        newhtml += "<option>" + subcat + "</option>"; 
+                    }
+                });
+            } 
+        });
+        var subcat = document.getElementById("subcat").innerHTML = newhtml;
     }
     
     document.addEventListener("DOMContentLoaded", function() {
       setTimeout(() => { category("<%= fc.cat %>") }, 300);
+    });
+</script>
+<script>
+    $(".close").each(function() {
+        $(this).on("click", function(){
+            $(this.parentNode).removeClass("uploaded");
+            $(this.parentNode).find("img.dataImg").attr("src","");
+            $("[name='" + $(this).data("name") + "']").attr("value", "");
+        });
+    });
+    
+    $(".filetype").each(function(){
+        this.onchange = function() {
+            var formData = new FormData(this.parentNode);
+            var img = $(this.parentNode).find("img.dataImg");
+            var add = $(this.parentNode).addClass("uploaded");
+            var name = $(this).data("name");
+            
+            $.ajax({
+                url: "https://mangi.kz/upload.php",
+                type: 'POST',
+                data: formData,
+                crossDomain: true,
+                success: function (data) {
+                    img.attr("src", data);
+                    $("[name='" + name + "']").attr("value", data);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        }
     });
 </script>
 

@@ -6,27 +6,6 @@ var express      = require("express"),
     path         = require("path"),
     router       = express.Router(),
     middleware   = require("../middleware/index.js");
-    
-const storage = multer.diskStorage({
-  destination: './public/uploads',
-  filename: function (req, file, callback) {
-    crypto.pseudoRandomBytes(16, function(err, raw) {
-      if (err) return callback(err);
-    
-      callback(null, raw.toString('hex') + path.extname(file.originalname));
-    });
-  }
-});
-
-var upload = multer({ storage: storage, limits: { fileSize: 1 * 1000 * 5000 }}).fields([
-        { name: 'firstfile'},
-        { name: 'secondfile' },
-        { name: 'thirdfile' },
-        { name: 'fourthfile' },
-        { name: 'fifthfile' },
-        { name: 'sixthfile' },
-        { name: 'seventhfile' }
-    ]);
 
 //==========================APP ROUTES=========================//
 
@@ -45,20 +24,24 @@ router.get("/", function(req, res) {
 router.get("/new", middleware.isLoggedIn, function(req, res) {
     
     if(!req.session.fc)
-        req.session.fc = {};
+        req.session.fc = {photos: []};
         
     res.render("product/new", {fc: req.session.fc, cats: cats});
 });
 
+router.get("/clear", middleware.isLoggedIn, function(req, res) {
+    req.session.fc = {photos: []};
+    res.redirect("/admin");
+});
+
 //POST NEW PRODUCT INTO DB
 router.post("/", middleware.isLoggedIn, function(req, res) {
-    upload(req, res, function (err) {
-        
         var post = {
             name: req.body.name,
             cat: req.body.cat,
             subcat: req.body.subcat,
             price: req.body.price,
+            photos: [],
             desc: req.body.desc,
             author: {
                 id: req.user._id,
@@ -67,7 +50,18 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         };
         
         req.session.fc = post;
-        console.log(req.session.fc);
+        
+        if(req.body.firstfile) post.photos.push(req.body.firstfile);
+        if(req.body.secondfile) post.photos.push(req.body.secondfile);
+        if(req.body.thirdfile) post.photos.push(req.body.thirdfile);
+        if(req.body.fourthfile) post.photos.push(req.body.fourthfile);
+        if(req.body.fifthfile) post.photos.push(req.body.fifthfile);
+        if(req.body.sixthfile) post.photos.push(req.body.sixthfile);
+        
+        if(post.photos.length == 0) {
+            req.flash("error", "Добавьте хоть одну фотографию!");
+            return res.redirect("/products/new");
+        }
         
         if(!post.name || post.name.length < 3 ) {
             req.flash("error", "Введите имя товара!");
@@ -84,21 +78,6 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             return res.redirect("/products/new");
         }
         
-        if(!req.files) {
-            req.flash("error", "Добавьте хоть одну фотографию!");
-            return res.redirect("/products/new");
-        }
-    
-        if (err) {
-            if(err.code == "LIMIT_FILE_SIZE"){
-                req.flash("error", "Размер фотографии не должен превышать 5МБ!");
-                return res.redirect("/products/new");
-            } else {
-                req.flash("error", err);
-                return res.redirect("/products/new");
-            }
-        }
-        
         if(!post.desc || post.desc.length < 10){
             req.flash("error", "Описание должно быть не короче 10 символов!");
             return res.redirect("/products/new");
@@ -108,29 +87,24 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             req.flash("error", "Введите цену!");
             return res.redirect("/products/new");
         }
-     
-        var images = [];
-    
-        if(req.files.firstfile) images.push(req.files.firstfile[0].path.replace("public/",""));
-        if(req.files.secondfile) images.push(req.files.secondfile[0].path.replace("public/",""));
-        if(req.files.thirdfile) images.push(req.files.thirdfile[0].path.replace("public/",""));
-        if(req.files.fourthfile) images.push(req.files.fourthfile[0].path.replace("public/",""));
-        if(req.files.fifthfile) images.push(req.files.fifthfile[0].path.replace("public/",""));
-        if(req.files.sixthfile) images.push(req.files.sixthfile[0].path.replace("public/","")); 
-        if(req.files.seventhfile) images.push(req.files.seventhfile[0].path.replace("public/","")); 
-    
-        console.log(images);
         
-        var newProduct = {name: post.name, image: images, cat: post.cat, subcat: post.subcat, desc: post.desc, author: post.author, price: post.price};
+        var newProduct = {
+            name: post.name,
+            image: post.photos,
+            cat: post.cat,
+            subcat: post.subcat,
+            desc: post.desc,
+            author: post.author,
+            price: post.price
+        };
         Product.create(newProduct, function(err, newlyCreated){
             if(err){
                 console.log(err);
             } else {
-                req.session.fc = {};
+                req.session.fc = {photos: []};
                 res.redirect("/products");
             }
         });
-    });
 });
 
 //PRODUCT SHOWPAGE MOREEE
@@ -157,6 +131,7 @@ router.get("/:id/edit", middleware.checkProductOwnership, function(req, res){
                 req.flash("error", err.message);
                 res.redirect("back");
             }else{
+                console.log(foundProduct);
                 res.render("product/edit", {product: foundProduct, cats: cats});
             }
         });
@@ -164,14 +139,13 @@ router.get("/:id/edit", middleware.checkProductOwnership, function(req, res){
 
 //UPDATE PRODUCT ROUTE
 router.put("/:id", middleware.checkProductOwnership, function(req, res){
-    upload(req, res, function (err) {
-        
         var post = {
-            id: req.body.id,
+            id: req.params.id,
             name: req.body.name,
             cat: req.body.cat,
             subcat: req.body.subcat,
             price: req.body.price,
+            photos: [],
             desc: req.body.desc,
             author: {
                 id: req.user._id,
@@ -179,7 +153,17 @@ router.put("/:id", middleware.checkProductOwnership, function(req, res){
             }
         };
         
-        req.session.fc = post;
+        if(req.body.firstfile) post.photos.push(req.body.firstfile);
+        if(req.body.secondfile) post.photos.push(req.body.secondfile);
+        if(req.body.thirdfile) post.photos.push(req.body.thirdfile);
+        if(req.body.fourthfile) post.photos.push(req.body.fourthfile);
+        if(req.body.fifthfile) post.photos.push(req.body.fifthfile);
+        if(req.body.sixthfile) post.photos.push(req.body.sixthfile);
+        
+        if(post.photos.length == 0) {
+            req.flash("error", "Добавьте хоть одну фотографию!");
+            return res.redirect("/products/new");
+        }
         
         if(!post.name || post.name.length < 3 ) {
             req.flash("error", "Введите имя товара!");
@@ -196,21 +180,6 @@ router.put("/:id", middleware.checkProductOwnership, function(req, res){
             return res.redirect("back");
         }
         
-        if(!req.files) {
-            req.flash("error", "Добавьте хоть одну фотографию!");
-            return res.redirect("back");
-        }
-    
-        if (err) {
-            if(err.code == "LIMIT_FILE_SIZE"){
-                req.flash("error", "Размер фотографии не должен превышать 5МБ!");
-                return res.redirect("back");
-            } else {
-                req.flash("error", err);
-                return res.redirect("back");
-            }
-        }
-        
         if(!post.desc || post.desc.length < 10){
             req.flash("error", "Описание должно быть не короче 10 символов!");
             return res.redirect("back");
@@ -220,28 +189,24 @@ router.put("/:id", middleware.checkProductOwnership, function(req, res){
             req.flash("error", "Введите цену!");
             return res.redirect("back");
         }
-     
-        var images = [];
     
-        if(req.files.firstfile) images.push(req.files.firstfile[0].path.replace("public/",""));
-        if(req.files.secondfile) images.push(req.files.secondfile[0].path.replace("public/",""));
-        if(req.files.thirdfile) images.push(req.files.thirdfile[0].path.replace("public/",""));
-        if(req.files.fourthfile) images.push(req.files.fourthfile[0].path.replace("public/",""));
-        if(req.files.fifthfile) images.push(req.files.fifthfile[0].path.replace("public/",""));
-        if(req.files.sixthfile) images.push(req.files.sixthfile[0].path.replace("public/","")); 
-        if(req.files.seventhfile) images.push(req.files.seventhfile[0].path.replace("public/","")); 
-    
-        var newProduct = {name: post.name, image: images, cat: post.cat, subcat: post.subcat, desc: post.desc, author: post.author, price: post.price};
-        Product.findByIdAndUpdate(post.id, newProduct, function(err, newlyCreated){
+        var newProduct = {
+            name: post.name,
+            image: post.photos,
+            cat: post.cat,
+            subcat: post.subcat,
+            desc: post.desc,
+            author: post.author,
+            price: post.price
+        };
+        Product.findByIdAndUpdate(post.id, newProduct, function(err, justUpdated){
             if(err){
                 console.log(err);
             } else {
-                req.session.fc = {};
-                console.log(newlyCreated);
+                console.log(justUpdated);
                 return res.redirect("/products");
             }
         });
-    });
 });
 
 //DESTROY PRODUCT ROUTE

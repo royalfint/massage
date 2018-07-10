@@ -161,4 +161,8 @@ router.post("/search", function(req, res) {
     });
 });
 
+router.get("/img", function(req, res) {
+   res.render("img");
+});
+
 module.exports = router;

@@ -17,7 +17,7 @@
             </a>
             <div id="myslider" class="main" data-simple-slider>
                 <% product.image.forEach(function(img) { %>
-                    <img src="../<%= img %>"/>
+                    <img src="<%= img %>"/>
                 <% }); %>
             </div>
             
@@ -25,7 +25,7 @@
                 <% var index = 0; %>
                 <% product.image.forEach(function(img) { %>
                     <div>
-                        <img src="../<%= img %>" onclick="setSlide(<%= index %>);">
+                        <img src="<%= img %>" onclick="setSlide(<%= index %>);">
                     </div>
                 <% index++; }); %>
             </div>
