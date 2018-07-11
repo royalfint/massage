@@ -1,22 +1,25 @@
 var express      = require("express"),
     Product      = require("../models/product"),
     cats         = require("../models/cats.json").list,
-    crypto       = require("crypto"),
-    multer       = require('multer'),
     path         = require("path"),
     router       = express.Router(),
     middleware   = require("../middleware/index.js");
+var countries = require("../models/countries.json").list;
+var cities = require("../models/cities/KZ.json").list;
 
 //==========================APP ROUTES=========================//
 
 //Index Route
 router.get("/", function(req, res) {
     Product.find({}, function(err, allProducts){
-        if(err){
-            console.log(err);
-        }else{
-            res.render("product/index", {products: allProducts});
-        }
+        if(err) console.log(err);
+        
+        var formquery = {};
+        
+        if(req.session.search)
+            formquery = req.session.search;
+        
+        res.render("product/index", {products: allProducts, countries: countries, cities: cities, q: formquery});
     });
 });
 
@@ -26,7 +29,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
     if(!req.session.fc)
         req.session.fc = {photos: []};
         
-    res.render("product/new", {fc: req.session.fc, cats: cats});
+    res.render("product/new", {fc: req.session.fc, cats: cats, folder: middleware.folder});
 });
 
 router.get("/clear", middleware.isLoggedIn, function(req, res) {
@@ -116,7 +119,7 @@ router.get("/:id",function(req, res){
             if(foundProduct) {
                 var mapq = foundProduct.author.id.city + ", " + foundProduct.author.id.address;
                 mapq.replace(" ","%20");
-                res.render("product/show", {product: foundProduct, mapq: mapq, cats: cats});
+                res.render("product/show", {product: foundProduct, mapq: mapq, cats: cats, folder: middleware.folder});
             } else {
                 res.send("404.");
             }
@@ -132,7 +135,7 @@ router.get("/:id/edit", middleware.checkProductOwnership, function(req, res){
                 res.redirect("back");
             }else{
                 console.log(foundProduct);
-                res.render("product/edit", {product: foundProduct, cats: cats});
+                res.render("product/edit", {product: foundProduct, cats: cats, folder: middleware.folder});
             }
         });
 });

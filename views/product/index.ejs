@@ -25,12 +25,35 @@
     <% }); %>
 </div>
 
-<div class="search">
-    <form action="/search" method="POST">
-        <input type="text" name="query" placeholder="Поиск..." autocomplete="new-password">
-        <button><img src="svg/search.svg"></button>
-        <img class="gear" src="svg/gear.svg">
-    </form>
+<div class="centered" style="position: fixed; bottom: 0; left: 0;">
+    <div class="search">
+        <form action="/search" method="POST">
+            <div class="advanced">
+                <select name="country">
+                    <option>Kazakhstan</option>
+                </select>
+                <select name="city">
+                    <option>Город</option>
+                    <% cities.forEach(function(city) { %>
+                        <% if(city.name == q.city) { %>
+                            <option selected="selected"><%= city.name %></option>
+                        <% } else { %>
+                            <option><%= city.name %></option>
+                        <% } %>
+                    <% }); %>
+                </select>
+            </div>
+            <input type="text" name="query" placeholder="Поиск..." value="<%= q.term %>" autocomplete="new-password">
+            <button><img src="svg/search.svg"></button>
+            <img class="gear" onclick="advtoggle()" src="svg/gear.svg">
+        </form>
+    </div>
 </div>
+
+<script>
+    function advtoggle(){
+        $('.advanced').toggleClass('show');
+    }
+</script>
 
 <% include ../partials/footer %>

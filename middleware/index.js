@@ -1,5 +1,6 @@
 //all the middleware goes here
 var Comment     = require("../models/comment"),
+    crypto       = require("crypto"),
     Product  = require("../models/product");
     
 var middlewareObj = {};
@@ -51,6 +52,10 @@ middlewareObj.isLoggedIn = function (req, res, next){
     }
     req.flash("error", "Сначала нужно войти в аккаунт!");
     res.redirect("/login");
+};
+
+middlewareObj.folder = function() {
+    return crypto.randomBytes(16).toString('hex');
 };
 
 module.exports = middlewareObj;

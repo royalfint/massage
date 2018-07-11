@@ -120,6 +120,7 @@ body {
 .productsGrid {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 3.5rem;
 }
 
 .productInfo {
@@ -168,42 +169,6 @@ body {
 .productImg {
     width: 100%;
     padding-bottom: 100%
-}
-
-@media screen and (max-width: 1600px) {
-    .product {
-        width: 16.7%;
-    }
-}
-
-@media screen and (max-width: 1400px) {
-    .product {
-        width: 20%;
-    }
-}
-
-@media screen and (max-width: 1200px) {
-    .product {
-        width: 25%;
-    }
-}
-
-@media screen and (max-width: 900px) {
-    .product {
-        width: 33.333%;
-    }
-}
-
-@media screen and (max-width: 640px) {
-    .product {
-        width: 50%;
-    }
-}
-
-@media screen and (max-width: 360px) {
-    .product {
-        width: 100%;
-    }
 }
 
 /*** login **/
@@ -374,12 +339,10 @@ form.login p {
 /*** search **/
 
 .search {
-    position: fixed;
-    bottom: -0.5rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
     display: flex;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 .search img{
@@ -408,7 +371,7 @@ form.login p {
 .search input {
     width: 20rem;
     border: 0;
-    padding: 0.5rem 2.8rem 0.5rem 1rem;
+    padding: 0.5rem 2.8rem 0.6rem 1rem;
     border-radius: 0;
     border: 1px solid gray;
     box-sizing: border-box;
@@ -417,6 +380,24 @@ form.login p {
     font-size: 1rem;
     font-family: 'Montserrat';
 }
+
+.advanced {
+    width: 20rem;
+    display: none;
+    background: lightgray;
+    padding: 1rem 1rem 0.5rem 1rem;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+.advanced.show {
+    display: flex;
+}
+
+.advanced select {
+    width: 18rem;
+}
+
 
 /*** share /*****/
 .share img {
@@ -446,7 +427,8 @@ form.login p {
     width: 100%;
     display: flex;
     box-sizing: border-box;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .alert {
@@ -537,17 +519,35 @@ input[type="file"], .added, .chosen .add{
 
 #mob, .none { display: none; }
 
-@media screen and (max-width: 560px) {
-    /** menu **/
+@media screen and (max-width: 1600px) {
+    .product { width: 16.7%; }
+}
+
+@media screen and (max-width: 1400px) {
+    .product { width: 20%; }
+}
+
+@media screen and (max-width: 1200px) {
+    .product { width: 25%; }
+}
+
+@media screen and (max-width: 960px) {
+    .product { width: 33.333%; }
+    form.login, .upload { width: 25rem; }
+    .showdesc, .showroom .main {
+        width: 23.7rem;
+    }
+    iframe {
+        width: 47.5rem;
+    }
+    .showroom .main { height: 23.7rem; }
+}
+
+@media screen and (max-width: 760px) {
+    .product { width: 50%; }
     #mob { display: block; }
     .links { display: none; }
-    /** forms **/
-    form.login, .upload {
-        width: 17rem;
-    }
-    .upload { flex-wrap: wrap; }
-    /***admin***/
-    .toolbar {
+        .toolbar {
         position: fixed;
         left: -12rem;
         top: 0;
@@ -557,21 +557,39 @@ input[type="file"], .added, .chosen .add{
         margin: 0.5rem;
         width: calc(100% - 1rem);
     }
-    /** product page **/
-    .showroom {
-        flex-direction: column;
+    .showdesc, .showroom .main {
+        width: 20.5rem;
     }
-    .next, .prev {
-        display: none;
+    iframe {
+        width: 41.5rem;
     }
+}
+
+@media screen and (max-width: 660px) {
+    .product { width: 50%; }
+    .showroom { flex-direction: column; }
+    .showdesc { padding: 0; }
+    .showroom, .showdesc, .showroom .main {
+        width: 28.5rem;
+    }
+    iframe { width: 100%; }
+}
+
+@media screen and (max-width: 460px) {
+    form.login, .upload { width: 100%; }
+    .showdesc h1 { font-size: 1.5rem; }
+    .showroom, .showdesc, .showroom .main {
+        width: 22.7rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .product { width: 100%; }
+    .upload { flex-wrap: wrap; }
+    .next, .prev { display: none; }
+    iframe { margin-top: 3rem; }
     .showroom, .showdesc, .showroom .main {
         width: 20rem;
     }
-    .showroom .main {
-        height: 20rem;
-    }
-    iframe {
-        margin-top: 3rem;
-        width: 20rem;
-    }
+    .showroom .main { height: 20rem; }
 }

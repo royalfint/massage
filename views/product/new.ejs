@@ -18,7 +18,7 @@
 </div>
 
 <div class="adminarea">
-    <p class="adminh">Мои Товары</p>
+    <p class="adminh">Новый товар</p>
     <form class="login new">
         <div class="flash">
             <% if(error && error.length > 0) { %>
@@ -45,7 +45,7 @@
                 </label>
                 <img src="<%= fc.photos[0] || " " %>" class="dataImg">
                 <input id="firstfile" data-name="firstfile" class="filetype" type="file" name="fileToUpload">
-                <input type="hidden" name="folder" value="Gh3rt">
+                <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
         </div>
         <div>
@@ -60,7 +60,7 @@
                 </label>
                 <img src="<%= fc.photos[1] || " " %>"  class="dataImg">
                 <input id="secondfile" data-name="secondfile" class="filetype" type="file" name="fileToUpload">
-                <input type="hidden" name="folder" value="Gh3rt">
+                <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
         </div>
         <div>
@@ -75,7 +75,7 @@
                 </label>
                 <img src="<%= fc.photos[2] || " " %>" class="dataImg">
                 <input id="thirdfile" data-name="thirdfile" class="filetype" type="file" name="fileToUpload">
-                <input type="hidden" name="folder" value="Gh3rt">
+                <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
         </div>
         <div>
@@ -90,7 +90,7 @@
                 </label>
                 <img src="<%= fc.photos[3] || " " %>" class="dataImg">
                 <input id="fourthfile" data-name="fourthfile" class="filetype" type="file" name="fileToUpload">
-                <input type="hidden" name="folder" value="Gh3rt">
+                <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
         </div>
         <div>
@@ -105,7 +105,7 @@
                 </label>
                 <img src="<%= fc.photos[4] || " " %>" class="dataImg">
                 <input id="fifthfile" data-name="fifthfile" class="filetype" type="file" name="fileToUpload">
-                <input type="hidden" name="folder" value="Gh3rt">
+                <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
         </div>
         <div>
@@ -120,7 +120,7 @@
                 </label>
                 <img src="<%= fc.photos[5] || " " %>" class="dataImg">
                 <input id="sixthfile" data-name="sixthfile" class="filetype" type="file" name="fileToUpload">
-                <input type="hidden" name="folder" value="Gh3rt">
+                <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
         </div>
     </div>
@@ -153,7 +153,6 @@
     </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script>
     function category(th) {
         var cats = <%- JSON.stringify(cats) %>;
@@ -192,7 +191,7 @@
         this.onchange = function() {
             var formData = new FormData(this.parentNode);
             var img = $(this.parentNode).find("img.dataImg");
-            var add = $(this.parentNode).addClass("uploaded");
+            var add = $(this.parentNode);
             var name = $(this).data("name");
             
             $.ajax({
@@ -201,8 +200,18 @@
                 data: formData,
                 crossDomain: true,
                 success: function (data) {
-                    img.attr("src", data);
-                    $("[name='" + name + "']").attr("value", data);
+                    console.log(data);
+                    if(data == "NOT_IMAGE") {
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Загруженный файл не является картинкой!</div>' );
+                    } else if (data == "WRONG_TYPE") {
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Файл должен быть в формате JPG, PNG, JPEG или GIF!</div>' );
+                    } else if(data == "TOO_LARGE"){
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Размер фото должен быть меньше 10Мб!</div>' );
+                    } else {
+                        img.attr("src", data);
+                        $("[name='" + name + "']").attr("value", data);
+                        add.addClass("uploaded");
+                    }
                 },
                 cache: false,
                 contentType: false,

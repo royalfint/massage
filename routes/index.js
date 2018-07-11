@@ -146,23 +146,35 @@ router.get("/seller/:username", function(req, res) {
 });
 
 router.post("/search", function(req, res) {
-    var query = {};
-    var qinput = req.body.query.trim();
     
-    if(qinput && qinput.length > 0)
-        query = { "name": { "$regex": qinput, "$options": "i" }};
+    var formquery = {
+        term: req.body.query.trim(),
+        city: req.body.city.trim()
+    };
     
-    Product.find(query, function(err, allProducts){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("product/index", {products: allProducts});
-        }
-    });
-});
+    req.session.search = formquery;
+    
+    var dbquery = [
+        { "$lookup": {
+          "from": User.collection.name,
+          "localField": "author.id",
+          "foreignField": "_id",
+          "as": "author"
+        }},
+        { "$unwind": "$author" }
+    ];
+    
+    if(formquery.term && formquery.term.length > 0)
+        dbquery.push({ "$match": { "name": { "$regex": formquery.term, "$options": "i" } }});
+        
+    if(formquery.city != "Город")
+        dbquery.push({ "$match": { "author.city": { "$in": [ formquery.city ] } }});
+    
+    Product.aggregate(dbquery, function(err, allProducts){
+        if(err) console.log(err);
 
-router.get("/img", function(req, res) {
-   res.render("img");
+        res.render("product/index", {products: allProducts, countries: countries, cities: cities, q: formquery});
+    });
 });
 
 module.exports = router;
