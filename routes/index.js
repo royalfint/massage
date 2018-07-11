@@ -144,7 +144,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
         
         var post = {
             username: req.body.username.trim(),
-            password: req.body.password.trim(),
+            /*password: req.body.password.trim(),*/
             phone:    req.body.phone.trim(),
             address:  req.body.address.trim(),
             website:  req.body.website.trim(),
