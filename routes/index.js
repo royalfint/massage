@@ -78,6 +78,7 @@ router.post("/register", function(req, res){
             return res.redirect("/register");
         }
         user.phone = post.phone;
+        user.title = post.title;
         user.address = post.address;
         user.website = post.website;
         user.country = post.country;
@@ -114,7 +115,6 @@ router.get("/logout", function(req, res){
     res.redirect("/products");
 });
 
-///admin
 router.get("/admin", middleware.isLoggedIn, function(req, res) {
     var seller = req.user.username;
     User.findOne({username: seller}, function(err, foundSeller) {
@@ -127,6 +127,88 @@ router.get("/admin", middleware.isLoggedIn, function(req, res) {
                 res.render("panel/admin", {products: foundProducts, author: foundSeller});
             }
         });
+    });
+});
+
+router.get("/profile", middleware.isLoggedIn, function(req, res) {
+    User.findById(req.user.id, function(err, user){
+        if(err) console.log(err);
+        
+        res.render("panel/profile", {user: user, countries: countries, cities: cities,});
+    });
+});
+
+router.post("/profile", middleware.isLoggedIn, function(req, res) {
+    User.findById(req.user.id, function(err, user) {
+        if(err) console.log(err);
+        
+        var post = {
+            username: req.body.username.trim(),
+            password: req.body.password.trim(),
+            phone:    req.body.phone.trim(),
+            address:  req.body.address.trim(),
+            website:  req.body.website.trim(),
+            title:    req.body.title.trim(),
+            country:  req.body.country.trim(),
+            city:     req.body.city.trim(),
+            desc:     req.body.desc.trim()
+        };
+            
+        if(!post.username || !post.username.match(/^[a-zA-Z0-9]+$/) || post.username.length < 3 || post.username.length > 20) {
+            req.flash("error", "Логин должен быть на латинице от 3 до 20 символов!");
+            return res.redirect("back");
+        }
+        
+        if(!post.phone || !post.phone.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)) {
+            req.flash("error", "Телефон должен быть указан в формате +77001234567");
+            return res.redirect("back");
+        }
+        
+        if(!post.address || post.address.length < 8){
+            req.flash("error", "Введите адрес!");
+            return res.redirect("back");
+        }
+        
+        if(post.website && !post.website.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi)){
+            req.flash("error", "Ссылка на сайт должны быть в формате www.google.com");
+            return res.redirect("back");
+        }
+        
+        if(!post.desc || post.desc.length < 10){
+            req.flash("error", "Описание должно быть не короче 10 символов!");
+            return res.redirect("back");
+        }
+        
+        if(!post.title || post.title.length < 1){
+            req.flash("error", "Введите название точки!");
+            return res.redirect("back");
+        }
+        
+        /*
+        console.log(post.password + " != " + user.password);
+        if(post.password != user.password) {
+            req.flash("error", "Неверный пароль!");
+            return res.redirect("back");
+        }
+        
+        User.comparePassword(post.password, function(err, result){
+            if(err) console.log(err);
+            
+            console.log(result);
+        });*/
+
+        user.username = post.username;
+        user.phone = post.phone;
+        user.title = post.title;
+        user.address = post.address;
+        user.website = post.website;
+        user.country = post.country;
+        user.desc = post.desc;
+        user.city = post.city;
+        user.save();
+        
+        req.flash("success", "Добро пожаловать в Bazarlar, " + user.username + "!");
+        res.redirect("/profile");
     });
 });
 
@@ -146,7 +228,6 @@ router.get("/seller/:username", function(req, res) {
 });
 
 router.post("/search", function(req, res) {
-    
     var formquery = {
         term: req.body.query.trim(),
         city: req.body.city.trim()

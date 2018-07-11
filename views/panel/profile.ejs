@@ -1,0 +1,50 @@
+<% include ../partials/header %>
+
+<div class="toolbar" id="tool">
+    <a href="#"><img src="svg/profile.svg">Мой Профиль</a>
+    <a href="/admin"><img src="svg/package.svg">Мои Товары</a>
+    <a href="/products/new"><img src="svg/add-item.svg">Новый Товар</a>
+    <a href="/logout"><img src="svg/logout.svg">Выйти</a>
+</div>
+
+<div class="adminarea">
+    <p class="adminh">Мой Профиль</p>
+    <form class="login new" method="POST" action="/profile">
+        <label><p>Редактирование профиля</p></label>
+        <div class="flash">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } if(success && success.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+            <% } %>
+        </div>
+        <input type="text" name="username" placeholder="" value="<%= user.username %>">
+        <input type="text" name="address" value="<%= user.address %>">
+        <input type="text" name="title" placeholder="Название точки" value="<%= user.title %>">
+        <input type="text" name="phone" value="<%= user.phone %>">
+        <input type="text" name="website" value="<%= user.website %>">
+        <input type="text" name="desc" value="<%= user.desc %>">
+        <select name="country">
+            <option>Kazakhstan</option>
+        </select>
+        <select name="city">
+            <option>Город</option>
+            <% cities.forEach(function(city) { %>
+                <% if(city.name == user.city) { %>
+                    <option selected="selected"><%= city.name %></option>
+                <% } else { %>
+                    <option><%= city.name %></option>
+                <% } %>
+            <% }); %>
+        </select>
+        <!--label><p>Введите текущий пароль</p></label>
+        <input type="password" name="password" value=""-->
+        <button>Обновить профиль</button>
+    </form>
+</div>
+
+<% include ../partials/footer %>
