@@ -12,25 +12,31 @@
 </div>
 
 <div class="author">
-    <img src="https://ecs7.tokopedia.net/img/cache/215-square/shops-1/2015/3/10/352686/352686_e288c276-c6fe-11e4-8f34-dca82523fab8.jpg">
+    <img src="../../../svg/online-store.svg">
     <div>
         <h1><%= author.title %></h1>
         <p><%= author.country %>, <%= author.city %>, <%= author.address %></p>
         <p><%= author.desc %></p>
         <p><a href="https://<%= author.website %>" target="_blank"><%= author.website %></a></p>
         <div class="call">
-            <a href="callto:<%= author.phone %>"><%= author.phone %></a>
-            <a target="_blank" href="https://api.whatsapp.com/send?phone=<%= author.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
+            <a class="mobhide" href="callto:<%= author.phone %>"><%= author.phone %></a>
+            <a class="mobhide" target="_blank" href="https://api.whatsapp.com/send?phone=<%= author.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
             <a target="_blank" href="https://www.google.com/maps/place/<%= author.city %>,<%= author.address %>" class="butt">Показать на карте</a>
         </div>
     </div>
+</div>
+
+<div class="callhim">
+    <a id="callbutt" onclick="callhim()"><img style="position: relative; bottom: -4px;" src="../../../svg/callhim.svg"></a>
+    <a class="callbutt" onclick="callhim()" target="_blank" href="https://api.whatsapp.com/send?phone=<%= author.phone.replace("+",""); %>"><img src="../../../svg/whatsapp-button.svg"></a>
+    <a class="callbutt" onclick="callhim()" href="callto:<%= author.phone %>"><img src="../../../svg/call.svg"></a>
 </div>
 
 <div class="productsGrid">
     <% products.forEach(function(product) { %>
         <a class="product" href="/products/<%= product._id %>">
             <div class="productInfo">
-                <div class="productImg" style="background: url(../<%= product.image[0] %>) center/cover no-repeat;"></div>
+                <div class="productImg" style="background: url(<%= product.image[0] %>) center/cover no-repeat;"></div>
                 <div class="productOverlay">
                     <p><%= product.name %></p>
                 </div>
@@ -39,5 +45,12 @@
         </a>
     <% }); %>
 </div>
+
+<script>
+    function callhim() {
+        $("#callbutt").toggleClass("hid");
+        $(".callbutt").toggleClass("show");
+    }
+</script>
 
 <% include ./partials/footer %>
