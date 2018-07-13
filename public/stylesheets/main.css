@@ -379,7 +379,6 @@ form.login p {
     width: 19rem;
     border: 0;
     padding: 0.5rem 2.8rem 0.6rem 1rem;
-    border-radius: 0;
     border: 1px solid gray;
     box-sizing: border-box;
     outline: none;
@@ -389,7 +388,7 @@ form.login p {
 }
 
 .advanced {
-    width: 20rem;
+    width: 19rem;
     display: none;
     background: lightgray;
     padding: 1rem 1rem 0.5rem 1rem;
@@ -402,7 +401,7 @@ form.login p {
 }
 
 .advanced select {
-    width: 18rem;
+    width: 17rem;
 }
 
 
@@ -552,7 +551,7 @@ input[type="file"], .added, .chosen .add{
 }
 
 input, button {
-    border-radius: 1rem !important;
+    border-radius: 2rem !important;
 }
 
 #mob, .none { display: none; }
