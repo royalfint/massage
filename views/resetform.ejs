@@ -12,8 +12,8 @@
 </div>
 
 <div class="wrapper">
-    <form class="login" action="/login/<%= token %>" method="POST">
-        <p>Авторизация</p>
+    <form class="login" action="/reset/<%= token %>" method="POST">
+        <p>Смена пароля</p>
         <div class="flash">
             <% if(error && error.length > 0) { %>
                 <div class="alert alert-danger" role="alert">
