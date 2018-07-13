@@ -19,7 +19,7 @@
         <p><%= author.desc %></p>
         <p><a href="https://<%= author.website %>" target="_blank"><%= author.website %></a></p>
         <div class="call">
-            <a class="mobhide" href="callto:<%= author.phone %>"><%= author.phone %></a>
+            <a class="mobhide" href="tel:<%= author.phone %>"><%= author.phone %></a>
             <a class="mobhide" target="_blank" href="https://api.whatsapp.com/send?phone=<%= author.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
             <a target="_blank" href="https://www.google.com/maps/place/<%= author.city %>,<%= author.address %>" class="butt">Показать на карте</a>
         </div>
@@ -27,9 +27,9 @@
 </div>
 
 <div class="callhim">
-    <a id="callbutt" onclick="callhim()"><img style="position: relative; bottom: -4px;" src="../../../svg/callhim.svg"></a>
-    <a class="callbutt" onclick="callhim()" target="_blank" href="https://api.whatsapp.com/send?phone=<%= author.phone.replace("+",""); %>"><img src="../../../svg/whatsapp-button.svg"></a>
-    <a class="callbutt" onclick="callhim()" href="callto:<%= author.phone %>"><img src="../../../svg/call.svg"></a>
+    <a id="callbutt" onclick="callhim(0)"><img style="position: relative; bottom: -4px;" src="../../../svg/callhim.svg"></a>
+    <a class="callbutt" onclick="callhim(1000)" target="_blank" href="https://api.whatsapp.com/send?phone=<%= author.phone.replace("+",""); %>"><img src="../../../svg/whatsapp-button.svg"></a>
+    <a class="callbutt" onclick="callhim(1000)" href="tel:<%= author.phone %>"><img src="../../../svg/call.svg"></a>
 </div>
 
 <div class="productsGrid">
@@ -47,9 +47,11 @@
 </div>
 
 <script>
-    function callhim() {
-        $("#callbutt").toggleClass("hid");
-        $(".callbutt").toggleClass("show");
+    function callhim(time) {
+        setTimeout(() => {
+            $("#callbutt").toggleClass("hid");
+            $(".callbutt").toggleClass("show");
+        }, time);
     }
 </script>
 

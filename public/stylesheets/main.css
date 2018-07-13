@@ -423,7 +423,7 @@ form.login p {
 .author > img {
     width: 15rem;
     height: auto;
-    margin-right: 2rem;
+    margin: 0 2rem;
 }
 
 .author h1 {
@@ -586,7 +586,7 @@ input, button {
     .call { justify-content: center; }
     .call a { margin: 0; }
     .author { flex-direction: column; align-items: center; }
-    .author > img { margin-right: 0 }
+    .author > img { margin: 0 }
     .author > div {
         text-align: center;
     }

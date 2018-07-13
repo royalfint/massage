@@ -53,7 +53,7 @@
             <p>Адрес: <%= product.author.id.city %>, <%= product.author.id.address %></p>
             <p>Описание: <%= product.desc %></p>
             <div class="call">
-                <a href="callto:<%= product.author.id.phone %>"><%= product.author.id.phone %></a>
+                <a href="tel:<%= product.author.id.phone %>"><%= product.author.id.phone %></a>
                 <a target="_blank" href="https://api.whatsapp.com/send?phone=<%= product.author.id.phone.replace("+",""); %>"><img src="../svg/whatsapp.svg"></a>
             </div>
             <p>Поделиться:</p>

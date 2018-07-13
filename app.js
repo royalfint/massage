@@ -40,7 +40,7 @@ app.use(function(req, res, next){
    res.locals.error = req.flash("error");
    res.locals.success = req.flash("success");
    //res.locals.url = "https://bazarlar--royalfint.c9users.io";
-   res.locals.url = "https://bazarlar.kz";
+   res.locals.url = "https://www.bazarlar.kz";
    next();
 });
 
