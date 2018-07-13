@@ -10,6 +10,7 @@ var userSchema = new mongoose.Schema({
     phone: String,
     website: String,
     desc: String,
+    bazar: String,
     city: String,
     country: String
 });

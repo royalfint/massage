@@ -147,6 +147,15 @@
         <select id="subcat" name="subcat">
             <option>Подкатегория товара</option>
         </select>
+        <select name="type">
+            <% var types = ["В Розницу", "Оптом", "Оптом и в розницу"]; %>
+            <% types.forEach(function(type) { %>
+            <% if(type == fc.type) { %>
+                <option selected><%= type %></option>
+            <% } else { %>
+                <option><%= type %></option>
+            <% }}); %>
+        </select>
         <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание"><%= fc.desc %></textarea>
         <input class="form-control" type="number" name="price" placeholder="Цена товара" min="0.01" step="0.01" value="<%= fc.price %>">
         <button class="btn btn-lg btn-primary btn-block">Добавить товар</button>

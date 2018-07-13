@@ -7,6 +7,7 @@ var productSchema = new mongoose.Schema({
     cat: String,
     subcat: String,
     price: Number,
+    type: String,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,

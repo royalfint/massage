@@ -48,6 +48,7 @@
                 <% } %>
             </div>
             <p>Цена: <%= product.price %>₸</p>
+            <p><%= product.type %></p>
             <p>Категория: <%= product.cat %>, <%= product.subcat %></p>
             <p>Продавец: <a href="/seller/<%= product.author.username %>"><%= product.author.username %></a></p>
             <p>Адрес: <%= product.author.id.city %>, <%= product.author.id.address %></p>

@@ -6,6 +6,7 @@ var express      = require("express"),
     middleware   = require("../middleware/index.js");
 var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
+var bazars = require("../models/bazars.json").list;
 
 //==========================APP ROUTES=========================//
 
@@ -19,7 +20,7 @@ router.get("/", function(req, res) {
         if(req.session.search)
             formquery = req.session.search;
         
-        res.render("product/index", {products: allProducts, countries: countries, cities: cities, q: formquery});
+        res.render("product/index", {products: allProducts, countries: countries, cities: cities, q: formquery, bazars: bazars});
     });
 });
 
@@ -43,6 +44,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             name: req.body.name,
             cat: req.body.cat,
             subcat: req.body.subcat,
+            type: req.body.type,
             price: req.body.price,
             photos: [],
             desc: req.body.desc,
@@ -98,6 +100,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             subcat: post.subcat,
             desc: post.desc,
             author: post.author,
+            type: post.type,
             price: post.price
         };
         Product.create(newProduct, function(err, newlyCreated){
@@ -147,6 +150,7 @@ router.put("/:id", middleware.checkProductOwnership, function(req, res){
             name: req.body.name,
             cat: req.body.cat,
             subcat: req.body.subcat,
+            type: req.body.type,
             price: req.body.price,
             photos: [],
             desc: req.body.desc,
@@ -198,6 +202,7 @@ router.put("/:id", middleware.checkProductOwnership, function(req, res){
             image: post.photos,
             cat: post.cat,
             subcat: post.subcat,
+            type: post.type,
             desc: post.desc,
             author: post.author,
             price: post.price

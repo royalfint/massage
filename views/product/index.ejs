@@ -43,10 +43,29 @@
                         <% } %>
                     <% }); %>
                 </select>
+                <select name="bazar">
+                    <option>Базар</option>
+                    <% bazars.forEach(function(bazar) { %>
+                        <% if(bazar.name == q.bazar) { %>
+                            <option selected="selected"><%= bazar.name %></option>
+                        <% } else { %>
+                            <option><%= bazar.name %></option>
+                        <% } %>
+                    <% }); %>
+                </select>
+                <select name="type">
+                    <% var types = ["В Розницу", "Оптом", "Оптом и в розницу"]; %>
+                    <% types.forEach(function(type) { %>
+                    <% if(type == q.type) { %>
+                        <option selected><%= type %></option>
+                    <% } else { %>
+                        <option><%= type %></option>
+                    <% }}); %>
+                </select>
             </div>
             <input type="text" name="query" placeholder="Поиск..." value="<%= q.term %>" autocomplete="new-password">
             <button><img src="svg/search.svg"></button>
-            <img class="gear" onclick="advtoggle()" src="svg/gear.svg">
+            <img class="gear" onclick="advtoggle()" src="svg/internet.svg">
         </form>
     </div>
 </div>

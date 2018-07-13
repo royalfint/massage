@@ -33,6 +33,7 @@
         <input type="text" name="website" placeholder="Веб-сайт" value="<%= rf.website %>">
         <input type="text" name="desc" placeholder="Описание деятельности*" value="<%= rf.desc %>">
         <select name="country">
+            <option>Страна</option>
             <% countries.forEach(function(country) { %>
                 <% if(country.name != "Kazakhstan") { %>
                     <option disabled><%= country.name %></option>
@@ -42,8 +43,15 @@
             <% }); %>
         </select>
         <select name="city">
+            <option>Город</option>
             <% cities.forEach(function(city) { %>
                 <option><%= city.name %></option>
+            <% }); %>
+        </select>
+        <select name="bazar">
+            <option>Базар</option>
+            <% bazars.forEach(function(bazar) { %>
+                <option><%= bazar.name %></option>
             <% }); %>
         </select>
         <button class="btn btn-lg btn-primary btn-block">Создать Аккаунт</button> 

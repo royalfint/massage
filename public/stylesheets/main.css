@@ -124,7 +124,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 3.5rem;
-    padding-top: 0.25rem;
+    margin-top: -.25rem;
 }
 
 .productInfo {
@@ -550,7 +550,7 @@ input[type="file"], .added, .chosen .add{
     margin-bottom: 1rem;
 }
 
-input, button {
+input, button, select {
     border-radius: 2rem !important;
 }
 

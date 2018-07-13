@@ -6,6 +6,7 @@ var router = express.Router();
 var middleware = require("../middleware/index.js");
 var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
+var bazars = require("../models/bazars.json").list;
 
 router.get("/", function(req, res) {
     res.redirect("/products");
@@ -18,7 +19,7 @@ router.get("/register", function(req, res){
     if(!req.session.rf)
         req.session.rf = {};
         
-    res.render("register", {countries: countries, cities: cities, rf: req.session.rf});
+    res.render("register", {countries: countries, cities: cities, rf: req.session.rf, bazars: bazars});
 });
 
 //sign up
@@ -28,6 +29,7 @@ router.post("/register", function(req, res){
         password: req.body.password.trim(),
         phone:    req.body.phone.trim(),
         address:  req.body.address.trim(),
+        bazar:    req.body.bazar.trim(),
         website:  req.body.website.trim(),
         title:    req.body.title.trim(),
         country:  req.body.country.trim(),
@@ -67,6 +69,21 @@ router.post("/register", function(req, res){
         return res.redirect("/register");
     }
     
+    if(post.country == "Страна"){
+        req.flash("error", "Выберите страну!");
+        return req.redirect("/register");
+    }
+    
+    if(post.city == "Город"){
+        req.flash("error", "Выберите город!");
+        return req.redirect("/register");
+    }
+    
+    if(post.bazar == "Базар"){
+        req.flash("error", "Выберите базар!");
+        return req.redirect("/register");
+    }
+    
     if(!post.title || post.title.length < 1){
         req.flash("error", "Введите название точки!");
         return res.redirect("/register");
@@ -82,6 +99,7 @@ router.post("/register", function(req, res){
         user.address = post.address;
         user.website = post.website;
         user.country = post.country;
+        user.bazar = post.bazar;
         user.desc = post.desc;
         user.city = post.city;
         user.save();
@@ -134,7 +152,7 @@ router.get("/profile", middleware.isLoggedIn, function(req, res) {
     User.findById(req.user.id, function(err, user){
         if(err) console.log(err);
         
-        res.render("panel/profile", {user: user, countries: countries, cities: cities,});
+        res.render("panel/profile", {user: user, countries: countries, cities: cities, bazars: bazars});
     });
 });
 
@@ -147,6 +165,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
             /*password: req.body.password.trim(),*/
             phone:    req.body.phone.trim(),
             address:  req.body.address.trim(),
+            bazar:    req.body.bazar.trim(),
             website:  req.body.website.trim(),
             title:    req.body.title.trim(),
             country:  req.body.country.trim(),
@@ -184,6 +203,21 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
             return res.redirect("back");
         }
         
+        if(post.country == "Страна") {
+            req.flash("error", "Укажите Страну!");
+            return res.redirect("back");
+        }
+        
+        if(post.city == "Город") {
+            req.flash("error", "Укажите Город!");
+            return res.redirect("back");
+        }
+        
+        if(post.bazar == "Базар"){
+            req.flash("error", "Укажите базар!");
+            return res.redirect("back");
+        }
+        
         /*
         console.log(post.password + " != " + user.password);
         if(post.password != user.password) {
@@ -201,6 +235,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
         user.phone = post.phone;
         user.title = post.title;
         user.address = post.address;
+        user.bazar   = post.bazar;
         user.website = post.website;
         user.country = post.country;
         user.desc = post.desc;
@@ -230,7 +265,9 @@ router.get("/seller/:username", function(req, res) {
 router.post("/search", function(req, res) {
     var formquery = {
         term: req.body.query.trim(),
-        city: req.body.city.trim()
+        city: req.body.city.trim(),
+        bazar: req.body.bazar.trim(),
+        type: req.body.type.trim()
     };
     
     req.session.search = formquery;
@@ -250,11 +287,17 @@ router.post("/search", function(req, res) {
         
     if(formquery.city != "Город")
         dbquery.push({ "$match": { "author.city": { "$in": [ formquery.city ] } }});
+        
+    if(formquery.bazar != "Базар")
+        dbquery.push({ "$match": { "author.bazar": { "$in": [ formquery.bazar ] } }});
+        
+    if(formquery.type)
+        dbquery.push({ "$match": { "type": { "$in": [ formquery.type ] } }});
     
     Product.aggregate(dbquery, function(err, allProducts){
         if(err) console.log(err);
 
-        res.render("product/index", {products: allProducts, countries: countries, cities: cities, q: formquery});
+        res.render("product/index", {products: allProducts, countries: countries, cities: cities, q: formquery, bazars: bazars});
     });
 });
 

@@ -29,7 +29,14 @@
         <input type="text" name="website" value="<%= user.website %>">
         <input type="text" name="desc" value="<%= user.desc %>">
         <select name="country">
-            <option>Kazakhstan</option>
+            <option>Страна</option>
+            <% countries.forEach(function(country) { %>
+                <% if(country.name == user.country) { %>
+                    <option selected="selected"><%= country.name %></option>
+                <% } else { %>
+                    <option><%= country.name %></option>
+                <% } %>
+            <% }); %>
         </select>
         <select name="city">
             <option>Город</option>
@@ -38,6 +45,16 @@
                     <option selected="selected"><%= city.name %></option>
                 <% } else { %>
                     <option><%= city.name %></option>
+                <% } %>
+            <% }); %>
+        </select>
+        <select name="bazar">
+            <option>Базар</option>
+            <% bazars.forEach(function(bazar) { %>
+                <% if(bazar.name == user.bazar) { %>
+                    <option selected="selected"><%= bazar.name %></option>
+                <% } else { %>
+                    <option><%= bazar.name %></option>
                 <% } %>
             <% }); %>
         </select>
