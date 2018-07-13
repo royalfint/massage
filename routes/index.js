@@ -162,9 +162,14 @@ router.post("/reset/:token", function(req, res){
         return res.redirect("back");
     }
         
-    User.find({token: req.params.token.trim()}, function(err, user){
+    User.findOne({token: post.token}, function(err, user){
         if(err) console.log(err);
             
+        if(!user){
+            req.flash("error", "Нет пользователя с таким токеном!");
+            return res.redirect("back");
+        }
+    
         user.setPassword(req.body.password, function(err, newuser){
             if(err) console.log(err);
             
