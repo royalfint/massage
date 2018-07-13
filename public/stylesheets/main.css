@@ -124,7 +124,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 3.5rem;
-    padding-top: 0.5rem;
+    padding-top: 0.25rem;
 }
 
 .productInfo {
@@ -168,7 +168,7 @@ body {
     width: 12.5%;
     height: 100%;
     box-sizing: border-box;
-    padding: 0.5rem;
+    padding: 0.25rem;
     position: relative;
 }
 
