@@ -11,6 +11,8 @@ var userSchema = new mongoose.Schema({
     website: String,
     desc: String,
     bazar: String,
+    token: String,
+    email: String,
     city: String,
     country: String
 });

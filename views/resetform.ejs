@@ -12,7 +12,7 @@
 </div>
 
 <div class="wrapper">
-    <form class="login" action="/login" method="POST">
+    <form class="login" action="/login/<%= token %>" method="POST">
         <p>Авторизация</p>
         <div class="flash">
             <% if(error && error.length > 0) { %>
@@ -25,13 +25,10 @@
             </div>
             <% } %>
         </div>
-        <input class="form-control" type="text" name="username" placeholder="Логин">
-        <input class="form-control" type="password" name="password" placeholder="Пароль">
-        <button class="btn btn-lg btn-primary btn-block">Войти</button> 
-        <div style="display: flex; width: 100%; justify-content: space-between;">
-            <a href="/products" style="color: #999999;">Назад</a>
-            <a href="/reset" style="color: #999999">Забыли пароль?</a>
-        </div>
+        <input type="password" name="password" placeholder="Пароль">
+        <input  type="password" name="password2" placeholder="Повторите пароль">
+        <button class="btn btn-lg btn-primary btn-block">Сменить пароль</button> 
+        <a href="/products" style="color: #999999;">Назад</a>
     </form>
 </div>
 

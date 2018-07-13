@@ -12,8 +12,8 @@
 </div>
 
 <div class="wrapper">
-    <form class="login" action="/login" method="POST">
-        <p>Авторизация</p>
+    <form class="login" action="/reset" method="POST">
+        <p>Сброс пароля</p>
         <div class="flash">
             <% if(error && error.length > 0) { %>
                 <div class="alert alert-danger" role="alert">
@@ -25,13 +25,9 @@
             </div>
             <% } %>
         </div>
-        <input class="form-control" type="text" name="username" placeholder="Логин">
-        <input class="form-control" type="password" name="password" placeholder="Пароль">
-        <button class="btn btn-lg btn-primary btn-block">Войти</button> 
-        <div style="display: flex; width: 100%; justify-content: space-between;">
-            <a href="/products" style="color: #999999;">Назад</a>
-            <a href="/reset" style="color: #999999">Забыли пароль?</a>
-        </div>
+        <input class="form-control" type="email" name="email" placeholder="E-mail">
+        <button class="btn btn-lg btn-primary btn-block">Сбросить пароль</button> 
+        <a href="/products" style="color: #999999;">Назад</a>
     </form>
 </div>
 

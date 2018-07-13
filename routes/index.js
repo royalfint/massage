@@ -1,12 +1,14 @@
 var express     = require("express"),
     User  = require("../models/user"),
     passport  = require("passport"),
+    sgMail   = require("@sendgrid/mail"),
     Product  = require("../models/product");
 var router = express.Router();
 var middleware = require("../middleware/index.js");
 var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
 var bazars = require("../models/bazars.json").list;
+var api_key = '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';
 
 router.get("/", function(req, res) {
     res.redirect("/products");
@@ -26,6 +28,7 @@ router.get("/register", function(req, res){
 router.post("/register", function(req, res){
     var post = {
         username: req.body.username.trim(),
+        email:    req.body.email.trim(),
         password: req.body.password.trim(),
         phone:    req.body.phone.trim(),
         address:  req.body.address.trim(),
@@ -42,6 +45,11 @@ router.post("/register", function(req, res){
     if(!post.username || !post.username.match(/^[a-zA-Z0-9]+$/) || post.username.length < 3 || post.username.length > 20) {
         req.flash("error", "Логин должен быть на латинице от 3 до 20 символов!");
         return res.redirect("/register");
+    }
+    
+    if(!post.email || !post.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+        req.flash("error", "Введите правильный E-mail!");
+        return req.redirect("back");
     }
     
     if(!post.password || !post.password.match(/^[a-zA-Z0-9]+$/) || post.password.length < 6 || post.password.length > 30) {
@@ -97,7 +105,9 @@ router.post("/register", function(req, res){
         user.phone = post.phone;
         user.title = post.title;
         user.address = post.address;
+        user.token = String(middleware.folder());
         user.website = post.website;
+        user.email = post.email;
         user.country = post.country;
         user.bazar = post.bazar;
         user.desc = post.desc;
@@ -124,6 +134,80 @@ router.post("/login", passport.authenticate("local",
         successFlash: 'Добро пожаловать в Bazarlar!',
         failureRedirect: "/login"
     }), function(req, res){
+});
+
+router.get("/reset/:token", function(req, res) {
+    res.render("resetform", {token: req.params.token});
+});
+
+router.post("/reset/:token", function(req, res){
+    var post = {
+        password: req.body.password.trim(),
+        password2: req.body.password2.trim(),
+        token: req.params.token.trim()
+    };
+    
+    if(!post.password || !post.password.match(/^[a-zA-Z0-9]+$/) || post.password.length < 6 || post.password.length > 30) {
+        req.flash("error", "Пароль должен быть на латинице от 6 до 30 символов!");
+        return res.redirect("back");
+    }
+    
+    if(post.password != post.password2){
+        req.flash("error", "Пароли должны совпадать!");
+        return res.redirect("back");
+    }
+    
+    if(!post.token){
+        req.flash("error", "Нет токена!");
+        return res.redirect("back");
+    }
+        
+    User.find({token: req.params.token.trim()}, function(err, user){
+        if(err) console.log(err);
+            
+        user.setPassword(req.body.password, function(err, newuser){
+            if(err) console.log(err);
+            
+            user.token = middleware.folder();
+            user.save();
+            
+            req.flash("success", "Пароль успешно сменен!");
+            return res.redirect("/login");
+        });
+    });
+});
+
+router.get("/reset", function(req, res){
+    res.render("reset");
+});
+
+router.post("/reset", function(req, res) {
+    
+    if(!req.body.email) {
+        req.flash("error", "Введите вашу почту!");
+        return res.redirect("/reset");
+    }   
+   
+    User.findOne({email: req.body.email.trim()}, function(err, founduser) {
+        if(err) console.log(err);
+           
+        if(!founduser) {
+            req.flash("error", "Пользователя с такой почтой не существует!");
+            return res.redirect("/reset");
+        }
+            
+        sgMail.setApiKey(api_key);
+        const msg = {
+            to: req.body.email,
+            from: 'no-reply@bazarlar.kz',
+            subject: 'Сброс пароля',
+            html: 'Ваш логин: ' + founduser.username + ' .Пройдите по ссылке для смены вашего пароля: <a href="' + res.locals.url +'/reset/' + founduser.token + '">Нажмите здесь.</a>',
+        };
+        sgMail.send(msg); 
+            
+        req.flash("success", "Проверьте вашу почту.");
+        res.redirect("/reset");
+    });
 });
 
 //logout route
@@ -162,9 +246,9 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
         
         var post = {
             username: req.body.username.trim(),
-            /*password: req.body.password.trim(),*/
             phone:    req.body.phone.trim(),
             address:  req.body.address.trim(),
+            email:    req.body.email.trim(),
             bazar:    req.body.bazar.trim(),
             website:  req.body.website.trim(),
             title:    req.body.title.trim(),
@@ -176,6 +260,11 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
         if(!post.username || !post.username.match(/^[a-zA-Z0-9]+$/) || post.username.length < 3 || post.username.length > 20) {
             req.flash("error", "Логин должен быть на латинице от 3 до 20 символов!");
             return res.redirect("back");
+        }
+        
+        if(!post.email || !post.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+            req.flash("error", "Введите правильный E-mail!");
+            return req.redirect("back");
         }
         
         if(!post.phone || !post.phone.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)) {
@@ -233,6 +322,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
 
         user.username = post.username;
         user.phone = post.phone;
+        user.email = post.email;
         user.title = post.title;
         user.address = post.address;
         user.bazar   = post.bazar;
