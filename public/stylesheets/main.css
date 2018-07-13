@@ -219,7 +219,7 @@ form.login {
     display: flex;
     flex-direction: column;
     padding: 2rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     width: 28rem;
     font-family: 'Montserrat';
     box-sizing: border-box;
@@ -380,6 +380,7 @@ form.login p {
     border: 0;
     padding: 0.5rem 2.8rem 0.6rem 1rem;
     border: 1px solid gray;
+    border-radius: 2rem !important; 
     box-sizing: border-box;
     outline: none;
     margin: 0;
@@ -551,7 +552,7 @@ input[type="file"], .added, .chosen .add{
 }
 
 input, button, select {
-    border-radius: 2rem !important;
+    border-radius: 0.3rem !important;
 }
 
 #mob, .none { display: none; }
