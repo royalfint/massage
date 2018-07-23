@@ -2,6 +2,7 @@ var express     = require("express"),
     User  = require("../models/user"),
     passport  = require("passport"),
     sgMail   = require("@sendgrid/mail"),
+    cookieParser = require('cookie-parser'),
     Product  = require("../models/product");
 var router = express.Router();
 var middleware = require("../middleware/index.js");
@@ -184,36 +185,34 @@ router.post("/reset/:token", function(req, res){
     });
 });
 
-router.post("/fav", function(req, res) {
+router.post("/rate", function(req, res) {
     var host = req.body.host;
     var rating = req.body.rating;
+    var user = req.body.user;
     
     if(!host) return res.send("No Host here...");
-    
+    if(!user) return res.send("No user here...");
     if(!rating) return res.send("No rating here...");
+    
+    if(!req.session.rates)
+        req.session.rates = [host];
+    else
+        req.session.rates.push(host);
+        
+    console.log("rates:");
+    console.log(req.session.rates);
     
     User.findOne({username: host}, function(err, newhost){
        if(err) console.log(err);
        
-       if(newhost.reviews == 0) newhost.reviews = 0;
-       if(newhost.rating == 0) newhost.rating = 0;
-       
-       console.log("rating: " + newhost.rating);
-       
        var wasrat = (newhost.rating * newhost.reviews);
-       console.log(wasrat);
        var plusrat = wasrat + Number(rating);
-       console.log(plusrat);
        var plusrev = (newhost.reviews + 1);
-       console.log(plusrev);
        var newrat = plusrat / plusrev;
-       console.log(newrat);
        
        newhost.rating = newrat;
        newhost.reviews += 1;
        newhost.save();
-       
-       console.log(newhost);
        
        res.send("Done!");
     });
@@ -348,19 +347,6 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
             req.flash("error", "Укажите базар!");
             return res.redirect("back");
         }
-        
-        /*
-        console.log(post.password + " != " + user.password);
-        if(post.password != user.password) {
-            req.flash("error", "Неверный пароль!");
-            return res.redirect("back");
-        }
-        
-        User.comparePassword(post.password, function(err, result){
-            if(err) console.log(err);
-            
-            console.log(result);
-        });*/
 
         user.username = post.username;
         user.phone = post.phone;
@@ -382,14 +368,20 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
 router.get("/seller/:username", function(req, res) {
     var seller = req.params.username;
     User.findOne({username: seller}, function(err, foundSeller) {
-       if(err) console.log(err); 
+       if(err) console.log(err);
+       
+       if(!req.session.rates) req.session.rates = [];
        
         Product.find({'author.username': seller}).populate("author.id").exec(function(err, foundProducts){
-            if(err){
-                console.log(err);
-            }else{
-                res.render("seller", {products: foundProducts, author: foundSeller});
-            }
+            if(err) console.log(err);
+            
+            var canrate = { status: true };
+            console.log(req.session.rates);
+            req.session.rates.forEach(function(rateName){
+                console.log(rateName + " | " + foundSeller.username);
+                if(rateName == foundSeller.username) { canrate.status = false; }
+            });
+            res.render("seller", {products: foundProducts, author: foundSeller, canrate: canrate.status});
         });
     });
 });

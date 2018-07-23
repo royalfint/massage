@@ -78,10 +78,20 @@
     }
     
     function fav(num) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "/fav", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("host=<%= author.username %>&rating=" + num);
+        var canrate = <%= canrate %>;
+        
+        <% if (currentUser && canrate) { %>
+            var callback =  $.ajax({
+                type: "POST",
+                url: "/rate",
+                data: {
+                    'user': '<%= currentUser.username %>',
+                    'host': '<%= author.username %>',
+                    'rating': String(num)
+                },
+                success: function (msg) { if(msg == "Done!") { location.reload(); } }
+            });
+        <% } %>
     }
 </script>
 
