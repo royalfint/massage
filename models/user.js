@@ -16,7 +16,8 @@ var userSchema = new mongoose.Schema({
     reviews: Number,
     email: String,
     city: String,
-    country: String
+    country: String,
+    rated: [String]
 });
 
 userSchema.plugin(passportLocalMongoose);

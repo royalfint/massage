@@ -78,20 +78,18 @@
     }
     
     function fav(num) {
-        var canrate = <%= canrate %>;
-        
-        <% if (currentUser && canrate) { %>
-            var callback =  $.ajax({
-                type: "POST",
-                url: "/rate",
-                data: {
-                    'user': '<%= currentUser.username %>',
-                    'host': '<%= author.username %>',
-                    'rating': String(num)
-                },
-                success: function (msg) { if(msg == "Done!") { location.reload(); } }
-            });
-        <% } %>
+        var callback =  $.ajax({
+            type: "POST",
+            url: "/rate",
+            data: {
+                <% if (currentUser) { %>
+                    'whorated': '<%= currentUser.username %>',
+                <% } %>
+                'torate': '<%= author.username %>',
+                'rating': String(num)
+            },
+            success: function (msg) { if(msg == "Done!") { location.reload(); } }
+        });
     }
 </script>
 

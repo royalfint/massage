@@ -11,6 +11,7 @@ var express        = require("express"),
     
 var commentRoutes  = require("./routes/comments"),
     productRoutes  = require("./routes/products"),
+    authRoutes     = require("./routes/auth"),
     indexRoutes    = require("./routes/index");
 
 mongoose.connect("mongodb://bazarmanager:YtEpyftimVjq1Gfhjkm@ds125241.mlab.com:25241/bazarlardb");
@@ -45,6 +46,7 @@ app.use(function(req, res, next){
 });
 
 app.use("/",indexRoutes);
+app.use("/", authRoutes);
 app.use("/products/:id/comments",commentRoutes);
 app.use("/products", productRoutes);
 

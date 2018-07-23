@@ -14,130 +14,6 @@ router.get("/", function(req, res) {
     res.redirect("/products");
 });
 
-//=========================AUTH ROUTES===========================//
-
-//show sign up form
-router.get("/register", function(req, res){
-    if(!req.session.rf)
-        req.session.rf = {};
-        
-    res.render("register", {countries: countries, cities: cities, rf: req.session.rf, bazars: bazars});
-});
-
-//sign up
-router.post("/register", function(req, res){
-    var post = {
-        username: req.body.username.trim(),
-        email:    req.body.email.trim(),
-        password: req.body.password.trim(),
-        phone:    req.body.phone.trim(),
-        address:  req.body.address.trim(),
-        bazar:    req.body.bazar.trim(),
-        website:  req.body.website.trim(),
-        title:    req.body.title.trim(),
-        country:  req.body.country.trim(),
-        city:     req.body.city.trim(),
-        desc:     req.body.desc.trim()
-    };
-    
-    req.session.rf = post;
-        
-    if(!post.username || !post.username.match(/^[a-zA-Z0-9]+$/) || post.username.length < 3 || post.username.length > 20) {
-        req.flash("error", "Логин должен быть на латинице от 3 до 20 символов!");
-        return res.redirect("/register");
-    }
-    
-    if(!post.email || !post.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
-        req.flash("error", "Введите правильный E-mail!");
-        return res.redirect("back");
-    }
-    
-    if(!post.password || !post.password.match(/^[a-zA-Z0-9]+$/) || post.password.length < 6 || post.password.length > 30) {
-        req.flash("error", "Пароль должен быть на латинице от 6 до 30 символов!");
-        return res.redirect("/register");
-    }
-    
-    if(!post.phone || !post.phone.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)) {
-        req.flash("error", "Телефон должен быть указан в формате +77001234567");
-        return res.redirect("/register");
-    }
-    
-    if(!post.address || post.address.length < 4){
-        req.flash("error", "Введите адрес!");
-        return res.redirect("/register");
-    }
-    
-    if(post.website && !post.website.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi)){
-        req.flash("error", "Ссылка на сайт должны быть в формате www.google.com");
-        return res.redirect("/register");
-    }
-    
-    if(!post.desc || post.desc.length < 10){
-        req.flash("error", "Описание должно быть не короче 10 символов!");
-        return res.redirect("/register");
-    }
-    
-    if(post.country == "Страна"){
-        req.flash("error", "Выберите страну!");
-        return res.redirect("/register");
-    }
-    
-    if(post.city == "Город"){
-        req.flash("error", "Выберите город!");
-        return res.redirect("/register");
-    }
-    
-    if(post.bazar == "Базар"){
-        req.flash("error", "Выберите базар!");
-        return res.redirect("/register");
-    }
-    
-    if(!post.title || post.title.length < 1){
-        req.flash("error", "Введите название точки!");
-        return res.redirect("/register");
-    }
-    
-    var newUser = new User({username: post.username});
-    User.register(newUser, post.password, function(err, user){
-        if(err){
-            return res.redirect("/register");
-        }
-        user.phone = post.phone;
-        user.title = post.title;
-        user.address = post.address;
-        user.token = String(middleware.folder());
-        user.website = post.website;
-        user.email = post.email;
-        user.country = post.country;
-        user.bazar = post.bazar;
-        user.desc = post.desc;
-        user.rating = 0;
-        user.reviews = 0;
-        user.city = post.city;
-        user.save();
-        passport.authenticate("local")(req, res, function(){
-            req.session.rf = {};
-            req.flash("success", "Добро пожаловать в Bazarlar, " + user.username + "!");
-            res.redirect("/admin");
-        });
-    });
-});
-
-//show login form
-router.get("/login", function(req, res){
-    res.render("login");
-});
-
-//login
-router.post("/login", passport.authenticate("local", 
-    {
-        successRedirect: "/products",
-        failureFlash: 'Неправльный логин или пароль!',
-        successFlash: 'Добро пожаловать в Bazarlar!',
-        failureRedirect: "/login"
-    }), function(req, res){
-});
-
 router.get("/reset/:token", function(req, res) {
     res.render("resetform", {token: req.params.token});
 });
@@ -185,76 +61,44 @@ router.post("/reset/:token", function(req, res){
 });
 
 router.post("/rate", function(req, res) {
-    var host = req.body.host;
+    var torate = req.body.torate;
     var rating = req.body.rating;
-    var user = req.body.user;
+    var whorated = req.body.whorated;
     
-    if(!host) return res.send("No Host here...");
-    if(!user) return res.send("No user here...");
-    if(!rating) return res.send("No rating here...");
+    if(!whorated) return res.send("{'status':'503'}"); //need to login
+    if(!torate) return res.send("{'status':'502'}"); //bad req
+    if(!rating) return res.send("{'status':'502'}"); //bad req
     
-    if(!req.session.rates)
-        req.session.rates = [host];
-    else
-        req.session.rates.push(host);
-        
-    console.log("rates:");
-    console.log(req.session.rates);
-    
-    User.findOne({username: host}, function(err, newhost){
-       if(err) console.log(err);
-       
-       var wasrat = (newhost.rating * newhost.reviews);
-       var plusrat = wasrat + Number(rating);
-       var plusrev = (newhost.reviews + 1);
-       var newrat = plusrat / plusrev;
-       
-       newhost.rating = newrat;
-       newhost.reviews += 1;
-       newhost.save();
-       
-       res.send("Done!");
-    });
-});
-
-router.get("/reset", function(req, res){
-    res.render("reset");
-});
-
-router.post("/reset", function(req, res) {
-    
-    if(!req.body.email) {
-        req.flash("error", "Введите вашу почту!");
-        return res.redirect("/reset");
-    }   
-   
-    User.findOne({email: req.body.email.trim()}, function(err, founduser) {
+    User.findOne({username: whorated}, function(err, whorateduser) {
         if(err) console.log(err);
+       
+        if(!whorateduser) return res.send("{'status':'502'}"); //bad req
+        
+        var canrate = { status: true };
+        whorateduser.rated.forEach(function(rateName){
+            if(rateName == torate) { canrate.status = false; }
+        });
+        
+        if(!canrate.status) return res.send("{'status': '501'}"); //exists
+        
+        User.findOne({username: torate}, function(err, newhost){
+           if(err) console.log(err);
            
-        if(!founduser) {
-            req.flash("error", "Пользователя с такой почтой не существует!");
-            return res.redirect("/reset");
-        }
-            
-        sgMail.setApiKey(api_key);
-        const msg = {
-            to: req.body.email,
-            from: 'no-reply@bazarlar.kz',
-            subject: 'Сброс пароля',
-            html: 'Ваш логин: ' + founduser.username + '. Пройдите по ссылке для смены вашего пароля: <a href="' + res.locals.url +'/reset/' + founduser.token + '">Нажмите здесь.</a>',
-        };
-        sgMail.send(msg); 
-            
-        req.flash("success", "Проверьте вашу почту.");
-        res.redirect("/reset");
+           var wasrat = (newhost.rating * newhost.reviews);
+           var plusrat = wasrat + Number(rating);
+           var plusrev = (newhost.reviews + 1);
+           var newrat = plusrat / plusrev;
+           
+           newhost.rating = newrat;
+           newhost.reviews += 1;
+           newhost.save();
+           
+           whorateduser.rated.push(torate);
+           whorateduser.save();
+           
+           res.send("{'status': '200'}");
+        });
     });
-});
-
-//logout route
-router.get("/logout", function(req, res){
-    req.logout();
-    req.flash("success", "Выход из системы!");
-    res.redirect("/products");
 });
 
 router.get("/admin", middleware.isLoggedIn, function(req, res) {
@@ -369,18 +213,14 @@ router.get("/seller/:username", function(req, res) {
     User.findOne({username: seller}, function(err, foundSeller) {
        if(err) console.log(err);
        
-       if(!req.session.rates) req.session.rates = [];
-       
         Product.find({'author.username': seller}).populate("author.id").exec(function(err, foundProducts){
             if(err) console.log(err);
             
             var canrate = { status: true };
-            console.log(req.session.rates);
             req.session.rates.forEach(function(rateName){
-                console.log(rateName + " | " + foundSeller.username);
                 if(rateName == foundSeller.username) { canrate.status = false; }
             });
-            res.render("seller", {products: foundProducts, author: foundSeller, canrate: canrate.status});
+            res.render("seller", {products: foundProducts, author: foundSeller});
         });
     });
 });
