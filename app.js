@@ -7,7 +7,6 @@ var express        = require("express"),
     methodOverride = require("method-override"),
     LocalStrategy  = require("passport-local"),
     flash          = require("connect-flash"),
-    cookieParser   = require('cookie-parser'),
     User           = require("./models/user");
     
 var commentRoutes  = require("./routes/comments"),
@@ -32,7 +31,6 @@ app.use(require("express-session")({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cookieParser());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

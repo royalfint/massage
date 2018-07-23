@@ -2,7 +2,6 @@ var express     = require("express"),
     User  = require("../models/user"),
     passport  = require("passport"),
     sgMail   = require("@sendgrid/mail"),
-    cookieParser = require('cookie-parser'),
     Product  = require("../models/product");
 var router = express.Router();
 var middleware = require("../middleware/index.js");
