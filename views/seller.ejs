@@ -16,15 +16,27 @@
     <div>
         <h1><%= author.title %></h1>
         <div class="rating">
-            <% if(author.rating > 0 && author.rating < 1.5) { %>
+            <% if(author.rating > 0) { %>
                 <img src="../../../svg/favorite.svg" class="sel" onclick="fav(1)">
             <% } else { %>
                 <img src="../../../svg/favorite.svg" onclick="fav(1)">
+            <% } if (author.rating >= 1.5) { %>
+                <img src="../../../svg/favorite.svg" class="sel" onclick="fav(2)">
+            <% } else { %>
+                <img src="../../../svg/favorite.svg" onclick="fav(2)">
+            <% } if (author.rating >= 2.5) { %>
+                <img src="../../../svg/favorite.svg" class="sel" onclick="fav(3)">
+            <% } else { %>
+                <img src="../../../svg/favorite.svg" onclick="fav(3)">
+            <% } if (author.rating >= 3.5) { %>
+                <img src="../../../svg/favorite.svg" class="sel" onclick="fav(4)">
+            <% } else { %>
+                <img src="../../../svg/favorite.svg" onclick="fav(4)">
+            <% } if (author.rating >= 4.5) { %>
+                <img src="../../../svg/favorite.svg" class="sel" onclick="fav(5)">
+            <% } else { %>
+                <img src="../../../svg/favorite.svg" onclick="fav(5)">
             <% } %>
-                <img src="../../../svg/favorite.svg">
-                <img src="../../../svg/favorite.svg">
-                <img src="../../../svg/favorite.svg">
-                <img src="../../../svg/favorite.svg">
             </div>
             <p><%= author.country %>, <%= author.city %>, <%= author.address %></p>
             <p><%= author.desc %></p>

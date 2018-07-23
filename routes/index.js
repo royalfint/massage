@@ -198,7 +198,16 @@ router.post("/fav", function(req, res) {
        if(newhost.reviews == 0) newhost.reviews = 0;
        if(newhost.rating == 0) newhost.rating = 0;
        
-       var newrat = (newhost.rating * newhost.reviews + rating) / newhost.reviews + 1;
+       console.log("rating: " + newhost.rating);
+       
+       var wasrat = (newhost.rating * newhost.reviews);
+       console.log(wasrat);
+       var plusrat = wasrat + Number(rating);
+       console.log(plusrat);
+       var plusrev = (newhost.reviews + 1);
+       console.log(plusrev);
+       var newrat = plusrat / plusrev;
+       console.log(newrat);
        
        newhost.rating = newrat;
        newhost.reviews += 1;
