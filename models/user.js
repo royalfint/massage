@@ -12,6 +12,8 @@ var userSchema = new mongoose.Schema({
     desc: String,
     bazar: String,
     token: String,
+    rating: Number,
+    reviews: Number,
     email: String,
     city: String,
     country: String

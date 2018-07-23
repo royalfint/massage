@@ -398,21 +398,11 @@ form.login p {
     flex-direction: column;
 }
 
-.advanced.show {
-    display: flex;
-}
+.advanced.show { display: flex; }
 
-.advanced select {
-    width: 17rem;
-}
+.advanced select { width: 17rem; }
 
-
-/*** share /*****/
-.share img {
- height: 2rem;   
-}
-
-/*** author **/
+.share img { height: 2rem;   }
 
 .author {
     display: flex;
@@ -422,16 +412,15 @@ form.login p {
 }
 
 .author > img {
-    width: 15rem;
+    width: 19rem;
+    position: relative;
+    top: -1.3rem;
     height: auto;
     margin: 0 2rem;
 }
 
-.author h1 {
-    margin: 0;
-}
+.author h1 { margin: 0; }
 
-/*** flash ***/
 .flash {
     width: 100%;
     display: flex;
@@ -460,7 +449,6 @@ form.login p {
     border: 1px solid #d6e9c6;
 }
 
-/***** photos upload ****/
 .upload {
     display: flex;
     justify-content: space-around;
@@ -480,9 +468,7 @@ form.login p {
     overflow: hidden;
 }
 
-.upload > div.chosen {
-    background-color: #dbdbdb;
-}
+.upload > div.chosen { background-color: #dbdbdb; }
 
 .slid {
     position: relative;
@@ -493,13 +479,24 @@ form.login p {
 .upload .new { cursor: pointer; }
 .upload .new img.add{ height: 2rem; }
 
-input[type="file"], .added, .chosen .add{
-    display: none;
+input[type="file"], .added, .chosen .add{ display: none; }
+
+.data { margin: 0; display: flex; }
+
+.rating { display: flex; margin: 0.5rem 0; }
+
+.rating img { 
+    height: 2.2rem; 
+    margin: 0 0.2rem;
+    cursor: pointer;
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+    filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
 }
 
-.data {
-    margin: 0;
-    display: flex;
+.rating .sel {
+    -webkit-filter: grayscale(0);
+    filter: none;
 }
 
 .close {

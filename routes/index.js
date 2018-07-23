@@ -49,7 +49,7 @@ router.post("/register", function(req, res){
     
     if(!post.email || !post.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
         req.flash("error", "Введите правильный E-mail!");
-        return req.redirect("back");
+        return res.redirect("back");
     }
     
     if(!post.password || !post.password.match(/^[a-zA-Z0-9]+$/) || post.password.length < 6 || post.password.length > 30) {
@@ -62,7 +62,7 @@ router.post("/register", function(req, res){
         return res.redirect("/register");
     }
     
-    if(!post.address || post.address.length < 8){
+    if(!post.address || post.address.length < 4){
         req.flash("error", "Введите адрес!");
         return res.redirect("/register");
     }
@@ -79,17 +79,17 @@ router.post("/register", function(req, res){
     
     if(post.country == "Страна"){
         req.flash("error", "Выберите страну!");
-        return req.redirect("/register");
+        return res.redirect("/register");
     }
     
     if(post.city == "Город"){
         req.flash("error", "Выберите город!");
-        return req.redirect("/register");
+        return res.redirect("/register");
     }
     
     if(post.bazar == "Базар"){
         req.flash("error", "Выберите базар!");
-        return req.redirect("/register");
+        return res.redirect("/register");
     }
     
     if(!post.title || post.title.length < 1){
@@ -111,6 +111,8 @@ router.post("/register", function(req, res){
         user.country = post.country;
         user.bazar = post.bazar;
         user.desc = post.desc;
+        user.rating = 0;
+        user.reviews = 0;
         user.city = post.city;
         user.save();
         passport.authenticate("local")(req, res, function(){
@@ -182,6 +184,32 @@ router.post("/reset/:token", function(req, res){
     });
 });
 
+router.post("/fav", function(req, res) {
+    var host = req.body.host;
+    var rating = req.body.rating;
+    
+    if(!host) return res.send("No Host here...");
+    
+    if(!rating) return res.send("No rating here...");
+    
+    User.findOne({username: host}, function(err, newhost){
+       if(err) console.log(err);
+       
+       if(newhost.reviews == 0) newhost.reviews = 0;
+       if(newhost.rating == 0) newhost.rating = 0;
+       
+       var newrat = (newhost.rating * newhost.reviews + rating) / newhost.reviews + 1;
+       
+       newhost.rating = newrat;
+       newhost.reviews += 1;
+       newhost.save();
+       
+       console.log(newhost);
+       
+       res.send("Done!");
+    });
+});
+
 router.get("/reset", function(req, res){
     res.render("reset");
 });
@@ -206,7 +234,7 @@ router.post("/reset", function(req, res) {
             to: req.body.email,
             from: 'no-reply@bazarlar.kz',
             subject: 'Сброс пароля',
-            html: 'Ваш логин: ' + founduser.username + ' .Пройдите по ссылке для смены вашего пароля: <a href="' + res.locals.url +'/reset/' + founduser.token + '">Нажмите здесь.</a>',
+            html: 'Ваш логин: ' + founduser.username + '. Пройдите по ссылке для смены вашего пароля: <a href="' + res.locals.url +'/reset/' + founduser.token + '">Нажмите здесь.</a>',
         };
         sgMail.send(msg); 
             
