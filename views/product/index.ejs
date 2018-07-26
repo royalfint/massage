@@ -16,7 +16,7 @@
     <% products.forEach(function(product) { %>
         <a class="product" href="/products/<%= product._id %>">
             <div class="productInfo">
-                <div class="productImg" style="background: url(<%= product.image[0] %>) center/cover no-repeat;"></div>
+                <div class="productImg" style="background: url(<%= product.image[0].replace(" ","%20") %>) center/cover no-repeat;"></div>
                 <div class="productOverlay">
                     <p><%= product.name %></p>
                 </div>

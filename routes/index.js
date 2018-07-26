@@ -60,26 +60,69 @@ router.post("/reset/:token", function(req, res){
     });
 });
 
+router.post("/fav", function(req, res){
+    var tofav = req.body.tofav; //product to fav
+    var whofaved = req.body.whofaved;
+    
+    if(!whofaved) return res.send({status: 404}); //no auth
+    if(!tofav) return res.send({status: 405}); //no prod info
+    
+    Product.findById(tofav, function(err, foundProduct){
+       if(err) console.log(err);
+       
+       if(!foundProduct) return res.send({status: 400}); //wrong prod id
+       
+       User.findOne({username: whofaved}).populate("faved.id").exec(function(err, whofaveduser){
+           if(err) console.log();
+           
+           console.log(whofaveduser);
+           
+           var exists = {status: false};
+           whofaveduser.faved.forEach(function(favItem){
+               if(favItem._id.equals(foundProduct._id)){
+                   exists.status = true;
+               }
+           });
+           
+            if(!exists.status)
+                whofaveduser.faved.push(foundProduct);
+            else {
+                var ind = whofaveduser.faved.indexOf(foundProduct);
+                whofaveduser.faved.splice(ind, 1);
+            }
+            
+            whofaveduser.save(function(err){
+               if(err) console.log(err);
+            });
+            
+            res.send({status: 200});
+        });
+    });
+});
+
 router.post("/rate", function(req, res) {
     var torate = req.body.torate;
     var rating = req.body.rating;
     var whorated = req.body.whorated;
     
-    if(!whorated) return res.send("{'status':'503'}"); //need to login
-    if(!torate) return res.send("{'status':'502'}"); //bad req
-    if(!rating) return res.send("{'status':'502'}"); //bad req
+    if(!whorated) return res.send({"status": 503}); //need to login
+    if(!torate) return res.send({"status": 502}); //bad req
+    if(!rating) return res.send({"status": 502}); //bad req
     
     User.findOne({username: whorated}, function(err, whorateduser) {
         if(err) console.log(err);
        
-        if(!whorateduser) return res.send("{'status':'502'}"); //bad req
+        if(!whorateduser) return res.send({"status": 502}); //bad req
         
         var canrate = { status: true };
-        whorateduser.rated.forEach(function(rateName){
-            if(rateName == torate) { canrate.status = false; }
-        });
+        whorateduser.rated.forEach(function(rateName){ if(rateName == torate) { canrate.status = false; } });
         
-        if(!canrate.status) return res.send("{'status': '501'}"); //exists
+        if(!canrate.status) return res.send({"status": 501}); //exists
+        
+        whorateduser.rated = whorateduser.rated.concat([torate]);
+        whorateduser.save();
+        
+        console.log(whorateduser);
         
         User.findOne({username: torate}, function(err, newhost){
            if(err) console.log(err);
@@ -93,10 +136,7 @@ router.post("/rate", function(req, res) {
            newhost.reviews += 1;
            newhost.save();
            
-           whorateduser.rated.push(torate);
-           whorateduser.save();
-           
-           res.send("{'status': '200'}");
+           res.send({"status": 200});
         });
     });
 });
@@ -215,11 +255,7 @@ router.get("/seller/:username", function(req, res) {
        
         Product.find({'author.username': seller}).populate("author.id").exec(function(err, foundProducts){
             if(err) console.log(err);
-            
-            var canrate = { status: true };
-            req.session.rates.forEach(function(rateName){
-                if(rateName == foundSeller.username) { canrate.status = false; }
-            });
+        
             res.render("seller", {products: foundProducts, author: foundSeller});
         });
     });

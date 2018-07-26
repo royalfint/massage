@@ -97,7 +97,7 @@ router.post("/register", function(req, res){
         user.country = post.country;
         user.bazar = post.bazar;
         user.desc = post.desc;
-        user.rated = [];
+        user.rated = [ user.username ];
         user.rating = 0;
         user.reviews = 0;
         user.city = post.city;
@@ -127,7 +127,7 @@ router.get("/login", function(req, res){
 router.post("/login", passport.authenticate("local", 
     {
         successRedirect: "/products",
-        failureFlash: 'Неправльный логин или пароль!',
+        failureFlash: 'Неправильный логин или пароль!',
         successFlash: 'Добро пожаловать в Bazarlar!',
         failureRedirect: "/login"
     }), function(req, res){
@@ -171,6 +171,11 @@ router.get("/logout", function(req, res){
     req.logout();
     req.flash("success", "Выход из системы!");
     res.redirect("/products");
+});
+
+router.get("/needtosignin", function(req, res) {
+   req.flash("error", "Чтобы оставить рейтинг нужно сначала войти!");
+   res.redirect("/login");
 });
 
 module.exports = router;

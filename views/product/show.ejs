@@ -39,8 +39,13 @@
         <div class="showdesc">
             <div class="delrow">
                 <h1><%= product.name %></h1>
+                <% if(currentUser){ var fava = {status:false}; product.author.id.faved.forEach(function(favItem){ if(favItem._id.equals(product._id)) { %>
+                    <img src="../svg/like.svg" onclick="fav('<%= product._id %>')" class="like liked">
+                <% fava.status = true; }}); if(!fava.status){ %>
+                    <img src="../svg/like.svg" onclick="fav('<%= product._id %>')" class="like">
+                <% }} %>
+                
                 <% if(currentUser && product.author.id.equals(currentUser._id)) { %>
-                    
                     <form class="inlineform" action="/products/<%= product._id %>?_method=DELETE" method="POST">
                         <button><img src="../svg/delete.svg"></button>
                     </form>
@@ -154,17 +159,27 @@
       slider.next();
     });
     
-    function setSlide(index){
-      slider.change(index);
-    }
+    function setSlide(index){ slider.change(index); }
+    function next() { slider.next(); }
+    function prev() { slider.prev(); }
     
-    function next(){
-      slider.next();
-      console.log("done");
-    }
-    
-    function prev() {
-      slider.prev();
+    function fav(prod_id) {
+        var callback =  $.ajax({
+            type: "POST",
+            url: "/fav",
+            data: {
+                <% if (currentUser) { %>
+                    'whofaved': '<%= currentUser.username %>',
+                <% } %>
+                'tofav': `<%= product._id %>`
+            },
+            success: function (msg) {
+                var response = JSON.stringify(msg.status);
+                //alert(response);
+                if(response == 200) { $('.like').toggleClass('liked'); }
+                if(response == 404) { windows.location = "/needtosignin"; }
+            }
+        });
     }
   </script>
 <% include ../partials/footer %>

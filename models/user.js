@@ -17,7 +17,13 @@ var userSchema = new mongoose.Schema({
     email: String,
     city: String,
     country: String,
-    rated: [String]
+    rated: [String],
+    faved: [{
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product"
+        }
+    }]
 });
 
 userSchema.plugin(passportLocalMongoose);

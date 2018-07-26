@@ -59,7 +59,7 @@
     <% products.forEach(function(product) { %>
         <a class="product" href="/products/<%= product._id %>">
             <div class="productInfo">
-                <div class="productImg" style="background: url(<%= product.image[0] %>) center/cover no-repeat;"></div>
+                <div class="productImg" style="background: url(<%= product.image[0].replace(" ","%20") %>) center/cover no-repeat;"></div>
                 <div class="productOverlay">
                     <p><%= product.name %></p>
                 </div>
@@ -88,7 +88,12 @@
                 'torate': '<%= author.username %>',
                 'rating': String(num)
             },
-            success: function (msg) { if(msg == "Done!") { location.reload(); } }
+            success: function (msg) {
+                var response = JSON.stringify(msg.status);
+                if(response == 503) { window.location = "/needtosignin"; }
+                if(response == 502) { alert("Error!!1!"); }
+                if(response == 200) { location.reload() }
+            }
         });
     }
 </script>
