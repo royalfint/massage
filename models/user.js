@@ -9,10 +9,6 @@ var userSchema = new mongoose.Schema({
     title: String,
     phone: String,
     status: Number,
-    ispaid: Boolean,
-    active: Boolean,
-    registered: Date,
-    paydate: Date,
     website: String,
     desc: String,
     bazar: String,
@@ -23,10 +19,11 @@ var userSchema = new mongoose.Schema({
     city: String,
     country: String,
     rated: [String],
-    faved: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-    }]
+    faved: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    ispaid: Boolean,
+    active: Boolean,
+    registered: Date,
+    paydate: Date
 });
 
 userSchema.plugin(passportLocalMongoose);
