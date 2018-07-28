@@ -6,6 +6,7 @@ var express      = require("express"),
     middleware   = require("../middleware/index.js");
 var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
+var help = require("help");
 var bazars = require("../models/bazars.json").list;
 
 //==========================APP ROUTES=========================//
@@ -102,7 +103,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             author: post.author,
             type: post.type,
             price: post.price,
-            created: new Date()
+            created: help.toLocalTime(new Date())
         };
         Product.create(newProduct, function(err, newlyCreated){
             if(err){

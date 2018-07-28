@@ -7,6 +7,7 @@ var router = express.Router();
 var middleware = require("../middleware/index.js");
 var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
+var help = require("help");
 var bazars = require("../models/bazars.json").list;
 var api_key = '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';
 
@@ -101,6 +102,10 @@ router.post("/register", function(req, res){
         user.rating = 0;
         user.status = 0;
         user.reviews = 0;
+        user.registered = help.toLocalTime(new Date());
+        user.paydate = help.daysToDate(help.toLocalTime(new Date()));
+        user.ispaid = false;
+        user.active = true;
         user.city = post.city;
         user.save();
         passport.authenticate("local")(req, res, function(){

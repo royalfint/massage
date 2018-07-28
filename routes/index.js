@@ -93,7 +93,6 @@ router.post("/fav", function(req, res){
                 newfaved.splice(ind, 1);
             }
             
-
             whofaveduser.faved = newfaved;
             whofaveduser.save(function(err){
                if(err) console.log(err);
@@ -307,7 +306,7 @@ router.post("/search", function(req, res) {
         
     if(formquery.bazar && formquery.bazar != "Базар")
         dbquery.push({ "$match": { "author.bazar": { "$in": [ formquery.bazar ] } }});
-     
+    
     if(formquery.type && formquery.type != "Оптом и в розницу")
         dbquery.push({ "$match": { "type": { "$in": [ formquery.type ] } }});
     
