@@ -12,6 +12,17 @@
     <% } %>
 </div>
 
+<div class="sortbar">
+    <form action="/search" method="POST">
+        <select name="sort" onchange="this.form.submit()">
+            <option>Сначала последние товары</option>
+            <option>Сначала старые товары</option>
+            <option>Сначала дешевые</option>
+            <option>Сначала дорогие</option>
+        </select>
+    </form>
+</div>
+
 <div class="productsGrid">
     <% products.forEach(function(product) { %>
         <a class="product" href="/products/<%= product._id %>">
@@ -54,7 +65,7 @@
                     <% }); %>
                 </select>
                 <select name="type">
-                    <% var types = ["В Розницу", "Оптом", "Оптом и в розницу"]; %>
+                    <% var types = ["Оптом и в розницу", "В Розницу", "Оптом"]; %>
                     <% types.forEach(function(type) { %>
                     <% if(type == q.type) { %>
                         <option selected><%= type %></option>

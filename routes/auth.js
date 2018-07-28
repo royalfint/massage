@@ -99,6 +99,7 @@ router.post("/register", function(req, res){
         user.desc = post.desc;
         user.rated = [ user.username ];
         user.rating = 0;
+        user.status = 0;
         user.reviews = 0;
         user.city = post.city;
         user.save();

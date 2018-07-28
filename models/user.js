@@ -8,6 +8,7 @@ var userSchema = new mongoose.Schema({
     address: String,
     title: String,
     phone: String,
+    status: Number,
     website: String,
     desc: String,
     bazar: String,
@@ -19,10 +20,8 @@ var userSchema = new mongoose.Schema({
     country: String,
     rated: [String],
     faved: [{
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product"
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product"
     }]
 });
 

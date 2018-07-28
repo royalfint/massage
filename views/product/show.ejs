@@ -23,7 +23,9 @@
             </a>
             <div id="myslider" class="main" data-simple-slider>
                 <% product.image.forEach(function(img) { %>
-                    <img src="<%= img %>"/>
+                    <div class="slidewrap">
+                        <img src="<%= img %>"/>
+                    </div>
                 <% }); %>
             </div>
             
@@ -128,10 +130,7 @@
         </div>
     </div>
 </div-->
-
-<script src="https://rawgit.com/ruyadorno/simple-slider/master/dist/simpleslider.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
- <script>
+<script>
    var slider = simpleslider.getSlider({
      paused: true
    });

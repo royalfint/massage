@@ -101,7 +101,8 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             desc: post.desc,
             author: post.author,
             type: post.type,
-            price: post.price
+            price: post.price,
+            created: new Date()
         };
         Product.create(newProduct, function(err, newlyCreated){
             if(err){
@@ -115,17 +116,17 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
 
 //PRODUCT SHOWPAGE MOREEE
 router.get("/:id",function(req, res){
-    Product.findById(req.params.id).populate("author.id").exec(function(err, foundProduct){
-        if(err){
-            console.log(err);
-        }else{
-            if(foundProduct) {
-                var mapq = foundProduct.author.id.city + ", " + foundProduct.author.id.address;
-                mapq.replace(" ","%20");
-                res.render("product/show", {product: foundProduct, mapq: mapq, cats: cats, folder: middleware.folder});
-            } else {
-                res.send("404.");
-            }
+    Product.findById(req.params.id).populate({ path: 'author.id', populate: { path: 'faved', model: 'Product' }
+        }).exec(function(err, foundProduct){
+            
+        if(err) console.log(err);
+        
+        console.log(foundProduct.author.id);
+        
+        if(foundProduct) {
+            var mapq = foundProduct.author.id.city + ", " + foundProduct.author.id.address;
+            mapq.replace(" ","%20");
+            res.render("product/show", {product: foundProduct, mapq: mapq, cats: cats, folder: middleware.folder});
         }
     });
 });

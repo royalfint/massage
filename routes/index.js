@@ -72,25 +72,29 @@ router.post("/fav", function(req, res){
        
        if(!foundProduct) return res.send({status: 400}); //wrong prod id
        
-       User.findOne({username: whofaved}).populate("faved.id").exec(function(err, whofaveduser){
-           if(err) console.log();
+       User.findOne({username: whofaved}).populate("faved").exec(function(err, whofaveduser){
+            if(err) console.log();
            
-           console.log(whofaveduser);
+            console.log(whofaveduser);
+            
+            var newfaved = whofaveduser.faved;
            
-           var exists = {status: false};
-           whofaveduser.faved.forEach(function(favItem){
+            var exists = { status: false };
+            newfaved.forEach(function(favItem){
                if(favItem._id.equals(foundProduct._id)){
                    exists.status = true;
                }
-           });
-           
+            });
+            
             if(!exists.status)
-                whofaveduser.faved.push(foundProduct);
+                newfaved.push(foundProduct);
             else {
                 var ind = whofaveduser.faved.indexOf(foundProduct);
-                whofaveduser.faved.splice(ind, 1);
+                newfaved.splice(ind, 1);
             }
             
+
+            whofaveduser.faved = newfaved;
             whofaveduser.save(function(err){
                if(err) console.log(err);
             });
@@ -141,7 +145,7 @@ router.post("/rate", function(req, res) {
     });
 });
 
-router.get("/admin", middleware.isLoggedIn, function(req, res) {
+router.get("/myproducts", middleware.isLoggedIn, function(req, res) {
     var seller = req.user.username;
     User.findOne({username: seller}, function(err, foundSeller) {
        if(err) console.log(err); 
@@ -150,9 +154,23 @@ router.get("/admin", middleware.isLoggedIn, function(req, res) {
             if(err){
                 console.log(err);
             }else{
-                res.render("panel/admin", {products: foundProducts, author: foundSeller});
+                res.render("panel/myproducts", {products: foundProducts, author: foundSeller});
             }
         });
+    });
+});
+
+router.get("/favs", middleware.isLoggedIn, function(req, res) {
+    var seller = req.user.username;
+    
+    User.findOne({username: seller}).populate("faved").exec(function(err, foundSeller){
+        if(err) console.log(err); 
+       
+        if(!foundSeller) res.send("404");
+        
+        console.log(foundSeller);
+       
+        res.render("panel/favs", {products: foundSeller.faved, author: foundSeller});
     });
 });
 
@@ -263,20 +281,20 @@ router.get("/seller/:username", function(req, res) {
 
 router.post("/search", function(req, res) {
     var formquery = {
-        term: req.body.query.trim(),
-        city: req.body.city.trim(),
-        bazar: req.body.bazar.trim(),
-        type: req.body.type.trim()
+        term: req.body.query,
+        city: req.body.city,
+        bazar: req.body.bazar,
+        sort: req.body.sort,
+        type: req.body.type
     };
-    
     req.session.search = formquery;
     
     var dbquery = [
-        { "$lookup": {
-          "from": User.collection.name,
-          "localField": "author.id",
-          "foreignField": "_id",
-          "as": "author"
+        { $lookup: {
+          from: 'users',
+          localField: "author.id",
+          foreignField: "_id",
+          as: "author"
         }},
         { "$unwind": "$author" }
     ];
@@ -284,14 +302,23 @@ router.post("/search", function(req, res) {
     if(formquery.term && formquery.term.length > 0)
         dbquery.push({ "$match": { "name": { "$regex": formquery.term, "$options": "i" } }});
         
-    if(formquery.city != "Город")
+    if(formquery.city && formquery.city != "Город")
         dbquery.push({ "$match": { "author.city": { "$in": [ formquery.city ] } }});
         
-    if(formquery.bazar != "Базар")
+    if(formquery.bazar && formquery.bazar != "Базар")
         dbquery.push({ "$match": { "author.bazar": { "$in": [ formquery.bazar ] } }});
-        
-    if(formquery.type)
+     
+    if(formquery.type && formquery.type != "Оптом и в розницу")
         dbquery.push({ "$match": { "type": { "$in": [ formquery.type ] } }});
+    
+    if (formquery.sort && formquery.sort == "Сначала дешевые")
+        dbquery.push({ "$sort": { "price": 1 }});
+    else if(formquery.sort && formquery.sort == "Сначала дорогие")
+        dbquery.push({ "$sort": { "price": -1 }});
+    else if(formquery.sort && formquery.sort == "Сначала старые товары")
+        dbquery.push({ "$sort": { "date": -1 }});
+    else
+        dbquery.push({ "$sort": { "date": 1 }}); //new products always go first
     
     Product.aggregate(dbquery, function(err, allProducts){
         if(err) console.log(err);
