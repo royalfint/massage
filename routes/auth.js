@@ -7,7 +7,7 @@ var router = express.Router();
 var middleware = require("../middleware/index.js");
 var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
-var help = require("help");
+var help = require("./help");
 var bazars = require("../models/bazars.json").list;
 var api_key = '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';
 

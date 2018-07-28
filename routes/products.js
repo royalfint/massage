@@ -6,7 +6,7 @@ var express      = require("express"),
     middleware   = require("../middleware/index.js");
 var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
-var help = require("help");
+var help = require("./help");
 var bazars = require("../models/bazars.json").list;
 
 //==========================APP ROUTES=========================//
