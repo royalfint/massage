@@ -1,16 +1,5 @@
 <% include ../partials/header %>
-
-<div class="minibar" id="tool">
-    <% if (!currentUser) { %>
-        <a href="/login"><img src="../../../svg/signin.svg">Войти</a>
-        <a href="/register"><img src="../../../svg/add-user.svg">Регистрация</a>
-    <% } else { %>
-        <a href="/profile"><img src="../../../svg/profile.svg">Мой Профиль</a>
-        <a href="/admin"><img src="../../../svg/package.svg">Мои Товары</a>
-        <a href="/products/new"><img src="../../../svg/add-item.svg">Новый Товар</a>
-        <a href="/logout"><img src="../../../svg/logout.svg">Выйти</a>
-    <% } %>
-</div>
+<% include ../partials/minibar %>
 
 <div class="centered">
     <div class="showroom">
@@ -78,61 +67,18 @@
     </div>
 </div>
 
-
 <div class="centered">
-    <iframe class="map" src="https://maps.google.com/maps?q=<%= mapq %>&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0" allowfullscreen></iframe>
+<% if(currentUser && product.author.id.equals(currentUser._id)) { %>
+    <form class="topform" action="/products/top" method="POST">
+        <input type="hidden" name="product" value="<%= product._id %>">
+        <input type="submit" value="Поднять в топ за 200тг">
+    </form>
+<% } %>
 </div>
 
-<!--div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <p class="lead">Bazarlar</p>
-            <div class="list-group">
-                <li class="list-group-item active">Info 1</li>
-                <li class="list-group-item">Info 2</li>
-                <li class="list-group-item">Info 3</li>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="thumbnail">
-                <img class="img-responsive" src="<%= product.image %>">
-                <div class="caption-full">
-                    <h4 class="pull-right">$<%= product.price %>/night</h4>
-                    <h4><a><%= product.name %></a></h4>
-                    <p><%= product.description %></p>
-                    <p><em>Submitted by <%= product.author.username %></em></p>
-                    <% if(currentUser && product.author.id.equals(currentUser._id)) { %>
-                        <a class="btn btn-warning" href="/products/<%= product._id %>/edit">Edit</a>
-                        <form class="inlineform" action="/products/<%= product._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger">Delete</button>
-                        </form>
-                    <% } %>
-                </div>
-            </div>
-            <div class="well">
-                <div class="text-right">
-                    <a class="btn btn-success" href="/products/<%= product._id %>/comments/new">Add New Comment</a>
-                </div>
-                <hr>
-                <% product.comments.forEach(function(comment){ %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong><%= comment.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
-                            <p><%= comment.text %></p>
-                            <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
-                                <a href="/products/<%=product._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
-                                <form class="inlineform" action="/products/<%=product._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                                    <button class="btn btn-xs btn-danger">Delete</button>
-                                </form>
-                            <% } %>
-                        </div>
-                    </div>
-                <% }); %>
-            </div>
-        </div>
-    </div>
-</div-->
+<div class="centered">
+    <iframe class="map" src="https://maps.google.com/maps?q=<%= mapq %>&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0"></iframe>
+</div>
 <script>
    var slider = simpleslider.getSlider({
      paused: true

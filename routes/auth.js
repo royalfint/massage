@@ -2,13 +2,14 @@ var express     = require("express"),
     User  = require("../models/user"),
     passport  = require("passport"),
     sgMail   = require("@sendgrid/mail"),
-    Product  = require("../models/product");
-var router = express.Router();
-var middleware = require("../middleware/index.js");
-var countries = require("../models/countries.json").list;
-var cities = require("../models/cities/KZ.json").list;
-var help = require("./help");
-var bazars = require("../models/bazars.json").list;
+    Product  = require("../models/product"),
+    router = express.Router(),
+    middleware = require("../middleware/index.js"),
+    countries = require("../models/countries.json").list,
+    cities = require("../models/cities/KZ.json").list,
+    help = require("./help"),
+    bazars = require("../models/bazars.json").list;
+
 var api_key = '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';
 
 //sign up
@@ -101,6 +102,8 @@ router.post("/register", function(req, res){
         user.rating = 0;
         user.status = 0;
         user.reviews = 0;
+        user.balance = 0;
+        user.payments = [];
         user.ispaid = false;
         user.active = true;
         user.city = post.city;
@@ -135,11 +138,20 @@ router.get("/login", function(req, res){
 //login
 router.post("/login", passport.authenticate("local", 
     {
-        successRedirect: "/products",
+        successRedirect: "/logged",
         failureFlash: 'Неправильный логин или пароль!',
         successFlash: 'Добро пожаловать в Bazarlar!',
         failureRedirect: "/login"
     }), function(req, res){
+});
+
+router.get("/logged", function(req, res) {
+    User.findOne({username: req.user.username}, function(err, user) {
+        if(err) console.log(err);
+        if(user) req.session.status = user.status;
+        console.log("new status set", req.session.status);
+        res.redirect("/products")
+    });
 });
 
 router.get("/reset", function(req, res){

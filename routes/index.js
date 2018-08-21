@@ -310,14 +310,15 @@ router.post("/search", function(req, res) {
     if(formquery.type && formquery.type != "Оптом и в розницу")
         dbquery.push({ "$match": { "type": { "$in": [ formquery.type ] } }});
     
-    if (formquery.sort && formquery.sort == "Сначала дешевые")
+    if (formquery.sort && formquery.sort == "Самые дешевые") {
         dbquery.push({ "$sort": { "price": 1 }});
-    else if(formquery.sort && formquery.sort == "Сначала дорогие")
+    } else if(formquery.sort && formquery.sort == "Самые дорогие") {
         dbquery.push({ "$sort": { "price": -1 }});
-    else if(formquery.sort && formquery.sort == "Сначала старые товары")
-        dbquery.push({ "$sort": { "date": -1 }});
-    else
-        dbquery.push({ "$sort": { "date": 1 }}); //new products always go first
+    } else if(formquery.sort && formquery.sort == "Самые первые") {
+        dbquery.push({ "$sort": { "created": 1 }});
+    } else {
+        dbquery.push({ "$sort": { "created": -1 }}); //new products always go first
+    }
     
     Product.aggregate(dbquery, function(err, allProducts){
         if(err) console.log(err);

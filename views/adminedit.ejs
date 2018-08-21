@@ -1,0 +1,25 @@
+<% include ./partials/header %>
+<% include ./partials/minibar %>
+
+<div class="adminarea">
+    <p class="adminh">Редактирование - <%= user.username %></p>
+
+    <form class="login new" action="/admin/edit/<%=user.username%>" method="POST">
+        <a href="/admin" style="margin-bottom: 1rem;">Назад</a>  
+        <input value="<%=user.username%>" disabled>
+        <select name="ispaid">
+            <% var options = [{name: "Бесплатный аккаунт", value: "free"}, {name: "Платный аккаунт", value: "paid"}];%>
+            <% options.forEach(function(option) { %>
+                <% if(option.value == q) { %>
+                    <option value="<%= option.value %>" selected="selected"><%= option.name %></option>
+                <% } else { %>
+                    <option value="<%= option.value %>"><%= option.name %></option>
+                <% } %>
+            <% }); %>
+        </select>
+        
+        <input type="submit" value="Обновить">
+    </form>
+</div>
+
+<% include ./partials/footer %>

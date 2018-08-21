@@ -1,0 +1,37 @@
+<% include ./partials/header %>
+<% include ./partials/minibar %>
+
+<div class="adminarea">
+    <p class="adminh">Все пользователи</p>
+    
+    <div style="max-width: 20rem;">
+        <div class="flash">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } if(success && success.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    
+    <table class="users">
+        <tr>
+            <th>Логин</th>
+            <th>Платный</th>
+            <th>Изменить</th>
+        </tr>
+        <% users.forEach(function(user) { %>
+            <tr>
+                <td><%= user.username %></td>
+                <td style="text-align: center;"><%= String(user.ispaid).replace("true","Да").replace("false", "Нет"); %></td>
+                <td style="text-align: center;"><a href="/admin/edit/<%= user.username %>"><img style="height: 1rem;" src="../svg/edit.svg"></a></td>
+            </tr>
+        <% }); %>
+    </table>
+</div>
+
+<% include ./partials/footer %>

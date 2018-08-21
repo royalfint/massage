@@ -14,6 +14,7 @@ var userSchema = new mongoose.Schema({
     bazar: String,
     token: String,
     rating: Number,
+    balance: Number,
     reviews: Number,
     email: String,
     city: String,

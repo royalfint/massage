@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+<% include ../partials/minibar %>
+
+<div class="adminarea">
+    <p class="adminh">Мой Аккаунт</p>
+    
+    <div style="max-width: 20rem;">
+        <div class="flash">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert"><%= error %></div>
+            <% } if(success && success.length > 0) { %>
+                <div class="alert alert-success" role="alert"><%= success %><div>
+            <% } %>
+        </div>
+    </div>
+        
+    <p>Баланс: <%= user.balance %>тг</p>
+    
+    <% if(user.ispaid && user.active) { %>
+        <p>Ваш аккаунт оплачен до <%= user.paydate.toISOString().replace(/T/, ' ').replace(/\..+/, '')   %>.</p>
+        <p style="max-width: 20rem; font-size: 0.8rem; margin-bottom: 1rem;">Через <%= paidfordays %> дней с вашего баланса будет списано 500 тг как оплата за месяц обслуживания. Если сумма на балансе будет ниже вышеуказанной, то ваш аккаунт будет автоматически заблокирован.</p>
+    <% } %>
+    
+    <form class="login new" method="POST" action="account">
+        <input type="number" placeholder="200" min="200" name="amount">
+        <input type="submit" value="Пополнить">
+    </form>
+</div>
+
+<% include ../partials/footer %>

@@ -14,7 +14,7 @@ var bazars = require("../models/bazars.json").list;
 
 //Index Route
 router.get("/", function(req, res) {
-    Product.find({}, function(err, allProducts){
+    Product.find({}).sort({created: -1}).exec(function(err, allProducts){
         if(err) console.log(err);
         
         var formquery = {};
@@ -148,6 +148,39 @@ router.get("/:id/edit", middleware.checkProductOwnership, function(req, res){
                 res.render("product/edit", {product: foundProduct, cats: cats, folder: middleware.folder});
             }
         });
+});
+
+//TOP PRODUCT ROUTE
+router.post("/top", middleware.isLoggedIn, function(req, res) {
+     if(!req.body.product) return res.send("no product to top, bitch!");
+     
+     User.findOne({username: req.user.username}, function(err, user) {
+        if(err) return console.log(err);
+        
+        if(user.balance < 200) {
+            req.flash("error", "Недостаточно средств на балансе!");
+            return res.redirect("/account");
+        }
+        
+        user.balance -= 200;
+        user.save(function(err) {
+            if(err) console.log(err);
+            
+            Product.findById(req.body.product, function(err, foundProduct) {
+                if(err) console.log(err);
+                
+                if(!foundProduct) return res.send("wrong product id, you moron!");
+                
+                foundProduct.created = help.toLocalTime(new Date());
+                foundProduct.save(function(err) {
+                    if(err) console.log(err);
+                    
+                    req.flash("success", "Ваш товар успешно поднят в топ!");
+                    return res.redirect("/account");
+                });
+            });
+        });
+     });
 });
 
 //UPDATE PRODUCT ROUTE
