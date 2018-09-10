@@ -8,21 +8,38 @@ body {
 
 /*** admin sidebar ****/
 .toolbar {
-    position: absolute;
-    left: 0;
-    top: 60px;
+    position: fixed;
+    left: -100%;
+    top: 59px;
     width: 12rem;
     padding: 1rem 0;
     height: 100%;
     max-height: calc(100vh - 60px);
     background: #999999;
     box-sizing: border-box;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
     z-index: 999;
 }
 
+.mobbar {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    background: #999999;
+    z-index: 80;
+    flex-wrap: wrap;
+    transition: all .3s ease;
+}
+
+.mobbar.open { bottom: 0; }
+
+.toolbar.left { left: 0; }
+
 .toolbar a,
-.minibar a{
+.mobbar a{
     color: #fff;
     padding: 1rem;
     display: flex;
@@ -30,32 +47,22 @@ body {
     text-decoration: none;
 }
 
-.toolbar a:hover,
-.minibar a:hover{
+.mobbar {
+    font-size: 0.8rem;
+}
+
+.toolbar a:hover{
     background: #7f7f7f;
 }
 
-.toolbar a img,
-.minibar a img{
+.toolbar a img {
     height: 1.7rem;
     margin-right: 0.5rem;
 }
 
-.minibar {
-    position: fixed;
-    left: -12rem;
-    top: 0;
-    width: 12rem;
-    padding: 1rem 0;
-    height: 100vh;
-    background: #999999;
-    box-sizing: border-box;
-    transition: 0.3s ease;
-    z-index: 999;
-}
-
-#tool.is-active {
-    left: 0;
+.mobbar a img{
+    height: 1.4rem;
+    margin-right: .3rem;
 }
 
 .adminh {
@@ -594,86 +601,3 @@ input, button, select { border-radius: 0.3rem !important; }
 .sortbar select{ margin-bottom: 0; }
 
 .invisible { display: none; }
-
-@media screen and (max-width: 1600px) {
-    .product { width: 16.7%; }
-}
-
-@media screen and (max-width: 1400px) {
-    .product { width: 20%; }
-}
-
-@media screen and (max-width: 1200px) {
-    .product { width: 25%; }
-}
-
-@media screen and (max-width: 960px) {
-    .product { width: 33.333%; }
-    form.login, .upload { width: 25rem; }
-    .showdesc, .showroom .main, .showroom .slidewrap {
-        width: 23.7rem;
-    }
-    iframe.map { width: 47.5rem; }
-    .showroom .main, .showroom .slidewrap { height: 23.7rem; }
-}
-
-@media screen and (max-width: 760px) {
-    .mobhide { display: none; }
-    .call { justify-content: center; }
-    .call a { margin: 0; }
-    .author { flex-direction: column; align-items: center; }
-    .author > img { margin: 0 }
-    .author > div {
-        text-align: center;
-    }
-    .product { width: 50%; }
-    #mob { display: block; }
-    .callhim { display: flex; }
-    .links { display: none; }
-        .toolbar {
-        position: fixed;
-        left: -12rem;
-        top: 0;
-        max-height: 100vh;
-    }
-    .adminarea {
-        margin: 0.5rem;
-        width: calc(100% - 1rem);
-    }
-    .showdesc, .showroom .main, .showroom .slidewrap {
-        width: 20.5rem;
-    }
-    iframe.map { width: 41.5rem; }
-}
-
-@media screen and (max-width: 660px) {
-    .product { width: 50%; }
-    .showroom { flex-direction: column; }
-    .showdesc { padding: 0 0.5rem; }
-    .showroom, .showdesc, .showroom .main, .showroom .slidewrap {
-        width: 28.5rem;
-    }
-    iframe.map { width: 100%; }
-}
-
-@media screen and (max-width: 460px) {
-    .author, form.login, .upload { width: 100%; }
-    form.login { margin: 0 0.5rem; }
-    .author { padding: 0 1rem; }
-    .author h1 { font-size: 1.5rem; }
-    .showdesc h1 { font-size: 1.5rem; }
-    .showroom, .showdesc, .showroom .main, .showroom .slidewrap {
-        width: 22.7rem;
-    }
-}
-
-@media screen and (max-width: 360px) {
-    .product { width: 100%; }
-    .upload { flex-wrap: wrap; }
-    .next, .prev { display: none; }
-    iframe.map { margin-top: 3rem; }
-    .showroom, .showdesc, .showroom .main, .showroom .slidewrap {
-        width: 20rem;
-    }
-    .showroom .main, .showroom .slidewrap { height: 20rem; }
-}

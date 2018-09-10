@@ -1,0 +1,83 @@
+
+@media screen and (max-width: 1600px) {
+    .product { width: 16.7%; }
+}
+
+@media screen and (max-width: 1400px) {
+    .product { width: 20%; }
+}
+
+@media screen and (max-width: 1200px) {
+    .product { width: 25%; }
+}
+
+@media screen and (max-width: 960px) {
+    .product { width: 33.333%; }
+    form.login, .upload { width: 25rem; }
+    .showdesc, .showroom .main, .showroom .slidewrap {
+        width: 23.7rem;
+    }
+    iframe.map { width: 47.5rem; }
+    .showroom .main, .showroom .slidewrap { height: 23.7rem; }
+}
+
+@media screen and (max-width: 760px) {
+    .mobhide, .toolbar { display: none; }
+    .call { justify-content: center; }
+    .call a { margin: 0; }
+    .author { flex-direction: column; align-items: center; }
+    .author > img { margin: 0 }
+    .author > div {
+        text-align: center;
+    }
+    .product { width: 50%; }
+    #mob { display: block; }
+    .callhim, .mobbar { display: flex; }
+    .links { display: none; }
+        .toolbar {
+        position: fixed;
+        left: -12rem;
+        top: 0;
+        max-height: 100vh;
+    }
+    .adminarea {
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
+    }
+    .showdesc, .showroom .main, .showroom .slidewrap {
+        width: 20.5rem;
+    }
+    iframe.map { width: 41.5rem; }
+}
+
+@media screen and (max-width: 660px) {
+    .product { width: 50%; }
+    .showroom { flex-direction: column; }
+    .showdesc { padding: 0 0.5rem; }
+    .showroom, .showdesc, .showroom .main, .showroom .slidewrap {
+        width: 28.5rem;
+    }
+    iframe.map { width: 100%; }
+}
+
+@media screen and (max-width: 460px) {
+    .author, form.login, .upload { width: 100%; }
+    form.login { margin: 0 0.5rem; }
+    .author { padding: 0 1rem; }
+    .author h1 { font-size: 1.5rem; }
+    .showdesc h1 { font-size: 1.5rem; }
+    .showroom, .showdesc, .showroom .main, .showroom .slidewrap {
+        width: 22.7rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .product { width: 100%; }
+    .upload { flex-wrap: wrap; }
+    .next, .prev { display: none; }
+    iframe.map { margin-top: 3rem; }
+    .showroom, .showdesc, .showroom .main, .showroom .slidewrap {
+        width: 20rem;
+    }
+    .showroom .main, .showroom .slidewrap { height: 20rem; }
+}

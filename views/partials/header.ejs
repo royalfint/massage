@@ -6,6 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link rel="stylesheet" href="/stylesheets/main.css">
+        <link rel="stylesheet" href="/stylesheets/resp.css">
         <link rel="stylesheet" href="/stylesheets/menu.css">
         <link rel="shortcut icon" href="<%= url %>/fav.png" />
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -33,14 +34,14 @@
         </div>
     </div>
     
-    <div class="minibar" id="tool">
+    <div class="mobbar">
     <% if (!currentUser) { %>
         <a href="/login"><img src="../svg/signin.svg">Войти</a>
         <a href="/register"><img src="../svg/add-user.svg">Регистрация</a>
     <% } else { %>
-        <% if (status && status == 9) { %> <a href="/admin"><img src="svg/crown.svg">Админ панель</a> <% } %>
+        <% if (status && status == 9) { %> <a href="/admin"><img src="../svg/crown.svg">Админ панель</a> <% } %>
         <a href="/profile"><img src="../svg/profile.svg">Мой Профиль</a>
-        <a href="/account"><img src="svg/payment.svg">Мой Аккаунт</a>
+        <a href="/account"><img src="../svg/payment.svg">Мой Аккаунт</a>
         <a href="/myproducts"><img src="../svg/package.svg">Мои Товары</a>
         <a href="/favs"><img src="../svg/heart.svg">Избранное</a>
         <a href="/products/new"><img src="../svg/add-item.svg">Новый Товар</a>
