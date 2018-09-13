@@ -25,7 +25,7 @@
             <label for="firstfile" class="new">
                 <img class="add" src="../../svg/plus.svg">
             </label>
-            <img src="<%= user.avatar || " " %>" class="dataImg">
+            <%- getthumb(user.avatar) %>
             <input id="firstfile" data-name="firstfile" class="filetype" type="file" name="fileToUpload">
             <input type="hidden" name="folder" value="<%= folder() %>">
         </form>
@@ -73,6 +73,19 @@
         <button>Обновить профиль</button>
     </form>
 </div>
+
+<%
+function getthumb(file) {
+        var result = file.split(".");
+        var ext = result[result.length-1];
+        
+        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
+            return "<img src=" + file + " class=\"dataImg\">"
+        } else {
+            return "<img src=\"" + siteurl + "/svg/vid.svg\" class=\"dataImg\">"
+        }
+    }
+%>
 <script>
     $(".close").each(function() {
         $(this).on("click", function(){
@@ -103,6 +116,9 @@
                     } else if(data == "TOO_LARGE"){
                         $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Размер фото должен быть меньше 10Мб!</div>' );
                     } else {
+                        var result = data.split(".");
+                        var ext = result[result.length-1];
+                        
                         if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
                             img.attr("src", data);
                         } else {

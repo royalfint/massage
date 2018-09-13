@@ -27,7 +27,7 @@
                 <label for="firstfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                 </label>
-                <img src="<%= product.image[0] || " " %>" class="dataImg">
+                <%- getthumb(product.image[0]) %>
                 <input id="firstfile" data-name="firstfile" class="filetype" type="file" name="fileToUpload">
                 <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
@@ -42,7 +42,7 @@
                 <label for="secondfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                 </label>
-                <img src="<%= product.image[1] || " " %>"  class="dataImg">
+                <%- getthumb(product.image[1]) %>
                 <input id="secondfile" data-name="secondfile" class="filetype" type="file" name="fileToUpload">
                 <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
@@ -57,7 +57,7 @@
                 <label for="thirdfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                 </label>
-                <img src="<%= product.image[2] || " " %>" class="dataImg">
+                <%- getthumb(product.image[2]) %>
                 <input id="thirdfile" data-name="thirdfile" class="filetype" type="file" name="fileToUpload">
                 <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
@@ -72,7 +72,7 @@
                 <label for="fourthfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                 </label>
-                <img src="<%= product.image[3] || " " %>" class="dataImg">
+                <%- getthumb(product.image[3]) %>
                 <input id="fourthfile" data-name="fourthfile" class="filetype" type="file" name="fileToUpload">
                 <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
@@ -87,7 +87,7 @@
                 <label for="fifthfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                 </label>
-                <img src="<%= product.image[4] || " " %>" class="dataImg">
+                <%- getthumb(product.image[4]) %>
                 <input id="fifthfile" data-name="fifthfile" class="filetype" type="file" name="fileToUpload">
                 <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
@@ -102,7 +102,7 @@
                 <label for="sixthfile" class="new">
                     <img class="add" src="../../svg/plus.svg">
                 </label>
-                <img src="<%= product.image[5] || " " %>" class="dataImg">
+                <%- getthumb(product.image[5]) %>
                 <input id="sixthfile" data-name="sixthfile" class="filetype" type="file" name="fileToUpload">
                 <input type="hidden" name="folder" value="<%= folder() %>">
             </form>
@@ -170,6 +170,19 @@
       setTimeout(() => { category("<%= product.cat %>") }, 300);
     });
 </script>
+<%
+function getthumb(file) {
+        if (!file) { file = ""; }
+        var result = file.split(".");
+        var ext = result[result.length-1];
+        
+        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
+            return "<img src=" + file + " class=\"dataImg\">"
+        } else {
+            return "<img src=\"" + siteurl + "/svg/vid.svg\" class=\"dataImg\">"
+        }
+    }
+%>
 <script>
     $(".close").each(function() {
         $(this).on("click", function(){
