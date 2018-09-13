@@ -11,6 +11,7 @@ var userSchema = new mongoose.Schema({
     status: Number,
     website: String,
     desc: String,
+    avatar: String,
     bazar: String,
     token: String,
     rating: Number,

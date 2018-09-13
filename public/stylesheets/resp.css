@@ -62,7 +62,7 @@
 
 @media screen and (max-width: 460px) {
     .author, form.login, .upload { width: 100%; }
-    form.login { margin: 0 0.5rem; }
+    form.login { margin: 0; }
     .author { padding: 0 1rem; }
     .author h1 { font-size: 1.5rem; }
     .showdesc h1 { font-size: 1.5rem; }

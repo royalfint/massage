@@ -106,6 +106,7 @@ router.post("/register", function(req, res){
         user.payments = [];
         user.ispaid = false;
         user.active = true;
+        user.avatar = global.siteurl + "/svg/online-store.svg",
         user.city = post.city;
         user.registered = help.toLocalTime(new Date());
         user.paydate = help.daysToDate(help.toLocalTime(new Date()), 30);

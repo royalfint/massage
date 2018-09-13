@@ -3,8 +3,9 @@
 
 <div class="adminarea">
     <p class="adminh">Мой Профиль</p>
-    <form class="login new" method="POST" action="/profile">
-        <label><p>Редактирование профиля</p></label>
+    <a style="display: flex; margin-bottom: 1.5rem;" href="/seller/<%= user.username %>">Просмотреть профиль</a>
+    <label><p>Редактирование профиля</p></label>
+    <form class="login new">
         <div class="flash">
             <% if(error && error.length > 0) { %>
                 <div class="alert alert-danger" role="alert">
@@ -16,6 +17,22 @@
             </div>
             <% } %>
         </div>
+    </form>
+    <div class="upload single">
+        <div>
+        <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+            <img src="../../svg/close.svg" class="close" data-name="firstfile">
+            <label for="firstfile" class="new">
+                <img class="add" src="../../svg/plus.svg">
+            </label>
+            <img src="<%= user.avatar || " " %>" class="dataImg">
+            <input id="firstfile" data-name="firstfile" class="filetype" type="file" name="fileToUpload">
+            <input type="hidden" name="folder" value="<%= folder() %>">
+        </form>
+        </div>
+    </div>
+    <form class="login new" method="POST" action="/profile">
+        <input type="hidden" name="firstfile" value="<%= user.avatar %>">
         <input type="text" name="username" placeholder="Логин" value="<%= user.username %>">
         <input type="email" name="email" placeholder="E-mail" value="<%= user.email %>">
         <input type="text" name="address" placeholder="Адрес" value="<%= user.address %>">
@@ -53,10 +70,50 @@
                 <% } %>
             <% }); %>
         </select>
-        <!--label><p>Введите текущий пароль</p></label>
-        <input type="password" name="password" value=""-->
         <button>Обновить профиль</button>
     </form>
 </div>
+<script>
+    $(".close").each(function() {
+        $(this).on("click", function(){
+            $(this.parentNode).removeClass("uploaded");
+            $(this.parentNode).find("img.dataImg").attr("src","");
+            $("[name='" + $(this).data("name") + "']").attr("value", "");
+        });
+    });
+    
+    $(".filetype").each(function(){
+        this.onchange = function() {
+            var formData = new FormData(this.parentNode);
+            var img = $(this.parentNode).find("img.dataImg");
+            var add = $(this.parentNode);
+            var name = $(this).data("name");
+            
+            $.ajax({
+                url: "https://mangi.kz/upload.php",
+                type: 'POST',
+                data: formData,
+                crossDomain: true,
+                success: function (data) {
+                    console.log(data);
+                    if(data == "NOT_IMAGE") {
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Загруженный файл не является картинкой!</div>' );
+                    } else if (data == "WRONG_TYPE") {
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Файл должен быть в формате JPG, PNG, JPEG или GIF!</div>' );
+                    } else if(data == "TOO_LARGE"){
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Размер фото должен быть меньше 10Мб!</div>' );
+                    } else {
+                        img.attr("src", data);
+                        $("[name='" + name + "']").attr("value", data);
+                        add.addClass("uploaded");
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        }
+    });
+</script>
 
 <% include ../partials/footer %>

@@ -177,7 +177,7 @@ router.get("/profile", middleware.isLoggedIn, function(req, res) {
     User.findById(req.user.id, function(err, user){
         if(err) console.log(err);
         
-        res.render("panel/profile", {user: user, countries: countries, cities: cities, bazars: bazars});
+        res.render("panel/profile", {user: user, countries: countries, cities: cities, bazars: bazars, folder: middleware.folder});
     });
 });
 
@@ -189,6 +189,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
             username: req.body.username.trim(),
             phone:    req.body.phone.trim(),
             address:  req.body.address.trim(),
+            avatar:   req.body.firstfile.trim(),
             email:    req.body.email.trim(),
             bazar:    req.body.bazar.trim(),
             website:  req.body.website.trim(),
@@ -213,7 +214,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
             return res.redirect("back");
         }
         
-        if(!post.address || post.address.length < 8){
+        if(!post.address || post.address.length < 4){
             req.flash("error", "Введите адрес!");
             return res.redirect("back");
         }
@@ -247,6 +248,8 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
             req.flash("error", "Укажите базар!");
             return res.redirect("back");
         }
+        
+        if(!post.avatar) { post.avatar = global.siteurl + "/svg/online-store.svg"; }
 
         user.username = post.username;
         user.phone = post.phone;
@@ -257,10 +260,11 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
         user.website = post.website;
         user.country = post.country;
         user.desc = post.desc;
+        user.avatar = post.avatar;
         user.city = post.city;
         user.save();
         
-        req.flash("success", "Добро пожаловать в Bazarlar, " + user.username + "!");
+        req.flash("success", "Профиль успешно обновлен!");
         res.redirect("/profile");
     });
 });

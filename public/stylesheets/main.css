@@ -248,16 +248,19 @@ form.login input, form select, textarea {
     font-family: 'Montserrat';
 }
 
-form.login button {
+form.login button, .butta {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     background: #29a0cb;
-    margin-bottom: 1rem;
     font-family: 'Montserrat';
     border: 0;
     color: #fff;
     outline: none;
     cursor: pointer;
+}
+
+form.login button{
+    margin-bottom: 1rem;
 }
 
 .users { 
@@ -371,11 +374,15 @@ form.login p {
     align-items: center;
 }
 
+
+
 .next { right: 0rem; }
 .prev { left: 0rem; }
 
 .next img, .prev img {
     height: 2.5rem;
+    background: rgba(0,0,0,0.3);
+    border-radius: 2rem;
 }
 
 /*** search **/
@@ -446,11 +453,11 @@ form.login p {
     margin: 2rem 0;
 }
 
-.author > img {
+.selava {
     width: 19rem;
     position: relative;
     top: -1.3rem;
-    height: auto;
+    height: 20rem;
     margin: 0 2rem;
 }
 
@@ -490,6 +497,10 @@ form.login p {
     width: 28rem;
 }
 
+.upload.single {
+    width: 5rem;
+}
+
 .upload > div {
     height: 4rem;
     width: 4rem;
@@ -499,8 +510,21 @@ form.login p {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 0.3rem 1rem 0.3rem;
+    margin: 0 .3rem 1rem .3rem;
     overflow: hidden;
+}
+
+.newava {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 1rem 0;
+}
+
+.newava input {
+     padding: 1rem 0 1rem 0;
 }
 
 .upload > div.chosen { background-color: #dbdbdb; }
@@ -514,7 +538,7 @@ form.login p {
 .upload .new { cursor: pointer; }
 .upload .new img.add{ height: 2rem; }
 
-input[type="file"], .added, .chosen .add{ display: none; }
+.data input[type="file"], .added, .chosen .add{ display: none; }
 
 .data { margin: 0; display: flex; }
 
@@ -558,6 +582,12 @@ img.like {
     cursor: pointer;
     display: none;
     z-index: 9;
+}
+
+.avablock {
+    height: 4rem;
+    width: 4rem;
+    position: relative;
 }
 
 .uploaded .add { display: none; }

@@ -22,7 +22,8 @@ router.get("/", function(req, res) {
         if(req.session.search)
             formquery = req.session.search;
         
-        res.render("product/index", {products: allProducts, countries: countries, cities: cities, q: formquery, bazars: bazars});
+        res.render("product/index", {products: allProducts, countries: countries, 
+            cities: cities, q: formquery, bazars: bazars});
     });
 });
 

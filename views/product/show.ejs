@@ -12,19 +12,16 @@
             <div id="myslider" class="main" data-simple-slider>
                 <% product.image.forEach(function(img) { %>
                     <div class="slidewrap">
-                        <img src="<%= img %>"/>
+                        <%- imgorvid(img) %>
                     </div>
                 <% }); %>
-                <div class="slidewrap">
-                    <iframe src="https://www.youtube.com/embed/HjokxE9ntQI?modestbranding=1&autohide=1&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
             </div>
             
             <div class="small-slides">
                 <% var index = 0; %>
                 <% product.image.forEach(function(img) { %>
                     <div>
-                        <img src="<%= img %>" onclick="setSlide(<%= index %>);">
+                        <%- isvid(img, index) %>
                     </div>
                 <% index++; }); %>
             </div>
@@ -78,6 +75,33 @@
 <div class="centered">
     <iframe class="map" src="https://maps.google.com/maps?q=<%= mapq %>&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0"></iframe>
 </div>
+
+<%
+    function imgorvid(file) {
+        var result = file.split(".");
+        var ext = result[result.length-1];
+        
+        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
+            return "<img src=\"" + file + "\" />";
+        } else if (file.includes("youtube")){
+            return "<iframe src=" + file + " autoplay=false frameborder=\"0\" allowfullscreen></iframe>";
+        } else {
+            return "<video width=\"100%\" height=\"100%\" controls><source src=" + file + " type=\"video/mp4\"></video>";
+        }
+    }
+    
+    function isvid(file, index) {
+        var result = file.split(".");
+        var ext = result[result.length-1];
+        
+        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
+            return "<img src=" + file +  " onclick=\"setSlide(" +  index + ");\">"
+        } else {
+            return "<img src=\"" + global.siteurl + "/svg/added.svg\" onclick=\"setSlide(" +  index + ");\">"
+        }
+    }
+%>
+
 <script>
    var slider = simpleslider.getSlider({
      paused: true
@@ -129,4 +153,5 @@
         });
     }
   </script>
+  
 <% include ../partials/footer %>
