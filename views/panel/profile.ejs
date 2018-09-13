@@ -103,7 +103,11 @@
                     } else if(data == "TOO_LARGE"){
                         $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Размер фото должен быть меньше 10Мб!</div>' );
                     } else {
-                        img.attr("src", data);
+                        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
+                            img.attr("src", data);
+                        } else {
+                            img.attr("src", "<%= url %>/svg/vid.svg");
+                        } 
                         $("[name='" + name + "']").attr("value", data);
                         add.addClass("uploaded");
                     }

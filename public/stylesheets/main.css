@@ -461,6 +461,10 @@ form.login p {
     margin: 0 2rem;
 }
 
+.selava img {
+    width: 100%;
+}
+
 .author h1 { margin: 0; }
 
 .flash {
