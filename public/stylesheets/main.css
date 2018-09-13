@@ -47,6 +47,8 @@ body {
     text-decoration: none;
 }
 
+.mobbar a { width: 7rem; }
+
 .mobbar {
     font-size: 0.8rem;
 }
