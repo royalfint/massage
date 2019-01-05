@@ -16,6 +16,7 @@ var commentRoutes  = require("./routes/comments"),
     servicesRoutes = require("./routes/services"),
     appartsRoutes  = require("./routes/apparts"),
     dealsRoutes    = require("./routes/deals"),
+    newRoutes      = require('./routes/girls'),
     indexRoutes    = require("./routes/index");
 
 
@@ -30,6 +31,12 @@ User.findOne({username: 'admin'}, function(err, profile){
     global.title = profile.title;
     global.address = profile.address;
     global.phone = profile.phone;
+    global.girlsTitle = profile.girlsTitle;
+    global.serviceTitle = profile.serviceTitle;
+    global.appartsTitle = profile.appartsTitle;
+    global.aboutTitle = profile.aboutTitle;
+    global.dealsTitle = profile.dealsTitle;
+    global.contactsTitle = profile.contactsTitle;
 });
 
 app.use(require("express-session")({
@@ -68,6 +75,7 @@ app.use("/products", productRoutes);
 app.use("/apparts", appartsRoutes);
 app.use("/services", servicesRoutes);
 app.use("/deals", dealsRoutes);
+app.use("/", newRoutes);
 
 //LISTENING FOR USERS
 app.listen(process.env.PORT, process.env.IP, function() {

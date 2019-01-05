@@ -1,0 +1,100 @@
+<html>
+<head>
+    <title><%= title %> - Главная</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/resp.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
+</head>
+<body>
+    <div id="overlay">
+        <div>
+            <a href="https://api.whatsapp.com/send?phone=<%= profile.phone.replace('+','').replace(' ',''); %>"><img src="/svg/wp.svg"></a>
+            <a ><img src="/svg/tg.svg"></a>
+            <a href="viber://add?number=<%= profile.phone %>"><img src="/svg/viber.svg"</a>
+            <a href="tel:<%= profile.phone %>"><img src="/svg/phone.svg"></a>
+        </div>
+    </div>
+    
+    <div style="background: #000; height: 10rem;"></div>
+    
+    <div class="wrap fixed" id="blackout">
+        <div class="topmenu">
+            <div class="brand"><a href="/#hero"><%= title %></a></div>
+            <div class="menu">
+                <a href="/#girls"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');%></a>
+                <a href="/#services"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+                <a href="/#interior"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+                <a href="/#about"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+                <a href="/#offers"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+                <a href="#contacts"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            </div>
+            <div class="yummy">
+                <div id="menu-toggle">
+                    <div id="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div id="cross">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay">
+        <div style="display: flex; flex-direction: column;">
+            <a href="/#girls" onclick="yummy();"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            <a href="/#services" onclick="yummy();"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            <a href="/#interior" onclick="yummy();"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            <a href="/#about" onclick="yummy();"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            <a href="/#offers" onclick="yummy();"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            <a href="#contacts" onclick="yummy();"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+        </div>
+    </div>
+
+    <div class="apps section" id="interior">
+        <div class="wrap">
+            <div>
+                <h2 class="gold"><%= profile.appartsTitle %></h2>
+                <h3><%= profile.appartsSub %></h3>
+                <div class="appsGrid">
+                    <% var i = 0; apparts.forEach(function(app){ %>
+                        <% if(i%2 != 0) { %> <div> <% } else { %> <div class="revers"> <% } %>
+                            <% if(i%2 != 0) { %> <img src="<%= app.image[0] %>"> <% } %>
+                        <% if(i%2 != 0) { %> <div> <% } else { %> <div class="reverse"> <% } %>
+                                <h4 class="gold">Комната "<%= app.name %>"</h4>
+                                <p><%= app.desc %></p>
+                                <a href="#contacts" class="btn">Посетить</a>
+                            </div>
+                            <% if(i%2 == 0) { %> <img src="<%= app.image[0] %>"> <% } %>
+                        </div>
+                    <% i++; }); %>
+                </div>
+                <a href="/apparts" class="btn show">Показать все</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contacts section" id="contacts">
+        <h2 class="gold"><%= profile.contactsTitle %></h2>
+        <h3><%= profile.contactsSub %></h3>
+        <iframe class="map" src="https://maps.google.com/maps?q=<%= profile.address %>&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" style="border:0"></iframe>
+        <div class="callback">
+            <h3><%= profile.contactsText %></h3>
+            <button class="btn" onclick="opennn()">Позвони мне</button>
+        </div>
+    </div>
+    
+    <script>
+        function opennn(){
+            var popup = document.getElementById("overlay");
+            popup.classList.add("open");
+        }
+    </script>
+
+<% include landingfooter %>

@@ -20,10 +20,22 @@ router.get("/", function(req, res) {
         global.title = profile.title;
         global.address = profile.address;
         global.phone = profile.phone;
+        global.girlsTitle = profile.girlsTitle;
+        global.serviceTitle = profile.serviceTitle;
+        global.appartsTitle = profile.appartsTitle;
+        global.aboutTitle = profile.aboutTitle;
+        global.dealsTitle = profile.dealsTitle;
+        global.contactsTitle = profile.contactsTitle;
         
         res.locals.title = global.title;
         res.locals.address = global.address;
         res.locals.phone = global.phone;
+        res.locals.girlsTitle = global.girlsTitle;
+        res.locals.serviceTitle = global.serviceTitle;
+        res.locals.appartsTitle = global.appartsTitle;
+        res.locals.aboutTitle = global.aboutTitle;
+        res.locals.dealsTitle = global.dealsTitle;
+        res.locals.contactsTitle = global.contactsTitle;
         
         Product.find({}).sort({created: -1}).limit(4).exec(function(err, allProducts){
             if(err) console.log(err);

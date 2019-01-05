@@ -118,30 +118,9 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
                 console.log(err);
             } else {
                 req.session.fc = {photos: []};
-                res.redirect("/products");
+                res.redirect("/myproducts");
             }
         });
-});
-
-//PRODUCT SHOWPAGE MOREEE
-router.get("/:id",function(req, res){
-    Product.findById(req.params.id).populate({ path: 'author.id', populate: { path: 'faved', model: 'Product' }}).exec(function(err, foundProduct){
-        if(err) console.log(err);
-        var mapq;
-        
-        if(!req.user && foundProduct) {
-            mapq = (foundProduct.author.id.city + ", " + foundProduct.author.id.address).replace(" ","%20");
-
-            res.render("product/show", {product: foundProduct, mapq: mapq, cats: cats, folder: middleware.folder});
-        } else if (req.user && foundProduct) {
-            User.findOne({username: req.user.username}).populate("faved").exec(function(err, user){
-               if(err) console.log(err);
-               
-                mapq = (foundProduct.author.id.city + ", " + foundProduct.author.id.address).replace(" ","%20");
-                res.render("product/show", {product: foundProduct, mapq: mapq, cats: cats, folder: middleware.folder, user: user});
-            });
-        }
-    });
 });
 
 //EDIT PRODUCT ROUTE
@@ -155,39 +134,6 @@ router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
                 res.render("product/edit", {product: foundProduct, cats: cats, folder: middleware.folder});
             }
         });
-});
-
-//TOP PRODUCT ROUTE
-router.post("/top", middleware.isLoggedIn, function(req, res) {
-     if(!req.body.product) return res.send("no product to top, bitch!");
-     
-     User.findOne({username: req.user.username}, function(err, user) {
-        if(err) return console.log(err);
-        
-        if(user.balance < 200) {
-            req.flash("error", "Недостаточно средств на балансе!");
-            return res.redirect("/account");
-        }
-        
-        user.balance -= 200;
-        user.save(function(err) {
-            if(err) console.log(err);
-            
-            Product.findById(req.body.product, function(err, foundProduct) {
-                if(err) console.log(err);
-                
-                if(!foundProduct) return res.send("wrong product id, you moron!");
-                
-                foundProduct.created = help.toLocalTime(new Date());
-                foundProduct.save(function(err) {
-                    if(err) console.log(err);
-                    
-                    req.flash("success", "Ваш товар успешно поднят в топ!");
-                    return res.redirect("/account");
-                });
-            });
-        });
-     });
 });
 
 //UPDATE PRODUCT ROUTE

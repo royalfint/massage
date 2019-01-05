@@ -52,6 +52,7 @@ p {
     background: #4b101c;
     border: 1px solid #4b101c;
     font-weight: 500;
+    outline: none;
     transition: all 0.3s ease;
 }
 
@@ -109,6 +110,32 @@ h4 {
 }
 
 /* MENU */
+
+#overlay {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 100;
+}
+
+#overlay.open { display: flex; }
+
+#overlay > div {
+    display: flex;
+    padding: 2rem;
+    background: #17223f;
+    width: 14rem;
+    justify-content: space-between;
+}
+
+#overlay img { height: 2.5rem; }
 
 .topmenu {
     display: flex;

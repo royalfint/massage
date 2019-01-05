@@ -39,11 +39,12 @@
         <a href="/login"><img src="../svg/signin.svg">Войти</a>
         <a href="/register"><img src="../svg/add-user.svg">Регистрация</a>
     <% } else { %>
-        <% if (status && status == 9) { %> <a href="/admin"><img src="../svg/crown.svg">Админ панель</a> <% } %>
-        <a href="/profile"><img src="../svg/profile.svg">Информация</a>
-        <a href="/myproducts"><img src="../svg/package.svg">Девочки</a>
-        <a href="/favs"><img src="../svg/heart.svg">Избранное</a>
-        <a href="/products/new"><img src="../svg/add-item.svg">Новый Товар</a>
-        <a href="/logout"><img src="../svg/logout.svg">Выйти</a>
+        <a href="/profile"><img src="<%= url %>/svg/resume.svg">Основное</a>
+        <a href="/myproducts"><img src="<%= url %>/svg/woman.svg">Мастера</a>
+        <a href="/myservices"><img src="<%= url %>/svg/support.svg">Услуги</a>
+        <a href="/myapparts"><img src="<%= url %>/svg/window.svg">Интерьер</a>
+        <a href="/mydeals"><img src="<%= url %>/svg/discount.svg">Акции</a>
+        <a href="/mytexts"><img src="<%= url %>/svg/love-letter.svg">Текста</a>
+        <a href="/logout"><img src="<%= url %>/svg/logout.svg">Выйти</a>
     <% } %>
 </div>
