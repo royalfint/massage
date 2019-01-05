@@ -22,8 +22,8 @@ var commentRoutes  = require("./routes/comments"),
 mongoose.connect('mongodb://admin:YtEpyftimVjq1Gfhjkm@ds149344.mlab.com:49344/massaj');
 global.uploadUrl = "https://unique.plus/upload/upload.php";
 global.cdn = "https://unique.plus/upload/";
-global.siteurl = "https://massaj-royalfint.c9users.io/";
-//global.siteurl = "https://www.bazarlar.kz";
+//global.siteurl = "https://massaj-royalfint.c9users.io/";
+global.siteurl = "http://massaj.herokuapp.com/";
 User.findOne({username: 'admin'}, function(err, profile){
     if(err) console.log(err);
     
