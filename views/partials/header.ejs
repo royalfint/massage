@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>BazarLar - Все базары Казахстана</title>
+        <title>Masssage | Панель Управления</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,7 +15,7 @@
     </head>
     <body>
     <div class="nav">
-        <a href="/"><img class="blogo" src="<%= url %>/svg/logo.svg"></a>
+        <a href="/" class="brand">Massage</a>
         <div class="links">
             <% if(!currentUser){ %>
                 <a href="/login">Войти</a>
@@ -40,9 +40,8 @@
         <a href="/register"><img src="../svg/add-user.svg">Регистрация</a>
     <% } else { %>
         <% if (status && status == 9) { %> <a href="/admin"><img src="../svg/crown.svg">Админ панель</a> <% } %>
-        <a href="/profile"><img src="../svg/profile.svg">Мой Профиль</a>
-        <a href="/account"><img src="../svg/payment.svg">Мой Аккаунт</a>
-        <a href="/myproducts"><img src="../svg/package.svg">Мои Товары</a>
+        <a href="/profile"><img src="../svg/profile.svg">Информация</a>
+        <a href="/myproducts"><img src="../svg/package.svg">Девочки</a>
         <a href="/favs"><img src="../svg/heart.svg">Избранное</a>
         <a href="/products/new"><img src="../svg/add-item.svg">Новый Товар</a>
         <a href="/logout"><img src="../svg/logout.svg">Выйти</a>

@@ -14,6 +14,7 @@ var bazars = require("../models/bazars.json").list;
 
 //Index Route
 router.get("/", function(req, res) {
+        
     Product.find({}).sort({created: -1}).exec(function(err, allProducts){
         if(err) console.log(err);
         
@@ -45,12 +46,12 @@ router.get("/clear", middleware.isLoggedIn, function(req, res) {
 router.post("/", middleware.isLoggedIn, function(req, res) {
         var post = {
             name: req.body.name,
-            cat: req.body.cat,
-            subcat: req.body.subcat,
-            type: req.body.type,
-            price: req.body.price,
             photos: [],
             desc: req.body.desc,
+            age: req.body.age,
+            boobs: req.body.boobs,
+            height: req.body.height,
+            weight: req.body.weight,
             author: {
                 id: req.user._id,
                 username: req.user.username
@@ -72,17 +73,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         }
         
         if(!post.name || post.name.length < 3 ) {
-            req.flash("error", "Введите имя товара!");
-            return res.redirect("/products/new");
-        }
-        
-        if(post.cat == "Категория товара"){
-            req.flash("error", "Выберите категорию товара!");
-            return res.redirect("/products/new");
-        }
-        
-        if(post.subcat == "Подкатегория товара"){
-            req.flash("error", "Выберите подкатегорию товара!");
+            req.flash("error", "Введите имя!");
             return res.redirect("/products/new");
         }
         
@@ -91,20 +82,35 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             return res.redirect("/products/new");
         }
         
-        if(!post.price || post.price == "0") {
-            req.flash("error", "Введите цену!");
+        if(!post.age){
+            req.flash("error", "Введите возраст!");
+            return res.redirect("/products/new");
+        }
+        
+        if(!post.boobs){
+            req.flash("error", "Введите размер груди!");
+            return res.redirect("/products/new");
+        }
+        
+        if(!post.height){
+            req.flash("error", "Введите рост!");
+            return res.redirect("/products/new");
+        }
+        
+        if(!post.weight){
+            req.flash("error", "Введите вес!");
             return res.redirect("/products/new");
         }
         
         var newProduct = {
             name: post.name,
             image: post.photos,
-            cat: post.cat,
-            subcat: post.subcat,
             desc: post.desc,
+            age: post.age,
+            boobs: post.boobs,
+            height: post.height,
+            weight: post.weight,
             author: post.author,
-            type: post.type,
-            price: post.price,
             created: help.toLocalTime(new Date())
         };
         Product.create(newProduct, function(err, newlyCreated){

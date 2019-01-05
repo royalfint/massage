@@ -2,18 +2,16 @@
 <% include ../partials/minibar %>
 
 <div class="adminarea">
-    <p class="adminh">Мои Товары</p>
+    <p class="adminh">Девочки салона <a style="margin-left: 1rem;" href="/products/new">Добавить</a></p>
     <div class="productsGrid">
         <% products.forEach(function(product) { %>
-            <a class="product" href="/products/<%= product._id %>">
-                <div class="productInfo">
+            <div class="product">
+                <a href="/products/<%= product._id %>">
                     <div class="productImg ad" style="background: url(<%= product.image[0].replace(" ","%20") %>) center/cover no-repeat;"></div>
-                    <div class="productOverlay">
-                        <p><%= product.name %></p>
-                    </div>
-                </div>
-                <p class="price"><%= product.price %>₸</p>
-            </a>
+                    <div class="productOverlay"><p><%= product.name %></p></div>
+                </a>
+                <a class="price" href="/products/<%= product.id %>/edit"><img style="height: 1.5rem;" src="../svg/edit.svg"></a>
+            </div>
         <% }); %>
     </div>
 </div>

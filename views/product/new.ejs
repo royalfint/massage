@@ -2,7 +2,7 @@
 <% include ../partials/minibar %>
 
 <div class="adminarea">
-    <p class="adminh">Новый товар</p>
+    <p class="adminh">Добавление девушки</p>
     <form class="login new">
         <div class="flash">
             <% if(error && error.length > 0) { %>
@@ -19,9 +19,9 @@
     <div class="upload">
         <div>
             <% if(fc.photos[0]) { %>
-                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data uploaded" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } else { %>
-                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } %>
                 <img src="../../svg/close.svg" class="close" data-name="firstfile">
                 <label for="firstfile" class="new">
@@ -34,9 +34,9 @@
         </div>
         <div>
             <% if(fc.photos[1]) { %>
-                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data uploaded" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } else { %>
-                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } %>
                 <img src="../../svg/close.svg" class="close" data-name="secondfile">
                 <label for="secondfile" class="new">
@@ -49,9 +49,9 @@
         </div>
         <div>
             <% if(fc.photos[2]) { %>
-                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data uploaded" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } else { %>
-                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } %>
                 <img src="../../svg/close.svg" class="close" data-name="thirdfile">
                 <label for="thirdfile" class="new">
@@ -64,9 +64,9 @@
         </div>
         <div>
             <% if(fc.photos[3]) { %>
-                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data uploaded" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } else { %>
-                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } %>
                 <img src="../../svg/close.svg" class="close" data-name="fourthfile">
                 <label for="fourthfile" class="new">
@@ -79,9 +79,9 @@
         </div>
         <div>
             <% if(fc.photos[4]) { %>
-                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data uploaded" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } else { %>
-                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } %>
                 <img src="../../svg/close.svg" class="close" data-name="fifthfile">
                 <label for="fifthfile" class="new">
@@ -94,9 +94,9 @@
         </div>
         <div>
             <% if(fc.photos[5]) { %>
-                <form class="data uploaded" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data uploaded" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } else { %>
-                <form class="data" action="https://mangi.kz/upload.php" method="POST" enctype="multipart/form-data">
+                <form class="data" action="<%= uploadUrl %>" method="POST" enctype="multipart/form-data">
             <% } %>
                 <img src="../../svg/close.svg" class="close" data-name="sixthfile">
                 <label for="sixthfile" class="new">
@@ -117,8 +117,8 @@
         <input type="hidden" name="fifthfile" value="<%= fc.photos[4] %>">
         <input type="hidden" name="sixthfile" value="<%= fc.photos[5] %>">
         
-        <input type="text" name="name" placeholder="Имя Товара" value="<%= fc.name %>">
-        <select name="cat" onchange="category(this.value)">
+        <input type="text" name="name" placeholder="Имя" value="<%= fc.name %>">
+        <!--select name="cat" onchange="category(this.value)">
             <option>Категория товара</option>
             <% cats.forEach(function(cat) { %>
             <% if(cat.name == fc.cat) { %>
@@ -138,10 +138,13 @@
             <% } else { %>
                 <option><%= type %></option>
             <% }}); %>
-        </select>
-        <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание"><%= fc.desc %></textarea>
-        <input class="form-control" type="number" name="price" placeholder="Цена товара" min="0.01" step="0.01" value="<%= fc.price %>">
-        <button class="btn btn-lg btn-primary btn-block">Добавить товар</button>
+        </select-->
+        <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание девушки"><%= fc.desc %></textarea>
+        <input type="number" name="age" placeholder="Возраст" value="<%= fc.age %>">
+        <input type="number" name="boobs" placeholder="Размер груди" value="<%= fc.boobs %>">
+        <input type="number" name="height" placeholder="Рост" value="<%= fc.height %>">
+        <input type="number" name="weight" placeholder="Вес" value="<%= fc.weight %>">
+        <button class="btn btn-lg btn-primary btn-block">Добавить</button>
         <a href="/products/clear">Отмена</a>
     </form>
 </div>
@@ -188,7 +191,7 @@
             var name = $(this).data("name");
             
             $.ajax({
-                url: "https://mangi.kz/upload.php",
+                url: "<%= uploadUrl %>",
                 type: 'POST',
                 data: formData,
                 crossDomain: true,

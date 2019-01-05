@@ -11,7 +11,20 @@ var bazars = require("../models/bazars.json").list;
 var api_key = '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';
 
 router.get("/", function(req, res) {
-    res.redirect("/products");
+    User.findOne({username: 'admin'}, function(err, profile){
+        if(err) console.log(err);
+        
+        Product.find({}).sort({created: -1}).limit(4).exec(function(err, allProducts){
+            if(err) console.log(err);
+            
+            var formquery = {};
+            
+            if(req.session.search)
+                formquery = req.session.search;
+            
+            res.render("landingpage", {girls: allProducts, q: formquery, profile: profile });
+        });  
+    });
 });
 
 router.get("/reset/:token", function(req, res) {
@@ -187,16 +200,12 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
         
         var post = {
             username: req.body.username.trim(),
+            email:    req.body.email.trim(),
             phone:    req.body.phone.trim(),
             address:  req.body.address.trim(),
-            avatar:   req.body.firstfile.trim(),
-            email:    req.body.email.trim(),
-            bazar:    req.body.bazar.trim(),
-            website:  req.body.website.trim(),
             title:    req.body.title.trim(),
-            country:  req.body.country.trim(),
-            city:     req.body.city.trim(),
-            desc:     req.body.desc.trim()
+            desc:     req.body.desc.trim(),
+            subdesc:  req.body.subdesc.trim()
         };
             
         if(!post.username || !post.username.match(/^[a-zA-Z0-9]+$/) || post.username.length < 3 || post.username.length > 20) {
@@ -219,49 +228,29 @@ router.post("/profile", middleware.isLoggedIn, function(req, res) {
             return res.redirect("back");
         }
         
-        if(post.website && !post.website.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi)){
-            req.flash("error", "Ссылка на сайт должны быть в формате www.google.com");
-            return res.redirect("back");
-        }
-        
         if(!post.desc || post.desc.length < 10){
             req.flash("error", "Описание должно быть не короче 10 символов!");
             return res.redirect("back");
         }
         
+        if(!post.subdesc || post.subdesc.length < 10){
+            req.flash("error", "Под описание должно быть не короче 10 символов!");
+            return res.redirect("back");
+        }
+        
+        
         if(!post.title || post.title.length < 1){
-            req.flash("error", "Введите название точки!");
+            req.flash("error", "Введите название салона!");
             return res.redirect("back");
         }
         
-        if(post.country == "Страна") {
-            req.flash("error", "Укажите Страну!");
-            return res.redirect("back");
-        }
-        
-        if(post.city == "Город") {
-            req.flash("error", "Укажите Город!");
-            return res.redirect("back");
-        }
-        
-        if(post.bazar == "Базар"){
-            req.flash("error", "Укажите базар!");
-            return res.redirect("back");
-        }
-        
-        if(!post.avatar) { post.avatar = global.siteurl + "/svg/online-store.svg"; }
-
         user.username = post.username;
         user.phone = post.phone;
         user.email = post.email;
         user.title = post.title;
         user.address = post.address;
-        user.bazar   = post.bazar;
-        user.website = post.website;
-        user.country = post.country;
         user.desc = post.desc;
-        user.avatar = post.avatar;
-        user.city = post.city;
+        user.subdesc = post.subdesc;
         user.save();
         
         req.flash("success", "Профиль успешно обновлен!");

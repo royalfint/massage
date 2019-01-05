@@ -1,0 +1,208 @@
+<html>
+<head>
+    <title><%= title %> - Главная</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/resp.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
+</head>
+<body>
+    <div class="wrap fixed" id="blackout">
+        <div class="topmenu">
+            <div class="brand"><a href="#hero"><%= title %></a></div>
+            <div class="menu">
+                <a href="#girls">Девушки</a>
+                <a href="#services">Услуги</a>
+                <a href="#interior">Интерьер</a>
+                <a href="#about">О Нас</a>
+                <a href="#offers">Акции</a>
+                <a href="#contacts">Контакты</a>
+            </div>
+            <div class="yummy">
+                <div id="menu-toggle">
+                    <div id="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div id="cross">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay">
+        <div style="display: flex; flex-direction: column;">
+            <a href="#girls" onclick="yummy();">Девушки</a>
+            <a href="#services" onclick="yummy();">Услуги</a>
+            <a href="#interior" onclick="yummy();">Интерьер</a>
+            <a href="#about" onclick="yummy();">О Нас</a>
+            <a href="#offers" onclick="yummy();">Акции</a>
+            <a href="#contacts" onclick="yummy();">Контакты</a>
+        </div>
+    </div>
+
+    <div class="hero section" id="hero">
+        <div class="wrap">
+            <div>
+                <h1 class="gold"><%= profile.desc %></h1>
+                <h3><%= profile.subdesc %></h3>
+                <a href="#contacts" class="btn">круто! куда подъехать?</a>
+            </div>
+        </div>
+        <div class="anchor">
+            <a href="#girls"><img src="svg/anchor.svg"></a>
+        </div>
+    </div>
+
+    <div class="girls section" id="girls">
+        <div class="wrap">
+            <div>
+                <h2 class="gold">Наши девушки</h2>
+                <h3>Подзаголовок</h3>
+                <div class="girlsGrid">
+                    <% girls.forEach(function(girl){ %>
+                        <div>
+                            <img src="<%= girl.image[0] %>">
+                            <p class="name gold"><%= girl.name %></p>
+                            <p class="name desc">Грудь <%= girl.boobs %>, Рост <%= girl.height %>, Вес <%= girl.weight %> </p>
+                            <div class="buttonRow">
+                                <a href="#" class="btn">Записаться</a>
+                                <a href="#" class="btn more">Еще</a>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+                <a href="/girls" class="btn show">Показать всех</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="service section" id="services">
+        <div class="wrap">
+            <div>
+                <h2 class="gold">Наши Услуги</h2>
+                <h3>Подзаголовок</h3>
+                <div class="programs">
+                    <div>
+                        <h4 class="gold">программы для мужчин</h4>
+                        <p>По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает.</p>
+                    </div>
+                    <div>
+                        <h4 class="gold">программы для пар</h4>
+                        <p>По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает.</p>
+                    </div>
+                </div>
+                <a href="/services" class="btn show">Показать все</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="apps section" id="interior">
+        <div class="wrap">
+            <div>
+                <h2 class="gold">Аппартаменты</h2>
+                <h3>Подзаголовок</h3>
+                <div class="appsGrid">
+                    <div class="revers">
+                        <div class="reverse">
+                            <h4 class="gold">Комната "дикое сафари"</h4>
+                            <p>По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает.</p>
+                            <a href="#" class="btn">Посетить</a>
+                        </div>
+                        <img src="img/legs.jpg">
+                    </div>
+                    <div>
+                        <img src="img/face.jpg">
+                        <div>
+                            <h4 class="gold">Комната "романтик"</h4>
+                            <p>По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает.</p>
+                            <a href="#" class="btn">Посетить</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn show">Показать все</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="about section" id="about">
+        <div class="wrap">
+            <div>
+                <h2 class="gold">Немного о нас</h2>
+                <h3>Подзаголовок</h3>
+                <div class="quote">
+                    <img src="img/beardman.png">
+                    <div>
+                        <p>По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых
+                            людей недоумение при попытках прочитать рыбу текст. В отличии от lorem ipsum, текст рыба на русском
+                            языке наполнит любой макет непонятным смыслом и придаст неповторимый колорит советских времен.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="offers section" id="offers">
+        <div class="wrap">
+            <div>
+                <h2 class="gold">акции</h2>
+                <h3>Подзаголовок</h3>
+                <div class="offerblock">
+                    <div>
+                        <h4 class="gold">госпожа на двоих</h4>
+                        <ul>
+                            <li>Госпожу на час</li>
+                            <li>Нет запретов, творите, что хотите</li>
+                            <li>Шикарные апартаменты</li>
+                        </ul>
+                        <img src="img/lady.jpg" alt="">
+                    </div>
+                    <div>
+                        <h4 class="gold">марафон</h4>
+                        <ul>
+                            <li>Девушку на два часа</li>
+                            <li>Бесплатный массаж</li>
+                            <li>Шикарные апартаменты</li>
+                        </ul>
+                        <img src="img/sport.jpg" alt="">
+                    </div>
+                    <div>
+                        <h4 class="gold">вкусное орео</h4>
+                        <ul>
+                            <li>2 девушки на час</li>
+                            <li>Бесплатный массаж</li>
+                            <li>Свежие фрукты</li>
+                        </ul>
+                        <img src="img/role.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--div class="job section">
+        <div class="wrap">
+            <div>
+                <h2 class="gold">Вакансии</h2>
+                <h3>Подзаголовок</h3>
+            </div>
+        </div>
+    </div-->
+
+    <div class="contacts section" id="contacts">
+        <h2 class="gold">Контакты</h2>
+        <h3>Подзаголовок</h3>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2503.563775624998!2d71.42080119451197!3d51.13495393913761!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x424586a3b81fc6ed%3A0x2a05d6c5a59a0241!2sSarayshyq+St+5%D0%B3%2C+Astana+020000!5e0!3m2!1sen!2skz!4v1534912454871"
+            frameborder="0" style="border:0"></iframe>
+        <div class="callback">
+            <h3>Закажи обратный звонок и я сама тебе перезвоню</h3>
+            <a class="btn" href="#">Позвони мне</a>
+        </div>
+    </div>
+
+<% include landingfooter %>

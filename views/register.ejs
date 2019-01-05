@@ -17,44 +17,10 @@
         <input type="text" name="username" placeholder="Логин*" value="<%= rf.username %>">
         <input type="email" name="email" placeholder="E-mail" value="<%= rf.email %>">
         <input type="password" name="password" placeholder="Пароль*" value="<%= rf.password %>">
-        <input type="text" name="phone" placeholder="Телефон*" value="<%= rf.phone %>">
-        <input type="text" name="title" placeholder="Название точки*" value="<%= rf.title %>">
-        <select name="bazar">
-            <option>Базар</option>
-            <% bazars.forEach(function(bazar) { %>
-            <% if(bazar.name == rf.bazar) { %>
-                <option selected><%= bazar.name %></option>
-            <% } else { %>
-                <option><%= bazar.name %></option>
-            <% }}); %>
-        </select>
-        <input type="text" name="address" placeholder="Адрес бутика*" value="<%= rf.address %>">
-        <input type="text" name="website" placeholder="Веб-сайт" value="<%= rf.website %>">
+        <input type="text" name="phone" placeholder="Телефон салона*" value="<%= rf.phone %>">
+        <input type="text" name="title" placeholder="Название салона*" value="<%= rf.title %>">
+        <input type="text" name="address" placeholder="Адрес салона*" value="<%= rf.address %>">
         <input type="text" name="desc" placeholder="Описание деятельности*" value="<%= rf.desc %>">
-        <select name="country">
-            <option>Страна</option>
-            <% if (rf.country) { %>
-                <option selected>Kazakhstan</option>
-            <% } else { %>
-                <option>Kazakhstan</option>
-            <% } %>
-            <!-- div> <% countries.forEach(function(country) { %>
-                <% if(country.name != "Kazakhstan") { %>
-                    <option disabled><%= country.name %></option>
-                <% } else { %>
-                    <option><%= country.name %></option>
-                <% } %>
-            <% }); %> </div -->
-        </select>
-        <select name="city">
-            <option>Город</option>
-            <% cities.forEach(function(city) { %>
-            <% if(city.name == rf.city) { %>
-                <option selected><%= city.name %></option>
-            <% } else { %>
-                <option><%= city.name %></option>
-            <% }}); %>
-        </select>
         <p style="text-align: center;"><br>Продолжая регистрацию вы соглашетесь с <a href="">условиями публичной оферты.</a></p>
         <button class="btn btn-lg btn-primary btn-block">Создать Аккаунт</button> 
         <a href="/products" style="color: #999999;">Назад</a>

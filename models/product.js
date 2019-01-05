@@ -4,10 +4,10 @@ var productSchema = new mongoose.Schema({
     name: String,
     image: [String],
     desc: String,
-    cat: String,
-    subcat: String,
-    price: Number,
-    type: String,
+    height: Number,
+    weight: Number,
+    boobs: Number,
+    age: Number,
     created: Date,
     author: {
         id: {

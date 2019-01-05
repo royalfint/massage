@@ -20,11 +20,7 @@ router.post("/register", function(req, res){
         password: req.body.password.trim(),
         phone:    req.body.phone.trim(),
         address:  req.body.address.trim(),
-        bazar:    req.body.bazar.trim(),
-        website:  req.body.website.trim(),
         title:    req.body.title.trim(),
-        country:  req.body.country.trim(),
-        city:     req.body.city.trim(),
         desc:     req.body.desc.trim()
     };
     
@@ -55,28 +51,8 @@ router.post("/register", function(req, res){
         return res.redirect("/register");
     }
     
-    if(post.website && !post.website.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi)){
-        req.flash("error", "Ссылка на сайт должны быть в формате www.google.com");
-        return res.redirect("/register");
-    }
-    
     if(!post.desc || post.desc.length < 10){
         req.flash("error", "Описание должно быть не короче 10 символов!");
-        return res.redirect("/register");
-    }
-    
-    if(post.country == "Страна"){
-        req.flash("error", "Выберите страну!");
-        return res.redirect("/register");
-    }
-    
-    if(post.city == "Город"){
-        req.flash("error", "Выберите город!");
-        return res.redirect("/register");
-    }
-    
-    if(post.bazar == "Базар"){
-        req.flash("error", "Выберите базар!");
         return res.redirect("/register");
     }
     
@@ -95,8 +71,6 @@ router.post("/register", function(req, res){
         user.token = String(middleware.folder());
         user.website = post.website;
         user.email = post.email;
-        user.country = post.country;
-        user.bazar = post.bazar;
         user.desc = post.desc;
         user.rated = [user.username];
         user.rating = 0;
@@ -106,8 +80,6 @@ router.post("/register", function(req, res){
         user.payments = [];
         user.ispaid = false;
         user.active = true;
-        user.avatar = global.siteurl + "/svg/online-store.svg",
-        user.city = post.city;
         user.registered = help.toLocalTime(new Date());
         user.paydate = help.daysToDate(help.toLocalTime(new Date()), 30);
         console.log("registered: ", user.registered);
@@ -128,7 +100,7 @@ router.get("/register", function(req, res){
     if(!req.session.rf)
         req.session.rf = {};
         
-    res.render("register", {countries: countries, cities: cities, rf: req.session.rf, bazars: bazars});
+    res.render("register", { rf: req.session.rf});
 });
 
 //show login form
@@ -141,7 +113,7 @@ router.post("/login", passport.authenticate("local",
     {
         successRedirect: "/logged",
         failureFlash: 'Неправильный логин или пароль!',
-        successFlash: 'Добро пожаловать в Bazarlar!',
+        successFlash: 'Добро пожаловать в Massage!',
         failureRedirect: "/login"
     }), function(req, res){
 });
@@ -151,7 +123,7 @@ router.get("/logged", function(req, res) {
         if(err) console.log(err);
         if(user) req.session.status = user.status;
         console.log("new status set", req.session.status);
-        res.redirect("/products")
+        res.redirect("/profile");
     });
 });
 

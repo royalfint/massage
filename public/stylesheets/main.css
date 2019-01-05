@@ -6,6 +6,9 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+.brand { text-transform: uppercase; color: #000; 
+    text-decoration: none;}
+
 /*** admin sidebar ****/
 .toolbar {
     position: fixed;
@@ -136,11 +139,6 @@ body {
     margin-top: -.25rem;
 }
 
-.productInfo {
-    position: relative;
-    color: #000;
-}
-
 .product .price {
     position: absolute;
     bottom: 0;
@@ -151,7 +149,7 @@ body {
     background: rgba(255,255,255, 0.85);
 }
 
-.productInfo:hover .productOverlay{
+.product:hover .productOverlay{
     opacity: 1;
 }
 
@@ -160,6 +158,7 @@ body {
     opacity: 0;
     position: absolute;
     top: 0;
+    color: #000;
     left: 0;
     width: 100%;
     height: 100%;
