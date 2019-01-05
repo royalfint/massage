@@ -141,12 +141,12 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
         var post = {
             id: req.params.id,
             name: req.body.name,
-            cat: req.body.cat,
-            subcat: req.body.subcat,
-            type: req.body.type,
-            price: req.body.price,
             photos: [],
             desc: req.body.desc,
+            age: req.body.age,
+            boobs: req.body.boobs,
+            height: req.body.height,
+            weight: req.body.weight,
             author: {
                 id: req.user._id,
                 username: req.user.username
@@ -170,42 +170,47 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
             return res.redirect("back");
         }
         
-        if(post.cat == "Категория товара"){
-            req.flash("error", "Выберите категорию товара!");
-            return res.redirect("back");
-        }
-        
-        if(post.subcat == "Подкатегория товара"){
-            req.flash("error", "Выберите подкатегорию товара!");
-            return res.redirect("back");
-        }
-        
         if(!post.desc || post.desc.length < 10){
             req.flash("error", "Описание должно быть не короче 10 символов!");
-            return res.redirect("back");
+            return res.redirect("/products/new");
         }
         
-        if(!post.price || post.price == "0") {
-            req.flash("error", "Введите цену!");
-            return res.redirect("back");
+        if(!post.age){
+            req.flash("error", "Введите возраст!");
+            return res.redirect("/products/new");
+        }
+        
+        if(!post.boobs){
+            req.flash("error", "Введите размер груди!");
+            return res.redirect("/products/new");
+        }
+        
+        if(!post.height){
+            req.flash("error", "Введите рост!");
+            return res.redirect("/products/new");
+        }
+        
+        if(!post.weight){
+            req.flash("error", "Введите вес!");
+            return res.redirect("/products/new");
         }
     
         var newProduct = {
             name: post.name,
             image: post.photos,
-            cat: post.cat,
-            subcat: post.subcat,
-            type: post.type,
             desc: post.desc,
             author: post.author,
-            price: post.price
+            weight: post.weight,
+            height: post.height,
+            boobs: post.boobs,
+            age: post.boobs
         };
         Product.findByIdAndUpdate(post.id, newProduct, function(err, justUpdated){
             if(err){
                 console.log(err);
             } else {
                 console.log(justUpdated);
-                return res.redirect("/products");
+                return res.redirect("/myproducts");
             }
         });
 });
