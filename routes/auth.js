@@ -178,7 +178,7 @@ router.post("/reset", function(req, res) {
 router.get("/logout", function(req, res){
     req.logout();
     req.flash("success", "Выход из системы!");
-    res.redirect("/products");
+    res.redirect("/");
 });
 
 router.get("/needtosignin", function(req, res) {
