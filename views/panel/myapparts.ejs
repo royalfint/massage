@@ -2,15 +2,15 @@
 <% include ../partials/minibar %>
 
 <div class="adminarea">
-    <p class="adminh">Мастера салона <a style="margin-left: 1rem;" href="/products/new">Добавить</a></p>
+    <p class="adminh">Комнаты <a style="margin-left: 1rem;" href="/apparts/new">Добавить</a></p>
     <div class="productsGrid">
-        <% products.forEach(function(product) { %>
+        <% apparts.forEach(function(product) { %>
             <div class="product">
-                <a href="/products/<%= product._id %>">
+                <a href="/apparts/<%= product._id %>">
                     <div class="productImg ad" style="background: url(<%= product.image[0].replace(" ","%20") %>) center/cover no-repeat;"></div>
                     <div class="productOverlay"><p><%= product.name %></p></div>
                 </a>
-                <a class="price" href="/products/<%= product.id %>/edit"><img style="height: 1.5rem;" src="../svg/edit.svg"></a>
+                <a class="price" href="/apparts/<%= product.id %>/edit"><img style="height: 1.5rem;" src="../svg/edit.svg"></a>
             </div>
         <% }); %>
     </div>

@@ -145,7 +145,7 @@ router.get("/:id",function(req, res){
 });
 
 //EDIT PRODUCT ROUTE
-router.get("/:id/edit", middleware.checkProductOwnership, function(req, res){
+router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
     Product.findById(req.params.id, function(err, foundProduct){
             if(err){
                 req.flash("error", err.message);
@@ -191,7 +191,7 @@ router.post("/top", middleware.isLoggedIn, function(req, res) {
 });
 
 //UPDATE PRODUCT ROUTE
-router.put("/:id", middleware.checkProductOwnership, function(req, res){
+router.put("/:id", middleware.isLoggedIn, function(req, res){
         var post = {
             id: req.params.id,
             name: req.body.name,
@@ -265,7 +265,7 @@ router.put("/:id", middleware.checkProductOwnership, function(req, res){
 });
 
 //DESTROY PRODUCT ROUTE
-router.delete("/:id", middleware.checkProductOwnership, function(req, res){
+router.delete("/:id", middleware.isLoggedIn, function(req, res){
     Product.findByIdAndRemove(req.params.id, function(err){
         if(err){
             req.flash("error", err.message);

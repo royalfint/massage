@@ -2,7 +2,7 @@
 <% include ../partials/minibar %>
 
 <div class="adminarea">
-    <p class="adminh">Редактирование товара </p>
+    <p class="adminh">Редактирование акции</p>
     <form class="login new">
         <div class="flash">
             <% if(error && error.length > 0) { %>
@@ -108,7 +108,7 @@
             </form>
         </div>
     </div>
-    <form class="login new" id="addprod" action="/products/<%= product.id %>/?_method=PUT" method="POST">
+    <form class="login new" id="addprod" action="/deals/<%= product.id %>/?_method=PUT" method="POST">
         <input type="hidden" name="firstfile" value="<%= product.image[0] %>">
         <input type="hidden" name="secondfile" value="<%= product.image[1] %>">
         <input type="hidden" name="thirdfile" value="<%= product.image[2] %>">
@@ -116,14 +116,10 @@
         <input type="hidden" name="fifthfile" value="<%= product.image[4] %>">
         <input type="hidden" name="sixthfile" value="<%= product.image[5] %>">
         
-        <input type="text" name="name" placeholder="Имя" value="<%= product.name %>">
-        <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание девушки"><%= product.desc %></textarea>
-        <input type="number" name="age" placeholder="Возраст" value="<%= product.age %>">
-        <input type="number" name="boobs" placeholder="Размер груди" value="<%= product.boobs %>">
-        <input type="number" name="height" placeholder="Рост" value="<%= product.height %>">
-        <input type="number" name="weight" placeholder="Вес" value="<%= product.weight %>">
+        <input type="text" name="name" placeholder="Название акции" value="<%= product.name %>">
+        <textarea class="form-control" rows="4" type="text" name="desc" placeholder="Описание акции, цены, длительность и тд"><%= product.desc %></textarea>
         <button class="btn btn-lg btn-primary btn-block">Обновить</button>
-        <a href="/products/clear">Отмена</a>
+        <a href="/deals/clear">Отмена</a>
     </form>
 </div>
 

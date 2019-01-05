@@ -13,20 +13,24 @@ var commentRoutes  = require("./routes/comments"),
     adminRoutes    = require("./routes/admin"),
     productRoutes  = require("./routes/products"),
     authRoutes     = require("./routes/auth"),
+    servicesRoutes = require("./routes/services"),
+    appartsRoutes  = require("./routes/apparts"),
+    dealsRoutes    = require("./routes/deals"),
     indexRoutes    = require("./routes/index");
 
 
 mongoose.connect('mongodb://admin:YtEpyftimVjq1Gfhjkm@ds149344.mlab.com:49344/massaj');
 global.uploadUrl = "https://unique.plus/upload/upload.php";
 global.cdn = "https://unique.plus/upload/";
-
+global.siteurl = "https://massaj-royalfint.c9users.io/";
+//global.siteurl = "https://www.bazarlar.kz";
 User.findOne({username: 'admin'}, function(err, profile){
     if(err) console.log(err);
     
-    global.title = profile.title;    
+    global.title = profile.title;
+    global.address = profile.address;
+    global.phone = profile.phone;
 });
-global.siteurl = "https://massaj-royalfint.c9users.io/";
-//global.siteurl = "https://www.bazarlar.kz";
 
 app.use(require("express-session")({
     secret: "Once again Rusty wins cutest dog!",
@@ -50,6 +54,8 @@ app.use(function(req, res, next){
    res.locals.url = global.siteurl;
    res.locals.cdn = global.cdn;
    res.locals.title = global.title;
+   res.locals.address = global.address;
+   res.locals.phone = global.phone;
    res.locals.uploadUrl = global.uploadUrl;
    res.locals.status = req.session.status;
    next();
@@ -58,8 +64,10 @@ app.use(function(req, res, next){
 app.use("/",indexRoutes);
 app.use("/", authRoutes);
 app.use("/", adminRoutes);
-//app.use("/products/:id/comments",commentRoutes);
 app.use("/products", productRoutes);
+app.use("/apparts", appartsRoutes);
+app.use("/services", servicesRoutes);
+app.use("/deals", dealsRoutes);
 
 //LISTENING FOR USERS
 app.listen(process.env.PORT, process.env.IP, function() {

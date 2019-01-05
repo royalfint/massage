@@ -304,6 +304,7 @@ h4 {
     padding-bottom: 35%;
 }
 
+/*
 .programs>div:nth-child(even) {
     clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
     background: url(../img/pair.jpg) center/cover no-repeat;
@@ -314,6 +315,7 @@ h4 {
     background: url(../img/erotic.jpg) center/cover no-repeat;
     left: 15rem;
 }
+*/
 
 .programs>div:nth-child(odd) h4 {
     top: 3rem;
@@ -386,6 +388,8 @@ h4 {
 .appsGrid img {
     width: 100%;
     height: auto;
+    max-height: 25rem;
+    max-width: 70rem;
 }
 
 .appsGrid img:nth-child(odd) {

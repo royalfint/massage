@@ -1,5 +1,8 @@
 var express     = require("express"),
     User  = require("../models/user"),
+    Appart = require("../models/appart"),
+    Service = require("../models/service"),
+    Deal    = require("../models/deal"),
     passport  = require("passport"),
     sgMail   = require("@sendgrid/mail"),
     Product  = require("../models/product");
@@ -14,6 +17,14 @@ router.get("/", function(req, res) {
     User.findOne({username: 'admin'}, function(err, profile){
         if(err) console.log(err);
         
+        global.title = profile.title;
+        global.address = profile.address;
+        global.phone = profile.phone;
+        
+        res.locals.title = global.title;
+        res.locals.address = global.address;
+        res.locals.phone = global.phone;
+        
         Product.find({}).sort({created: -1}).limit(4).exec(function(err, allProducts){
             if(err) console.log(err);
             
@@ -21,8 +32,20 @@ router.get("/", function(req, res) {
             
             if(req.session.search)
                 formquery = req.session.search;
-            
-            res.render("landingpage", {girls: allProducts, q: formquery, profile: profile });
+                
+            Appart.find({}).limit(4).exec(function(err, allApps){
+               if(err) console.log(err);
+               
+                Service.find({}).limit(2).exec(function(err, allServices){
+                    if(err) console.log(err);
+                    
+                    Deal.find({}).limit(3).exec(function(err, allDeals){
+                        if(err) console.log(err);
+                        
+                        res.render("landingpage", {girls: allProducts, q: formquery, profile: profile, apparts: allApps, services: allServices, deals: allDeals });
+                    });
+                });
+            });
         });  
     });
 });
@@ -172,6 +195,33 @@ router.get("/myproducts", middleware.isLoggedIn, function(req, res) {
     });
 });
 
+router.get("/myservices", middleware.isLoggedIn, function(req, res){
+    
+    Service.find({}).exec(function(err, foundApps){
+        if(err){ console.log(err); }
+        
+        res.render("panel/myservices", {products: foundApps});
+    });
+});
+
+router.get("/myapparts", middleware.isLoggedIn, function(req, res) {
+
+    Appart.find({}).exec(function(err, foundApps){
+        if(err){ console.log(err); }
+        
+        res.render("panel/myapparts", {apparts: foundApps});
+    });
+});
+
+router.get("/mydeals", middleware.isLoggedIn, function(req, res) {
+
+    Deal.find({}).exec(function(err, foundApps){
+        if(err){ console.log(err); }
+        
+        res.render("panel/mydeals", {products: foundApps});
+    });
+});
+
 router.get("/favs", middleware.isLoggedIn, function(req, res) {
     var seller = req.user.username;
     
@@ -191,6 +241,63 @@ router.get("/profile", middleware.isLoggedIn, function(req, res) {
         if(err) console.log(err);
         
         res.render("panel/profile", {user: user, countries: countries, cities: cities, bazars: bazars, folder: middleware.folder});
+    });
+});
+
+router.get("/mytexts", middleware.isLoggedIn, function(req, res) {
+    User.findById(req.user.id, function(err, user){
+        if(err) console.log(err);
+        
+        res.render("panel/texts", {user: user, folder: middleware.folder});
+    });
+});
+    
+router.post("/texts", middleware.isLoggedIn, function(req, res) {
+    User.findById(req.user.id, function(err, user) {
+        if(err) console.log(err);
+        
+        var post = {
+            girlsTitle: req.body.girlsTitle.trim(),
+            girlsSub: req.body.girlsSub.trim(),
+            serviceTitle: req.body.serviceTitle.trim(),
+            serviceSub: req.body.serviceSub.trim(),
+            appartsTitle: req.body.appartsTitle.trim(),
+            appartsSub: req.body.appartsSub.trim(),
+            aboutTitle: req.body.aboutTitle.trim(),
+            aboutSub: req.body.aboutSub.trim(),
+            aboutText: req.body.aboutText.trim(),
+            dealsTitle: req.body.dealsTitle.trim(),
+            dealsSub: req.body.dealsSub.trim(),
+            contactsTitle: req.body.contactsTitle.trim(),
+            contactsSub: req.body.contactsSub.trim(),
+            contactsText: req.body.contactsText.trim()
+        };
+            
+        if(!post.girlsTitle || !post.girlsSub || !post.serviceTitle || !post.serviceSub || !post.appartsTitle 
+        || !post.appartsSub || !post.aboutTitle || !post.aboutSub|| !post.aboutText || !post.dealsTitle
+        || !post.dealsSub || !post.contactsTitle || !post.contactsSub || !post.contactsText ) {
+            req.flash("error", "Заполните все поля!");
+            return res.redirect("back");
+        }
+        
+        user.girlsTitle = post.girlsTitle;
+        user.girlsSub = post.girlsSub;
+        user.serviceTitle = post.serviceTitle;
+        user.serviceSub = post.serviceSub;
+        user.appartsTitle = post.appartsTitle;
+        user.appartsSub = post.appartsSub;
+        user.aboutTitle = post.aboutTitle;
+        user.aboutSub = post.aboutSub;
+        user.aboutText = post.aboutText;
+        user.dealsTitle = post.dealsTitle;
+        user.dealsSub = post.dealsSub;
+        user.contactsTitle = post.contactsTitle;
+        user.contactsSub = post.contactsSub;
+        user.contactsText = post.contactsText;
+        user.save();
+        
+        req.flash("success", "Текст успешно обновлен!");
+        res.redirect("/mytexts");
     });
 });
 

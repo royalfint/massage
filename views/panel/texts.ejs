@@ -1,0 +1,120 @@
+<% include ../partials/header %>
+<% include ../partials/minibar %>
+
+<div class="adminarea">
+    <p class="adminh">Редактирование текста на сайте</p>
+    <a style="display: flex; margin-bottom: 1.5rem;" href="/">Просмотреть изменения</a>
+    <form class="login new">
+        <div class="flash">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } if(success && success.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+            <% } %>
+        </div>
+    </form>
+    <form class="login new" method="POST" action="/texts">
+        <label for="girlsTitle">Название Раздела Мастеров</label>
+            <input id="girlsTitle" type="text" name="girlsTitle" placeholder="" value="<%= user.girlsTitle %>">
+        <label for="girlsSub">Подзаголовок Раздела Мастеров</label>
+            <input id="girlsSub" type="text" name="girlsSub" placeholder="" value="<%= user.girlsSub %>">
+        
+        <label for="serviceTitle">Название Раздела Услуг</label>
+            <input id="serviceTitle" type="text" name="serviceTitle" placeholder="" value="<%= user.serviceTitle %>">
+        <label for="serviceSub">Подзаголовок Раздела Услуг</label>
+            <input id="serviceSub" type="text" name="serviceSub" placeholder="" value="<%= user.serviceSub %>">
+        
+        <label for="appartsTitle">Название Раздела Интерьера</label>
+            <input id="appartsTitle" type="text" name="appartsTitle" placeholder="" value="<%= user.appartsTitle %>">
+        <label for="appartsSub">Подзаголовок Раздела Интерьера</label>
+            <input id="appartsSub" type="text" name="appartsSub" placeholder="" value="<%= user.appartsSub %>">
+        
+        <label for="aboutTitle">Название Раздела О Нас</label>
+            <input id="aboutTitle" type="text" name="aboutTitle" placeholder="" value="<%= user.aboutTitle %>">
+        <label for="aboutSub">Подзаголовок Раздела О Нас</label>
+            <input id="aboutSub" type="text" name="aboutSub" placeholder="" value="<%= user.aboutSub %>">
+        <label for="aboutText">Текст Раздела О Нас</label>
+            <input id="aboutText" type="text" name="aboutText" placeholder="" value="<%= user.aboutText %>">
+        
+        <label for="dealsTitle">Название Раздела Акции</label>
+            <input id="dealsTitle" type="text" name="dealsTitle" placeholder="" value="<%= user.dealsTitle %>">
+        <label for="dealsSub">Подзаголовок Раздела Акции</label>
+            <input id="dealsSub" type="text" name="dealsSub" placeholder="" value="<%= user.dealsSub %>">
+        
+        <label for="contactsTitle">Название Раздела Контактов</label>
+            <input id="contactsTitle" type="text" name="contactsTitle" placeholder="" value="<%= user.contactsTitle %>">
+        <label for="contactsSub">Подзаголовок Раздела Контактов</label>
+            <input id="contactsSub" type="text" name="contactsSub" placeholder="" value="<%= user.contactsSub %>">
+        <label for="contactsText">Текст Раздела Контактов</label>
+            <input id="contactsText" type="text" name="contactsText" placeholder="" value="<%= user.contactsText %>">
+        <button>Обновить тексты</button>
+    </form>
+</div>
+
+<%
+function getthumb(file) {
+        var result = file.split(".");
+        var ext = result[result.length-1];
+        
+        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
+            return "<img src=" + file + " class=\"dataImg\">"
+        } else {
+            return "<img src=\"" + siteurl + "/svg/vid.svg\" class=\"dataImg\">"
+        }
+    }
+%>
+<script>
+    $(".close").each(function() {
+        $(this).on("click", function(){
+            $(this.parentNode).removeClass("uploaded");
+            $(this.parentNode).find("img.dataImg").attr("src","");
+            $("[name='" + $(this).data("name") + "']").attr("value", "");
+        });
+    });
+    
+    $(".filetype").each(function(){
+        this.onchange = function() {
+            var formData = new FormData(this.parentNode);
+            var img = $(this.parentNode).find("img.dataImg");
+            var add = $(this.parentNode);
+            var name = $(this).data("name");
+            
+            $.ajax({
+                url: "https://mangi.kz/upload.php",
+                type: 'POST',
+                data: formData,
+                crossDomain: true,
+                success: function (data) {
+                    console.log(data);
+                    if(data == "NOT_IMAGE") {
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Загруженный файл не является картинкой!</div>' );
+                    } else if (data == "WRONG_TYPE") {
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Файл должен быть в формате JPG, PNG, JPEG или GIF!</div>' );
+                    } else if(data == "TOO_LARGE"){
+                        $( ".flash" ).append( '<div class="alert alert-danger" role="alert">Размер фото должен быть меньше 10Мб!</div>' );
+                    } else {
+                        var result = data.split(".");
+                        var ext = result[result.length-1];
+                        
+                        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "jpeg") {
+                            img.attr("src", data);
+                        } else {
+                            img.attr("src", "<%= url %>/svg/vid.svg");
+                        } 
+                        $("[name='" + name + "']").attr("value", data);
+                        add.addClass("uploaded");
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        }
+    });
+</script>
+
+<% include ../partials/footer %>

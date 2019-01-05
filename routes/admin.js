@@ -8,14 +8,8 @@ var express     = require("express"),
 var soap = require('soap');
 
 router.get("/admin", middleware.isLoggedIn, function(req, res) {
-    var adminperpage = 20;
-    if(!req.session.adminpage) req.session.adminpage = 0;
     
-   User.find({}).limit(adminperpage).skip(req.session.adminpage * adminperpage).exec(function(err, users) {
-        if(err) console.log(err);
-        
-        res.render("admin", {users: users});
-    });
+    res.redirect("/profile");
 });
 
 router.get("/admin/edit/:username", middleware.isLoggedIn, function(req, res) {

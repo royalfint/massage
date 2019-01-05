@@ -20,7 +20,21 @@ var userSchema = new mongoose.Schema({
     ispaid: Boolean,
     active: Boolean,
     registered: Date,
-    paydate: Date
+    paydate: Date,
+    girlsTitle: String,
+    girlsSub: String,
+    serviceTitle: String,
+    serviceSub: String,
+    appartsTitle: String,
+    appartsSub: String,
+    aboutTitle: String,
+    aboutSub: String,
+    aboutText: String,
+    dealsTitle: String,
+    dealsSub: String,
+    contactsTitle: String,
+    contactsSub: String,
+    contactsText: String
 });
 
 userSchema.plugin(passportLocalMongoose);
