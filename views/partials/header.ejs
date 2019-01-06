@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="/stylesheets/main.css">
         <link rel="stylesheet" href="/stylesheets/resp.css">
         <link rel="stylesheet" href="/stylesheets/menu.css">
-        <link rel="shortcut icon" href="<%= url %>/fav.png" />
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://rawgit.com/ruyadorno/simple-slider/master/dist/simpleslider.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
@@ -37,8 +36,10 @@
     <div class="mobbar">
     <% if (!currentUser) { %>
         <a href="/login"><img src="../svg/signin.svg">Войти</a>
-        <a href="/register"><img src="../svg/add-user.svg">Регистрация</a>
+        <!--a href="/register"><img src="../svg/add-user.svg">Регистрация</a-->
     <% } else { %>
+        <% if(lang=="ru") { %> <a href="/en?admin=true"><img style="height: 1rem;" src="/svg/en.svg"></a> <% } %>
+        <% if(lang=="en") { %> <a href="/ru?admin=true"><img style="height: 1rem;" src="/svg/ru.svg"></a> <% } %>
         <a href="/profile"><img src="<%= url %>/svg/resume.svg">Основное</a>
         <a href="/myproducts"><img src="<%= url %>/svg/woman.svg">Мастера</a>
         <a href="/myservices"><img src="<%= url %>/svg/support.svg">Услуги</a>

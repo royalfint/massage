@@ -1,4 +1,6 @@
 <div class="toolbar left">
+    <% if(lang=="ru") { %> <a href="/en?admin=true"><img style="height: 1rem;" src="/svg/en.svg"></a> <% } %>
+    <% if(lang=="en") { %> <a href="/ru?admin=true"><img style="height: 1rem;" src="/svg/ru.svg"></a> <% } %>
     <a href="/profile"><img src="<%= url %>/svg/resume.svg">Основное</a>
     <a href="/myproducts"><img src="<%= url %>/svg/woman.svg">Мастера</a>
     <a href="/myservices"><img src="<%= url %>/svg/support.svg">Услуги</a>

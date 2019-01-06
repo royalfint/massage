@@ -21,7 +21,11 @@ router.get("/en", function(req, res){
         res.locals.lang = global.lang;
         
         mongoose.connect('mongodb://admin:YtEpyftimVjq1Gfhjkm@ds145463.mlab.com:45463/massajen'); 
-        return res.redirect('/');
+        
+        if(req.query.admin)
+            return res.redirect('/admin');
+        else
+            return res.redirect('/');
     });
 });
 
@@ -32,7 +36,11 @@ router.get("/ru", function(req, res){
         res.locals.lang = global.lang;
         
         mongoose.connect('mongodb://admin:YtEpyftimVjq1Gfhjkm@ds149344.mlab.com:49344/massaj'); 
-        return res.redirect('/');
+        
+        if(req.query.admin)
+            return res.redirect('/admin');
+        else
+            return res.redirect('/');
     });
 });
 

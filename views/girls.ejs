@@ -29,6 +29,8 @@
                 <a href="/#about"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
                 <a href="/#offers"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
                 <a href="#contacts"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <% if(lang=="ru") { %> <a href="/en"><img style="height: 1rem;" src="/svg/en.svg"></a> <% } %>
+                <% if(lang=="en") { %> <a href="/ru"><img style="height: 1rem;" src="/svg/ru.svg"></a> <% } %>
             </div>
             <div class="yummy">
                 <div id="menu-toggle">
@@ -54,6 +56,8 @@
             <a href="/#about" onclick="yummy();"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
             <a href="/#offers" onclick="yummy();"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
             <a href="#contacts" onclick="yummy();"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <% if(lang=="ru") { %> <a href="/en"><img style="height: 1rem;" src="/svg/en.svg"></a> <% } %>
+                <% if(lang=="en") { %> <a href="/ru"><img style="height: 1rem;" src="/svg/ru.svg"></a> <% } %>
         </div>
     </div>
 
