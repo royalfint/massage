@@ -23,12 +23,12 @@
         <div class="topmenu">
             <div class="brand"><a href="/#hero"><%= title %></a></div>
             <div class="menu">
-                <a href="/#girls"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');%></a>
-                <a href="/#services"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="/#interior"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="/#about"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="/#offers"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="#contacts"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+                <a href="/#girls"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');%></a>
+                <a href="/#services"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="/#interior"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="/#about"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="/#offers"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="#contacts"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
             </div>
             <div class="yummy">
                 <div id="menu-toggle">
@@ -48,12 +48,12 @@
 
     <div class="overlay">
         <div style="display: flex; flex-direction: column;">
-            <a href="/#girls" onclick="yummy();"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="/#services" onclick="yummy();"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="/#interior" onclick="yummy();"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="/#about" onclick="yummy();"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="/#offers" onclick="yummy();"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="#contacts" onclick="yummy();"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            <a href="/#girls" onclick="yummy();"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="/#services" onclick="yummy();"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="/#interior" onclick="yummy();"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="/#about" onclick="yummy();"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="/#offers" onclick="yummy();"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="#contacts" onclick="yummy();"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
         </div>
     </div>
 
@@ -74,7 +74,6 @@
                         </div>
                     <% i++; }); %>
                 </div>
-                <a href="/services" class="btn show">Показать все</a>
             </div>
         </div>
     </div>
@@ -85,7 +84,8 @@
         <iframe class="map" src="https://maps.google.com/maps?q=<%= profile.address %>&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" style="border:0"></iframe>
         <div class="callback">
             <h3><%= profile.contactsText %></h3>
-            <button class="btn" onclick="opennn()">Позвони мне</button>
+            <% if (lang=="ru") { %> <button class="btn" onclick="opennn()">Позвони мне</button> <% } %>
+            <% if (lang=="en") { %> <button class="btn" onclick="opennn()">Call me</button> <% } %>
         </div>
     </div>
     

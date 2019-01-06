@@ -5,6 +5,7 @@ var express     = require("express"),
     Deal    = require("../models/deal"),
     passport  = require("passport"),
     sgMail   = require("@sendgrid/mail"),
+    mongoose       = require("mongoose"),
     Product  = require("../models/product");
 var router = express.Router();
 var middleware = require("../middleware/index.js");
@@ -12,6 +13,28 @@ var countries = require("../models/countries.json").list;
 var cities = require("../models/cities/KZ.json").list;
 var bazars = require("../models/bazars.json").list;
 var api_key = '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';
+
+router.get("/en", function(req, res){
+    mongoose.disconnect(function(err){
+        if(err) console.log(err);
+        global.lang = "en";
+        res.locals.lang = global.lang;
+        
+        mongoose.connect('mongodb://admin:YtEpyftimVjq1Gfhjkm@ds145463.mlab.com:45463/massajen'); 
+        return res.redirect('/');
+    });
+});
+
+router.get("/ru", function(req, res){
+    mongoose.disconnect(function(err){
+        if(err) console.log(err);
+        global.lang = "ru";
+        res.locals.lang = global.lang;
+        
+        mongoose.connect('mongodb://admin:YtEpyftimVjq1Gfhjkm@ds149344.mlab.com:49344/massaj'); 
+        return res.redirect('/');
+    });
+});
 
 router.get("/", function(req, res) {
     User.findOne({username: 'admin'}, function(err, profile){

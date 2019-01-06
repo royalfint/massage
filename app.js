@@ -23,6 +23,7 @@ var commentRoutes  = require("./routes/comments"),
 mongoose.connect('mongodb://admin:YtEpyftimVjq1Gfhjkm@ds149344.mlab.com:49344/massaj');
 global.uploadUrl = "https://unique.plus/upload/upload.php";
 global.cdn = "https://unique.plus/upload/";
+global.lang = "ru";
 //global.siteurl = "https://massaj-royalfint.c9users.io/";
 global.siteurl = "http://massaj.herokuapp.com/";
 User.findOne({username: 'admin'}, function(err, profile){
@@ -63,6 +64,7 @@ app.use(function(req, res, next){
    res.locals.title = global.title;
    res.locals.address = global.address;
    res.locals.phone = global.phone;
+   res.locals.lang = global.lang;
    res.locals.uploadUrl = global.uploadUrl;
    res.locals.status = req.session.status;
    next();

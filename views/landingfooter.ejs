@@ -4,10 +4,18 @@
             <p><%= phone %></p>
             <p><%= address %></p>
         </div>
-        <span>
-            <p style="opacity: .5">2019. Все права защищены</p>
-            <p style="opacity: .5">Сайт создан студией <a target="_blank" href="http://mangi.kz">mangi.kz</a></p>
-        </span>
+        <% if (lang=="ru") { %>
+            <span>
+                <p style="opacity: .5">2019. Все права защищены</p>
+                <p style="opacity: .5">Сайт создан студией <a target="_blank" href="http://mangi.kz">mangi.kz</a></p>
+            </span>
+        <% } %>
+        <% if (lang=="en") { %>
+            <span>
+                <p style="opacity: .5">2019. All Rights Reserved</p>
+                <p style="opacity: .5">Website created by <a target="_blank" href="http://mangi.kz">mangi.kz</a></p>
+            </span>
+        <% } %>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

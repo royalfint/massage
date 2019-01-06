@@ -21,12 +21,14 @@
         <div class="topmenu">
             <div class="brand"><a href="#hero"><%= title %></a></div>
             <div class="menu">
-                <a href="#girls"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');%></a>
-                <a href="#services"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="#interior"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="#about"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="#offers"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-                <a href="#contacts"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+                <a href="#girls"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');%></a>
+                <a href="#services"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="#interior"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="#about"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="#offers"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <a href="#contacts"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+                <% if(lang=="ru") { %> <a href="/en"><img style="height: 1rem;" src="/svg/en.svg"></a> <% } %>
+                <% if(lang=="en") { %> <a href="/ru"><img style="height: 1rem;" src="/svg/ru.svg"></a> <% } %>
             </div>
             <div class="yummy">
                 <div id="menu-toggle">
@@ -46,12 +48,12 @@
 
     <div class="overlay">
         <div style="display: flex; flex-direction: column;">
-            <a href="#girls" onclick="yummy();"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="#services" onclick="yummy();"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="#interior" onclick="yummy();"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="#about" onclick="yummy();"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="#offers" onclick="yummy();"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
-            <a href="#contacts" onclick="yummy();"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '');  %></a>
+            <a href="#girls" onclick="yummy();"><%= girlsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="#services" onclick="yummy();"><%= serviceTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="#interior" onclick="yummy();"><%= appartsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="#about" onclick="yummy();"><%= aboutTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="#offers" onclick="yummy();"><%= dealsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
+            <a href="#contacts" onclick="yummy();"><%= contactsTitle.replace(new RegExp('наши', "ig"), '').replace(new RegExp('наш', "ig"), '').replace(new RegExp('Our', "ig"), '');  %></a>
         </div>
     </div>
 
@@ -60,7 +62,8 @@
             <div>
                 <h1 class="gold"><%= profile.desc %></h1>
                 <h3><%= profile.subdesc %></h3>
-                <a href="#contacts" class="btn">круто! куда подъехать?</a>
+                <% if (lang=="ru") { %> <a href="#contacts" class="btn">круто! куда подъехать?</a> <% } %>
+                <% if (lang=="en") { %> <a href="#contacts" class="btn">Awesome! Where to find you?</a> <% } %>
             </div>
         </div>
         <div class="anchor">
@@ -80,13 +83,14 @@
                             <p class="name gold"><%= girl.name %></p>
                             <p class="name desc">Грудь <%= girl.boobs %>, Рост <%= girl.height %>, Вес <%= girl.weight %> </p>
                             <div class="buttonRow">
-                                <a href="#contacts" class="btn">Записаться</a>
-                                <!--a href="#" class="btn more">Еще</a-->
+                                <% if (lang=="ru") { %> <a href="#contacts" class="btn">Записаться</a> <% } %>
+                                <% if (lang=="en") { %> <a href="#contacts" class="btn">Visit</a> <% } %>
                             </div>
                         </div>
                     <% }); %>
                 </div>
-                <a href="/girls" class="btn show">Показать всех</a>
+                <% if (lang=="ru") { %> <a href="/girls" class="btn show">Показать всех</a> <% } %>
+                <% if (lang=="en") { %> <a href="/girls" class="btn show">Show All</a> <% } %>
             </div>
         </div>
     </div>
@@ -108,7 +112,8 @@
                         </div>
                     <% i++; }); %>
                 </div>
-                <a href="/services" class="btn show">Показать все</a>
+                <% if (lang=="ru") { %> <a href="/services" class="btn show">Показать все</a> <% } %>
+                <% if (lang=="en") { %> <a href="/services" class="btn show">Show All</a> <% } %>
             </div>
         </div>
     </div>
@@ -125,13 +130,15 @@
                         <% if(i%2 != 0) { %> <div> <% } else { %> <div class="reverse"> <% } %>
                                 <h4 class="gold">Комната "<%= app.name %>"</h4>
                                 <p><%= app.desc %></p>
-                                <a href="#contacts" class="btn">Посетить</a>
+                                <% if (lang=="ru") { %> <a href="#contacts" class="btn">Посетить</a> <% } %>
+                                <% if (lang=="en") { %> <a href="#contacts" class="btn">Visit</a> <% } %>
                             </div>
                             <% if(i%2 == 0) { %> <img src="<%= app.image[0] %>"> <% } %>
                         </div>
                     <% i++; }); %>
                 </div>
-                <a href="/apparts" class="btn show">Показать все</a>
+                <% if (lang=="ru") { %> <a href="/services" class="btn show">Показать все</a> <% } %>
+                <% if (lang=="en") { %> <a href="/services" class="btn show">Show All</a> <% } %>
             </div>
         </div>
     </div>
@@ -177,7 +184,8 @@
         <iframe class="map" src="https://maps.google.com/maps?q=<%= profile.address %>&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" style="border:0"></iframe>
         <div class="callback">
             <h3><%= profile.contactsText %></h3>
-            <button class="btn" onclick="opennn()">Позвони мне</button>
+            <% if (lang=="ru") { %> <button class="btn" onclick="opennn()">Позвони мне</button> <% } %>
+            <% if (lang=="en") { %> <button class="btn" onclick="opennn()">Call me</button> <% } %>
         </div>
     </div>
     
