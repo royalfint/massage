@@ -135,10 +135,10 @@ router.delete("/:id", middleware.isLoggedIn, function(req, res){
     Product.findByIdAndRemove(req.params.id, function(err){
         if(err){
             req.flash("error", err.message);
-            res.redirect("/products");
+            res.redirect("/myapparts");
         }else{
-            req.flash("success", "Вы только что удалили товар!");
-            res.redirect("/products");
+            req.flash("success", "Вы только что удалили комнату!");
+            res.redirect("/myapparts");
         }
     });
 });

@@ -6,7 +6,7 @@
     <div class="productsGrid">
         <% products.forEach(function(product) { %>
             <div class="product">
-                <a href="/deals/<%= product._id %>">
+                <a href="/deals/<%= product._id %>/edit">
                     <div class="productImg ad" style="background: url(<%= product.image[0].replace(" ","%20") %>) center/cover no-repeat;"></div>
                     <div class="productOverlay"><p><%= product.name %></p></div>
                 </a>

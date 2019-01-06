@@ -137,7 +137,7 @@ router.delete("/:id", middleware.isLoggedIn, function(req, res){
             req.flash("error", err.message);
             res.redirect("/mydeals");
         }else{
-            req.flash("success", "Вы только что удалили товар!");
+            req.flash("success", "Вы только что удалили акцию!");
             res.redirect("/mydeals");
         }
     });

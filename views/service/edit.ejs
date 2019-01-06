@@ -3,6 +3,10 @@
 
 <div class="adminarea">
     <p class="adminh">Редактирование услуги</p>
+    <form class="login new" id="addprod" action="/services/<%= product.id %>/?_method=DELETE" method="POST">
+        <button style="background: red;" class="btn">Удалить</button>
+    </form>
+    <br>
     <form class="login new">
         <div class="flash">
             <% if(error && error.length > 0) { %>

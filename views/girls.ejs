@@ -71,7 +71,8 @@
                         <div>
                             <img src="<%= girl.image[0] %>">
                             <p class="name gold"><%= girl.name %></p>
-                            <p class="name desc">Грудь <%= girl.boobs %>, Рост <%= girl.height %>, Вес <%= girl.weight %> </p>
+                            <% if (lang=="ru") { %> <p class="name desc">Грудь <%= girl.boobs %>, Рост <%= girl.height %>, Вес <%= girl.weight %> </p> <% } %>
+                            <% if (lang=="en") { %> <p class="name desc">Boobs <%= girl.boobs %>, Height <%= girl.height %>, Weight <%= girl.weight %> </p> <% } %>
                             <div class="buttonRow">
                                 <% if (lang=="ru") { %> <a href="#contacts" class="btn">Записаться</a> <% } %>
                                 <% if (lang=="en") { %> <a href="#contacts" class="btn">Visit</a> <% } %>
