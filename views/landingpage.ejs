@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/resp.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
 </head>
-<body>
+<body onload="script()">
     <div id="overlay">
         <div>
             <a href="https://api.whatsapp.com/send?phone=<%= profile.phone.replace('+','').replace(' ',''); %>"><img src="/svg/wp.svg"></a>
@@ -60,7 +60,10 @@
     </div>
 
     <div class="hero section" id="hero">
-        <div class="wrap">
+        <video autoplay id="myVideo" loop poster="<%= url %>/img/aura.png">
+            <source src="<%= url %>/img/aura.mp4" type="video/mp4">
+        </video>
+        <div class="wrap" style="z-index: 2;">
             <div>
                 <h1 class="gold"><%= profile.desc %></h1>
                 <h3><%= profile.subdesc %></h3>
@@ -68,12 +71,12 @@
                 <% if (lang=="en") { %> <a href="#contacts" class="btn">Awesome! Where to find you?</a> <% } %>
             </div>
         </div>
-        <div class="anchor">
+        <div class="anchor" style="z-index: 2;">
             <a href="#girls"><img src="svg/anchor.svg"></a>
         </div>
     </div>
 
-    <div class="girls section" id="girls">
+    <div class="girls section pos" id="girls">
         <div class="wrap">
             <div>
                 <h2 class="gold"><%= profile.girlsTitle %></h2>
@@ -98,7 +101,7 @@
         </div>
     </div>
 
-    <div class="service section" id="services">
+    <div class="service section pos" id="services">
         <div class="wrap">
             <div>
                 <h2 class="gold"><%= profile.serviceTitle %></h2>
@@ -121,7 +124,7 @@
         </div>
     </div>
 
-    <div class="apps section" id="interior">
+    <div class="apps section pos" id="interior">
         <div class="wrap">
             <div>
                 <h2 class="gold"><%= profile.appartsTitle %></h2>
@@ -146,7 +149,7 @@
         </div>
     </div>
 
-    <div class="about section" id="about">
+    <div class="about section pos" id="about">
         <div class="wrap">
             <div>
                 <h2 class="gold"><%= profile.aboutTitle %></h2>
@@ -161,7 +164,7 @@
         </div>
     </div>
 
-    <div class="offers section" id="offers">
+    <div class="offers section pos" id="offers">
         <div class="wrap">
             <div>
                 <h2 class="gold"><%= profile.dealsTitle %></h2>
@@ -181,7 +184,7 @@
         </div>
     </div>
 
-    <div class="contacts section" id="contacts">
+    <div class="contacts section pos" id="contacts">
         <h2 class="gold"><%= profile.contactsTitle %></h2>
         <h3><%= profile.contactsSub %></h3>
         <iframe class="map" src="https://maps.google.com/maps?q=<%= profile.address %>&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" style="border:0"></iframe>
@@ -193,9 +196,27 @@
     </div>
     
     <script>
+        setInterval(function(){
+            var vid = document.getElementById('myVideo').play();
+        }, 500);
+        
+        function script() {
+            eventFire(document.getElementById('myVideo'), 'click');
+        }
+        
         function opennn(){
             var popup = document.getElementById("overlay");
             popup.classList.add("open");
+        }
+        
+        function eventFire(el, etype){
+          if (el.fireEvent) {
+            el.fireEvent('on' + etype);
+          } else {
+            var evObj = document.createEvent('Events');
+            evObj.initEvent(etype, true, false);
+            el.dispatchEvent(evObj);
+          }
         }
     </script>
 
